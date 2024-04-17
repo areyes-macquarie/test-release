@@ -74,8 +74,8 @@ docker-compose up -d
 
 #### Tech References
 
-[NextJS](https://nextjs.org/docs) - Core/Routing/Bundling
-[React](https://react.dev/) - State/Dom management
-[tailwindcss](https://tailwindcss.com/) - Styling library
-[shadcn/ui](https://ui.shadcn.com/) - Component library
-[zod](https://www.npmjs.com/package/zod) - Schema builder
+- [NextJS](https://nextjs.org/docs)
+- [React](https://react.dev/)
+- [tailwindcss](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [zod](https://www.npmjs.com/package/zod)
