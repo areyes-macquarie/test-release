@@ -1,0 +1,51 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.15/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.15",
+  "version": "1.0.0",
+  "id": "c778f963-ff1a-41bc-b940-60c1a1a5b14b",
+  "packageName": "com.microsoft.teams.extension",
+  "developer": {
+    "name": "Macquarie Telecom Group",
+    "websiteUrl": "https://macquarietechnologygroup.com/about-us",
+    "privacyUrl": "https://macquarietechnologygroup.com/privacy-policy",
+    "termsOfUseUrl": "https://macquarietechnologygroup.com/terms-of-use"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "MTG - Teams App (Local)",
+    "full": "Macquarie Telecom Group - Teams App (Local)"
+  },
+  "description": {
+    "short": "Teams App for Macquarie Telecom Group",
+    "full": "Teams App extensive features for Macquarie Telecom Group."
+  },
+  "accentColor": "#FFFFFF",
+  "bots": [],
+  "composeExtensions": [],
+  "configurableTabs": [],
+  "staticTabs": [
+    {
+      "entityId": "dashboard",
+      "name": "Dashboard",
+      "contentUrl": "https://localhost:3000/tabs/dashboard",
+      "websiteUrl": "https://localhost:3000",
+      "scopes": ["personal"]
+    },
+    {
+      "entityId": "customer-insights",
+      "name": "Customer Insights",
+      "contentUrl": "https://localhost:3000/tabs/customer-insights",
+      "websiteUrl": "https://localhost:3000/customer-insights",
+      "scopes": ["personal"]
+    }
+  ],
+  "permissions": ["identity", "messageTeamMembers"],
+  "validDomains": ["localhost:3000"],
+  "webApplicationInfo": {
+    "id": "5c65c252-952a-49e7-9e8b-d3a18f3e92dc",
+    "resource": "api://localhost:3000/5c65c252-952a-49e7-9e8b-d3a18f3e92dc"
+  }
+}
