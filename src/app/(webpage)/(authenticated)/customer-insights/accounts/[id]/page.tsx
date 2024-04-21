@@ -11,7 +11,7 @@ export default function CustomerInsightsAccountDetailsWebsite({
 }: Props) {
   return (
     <Suspense fallback={<LoadingPage />}>
-      <CustomerInsightsAccountDetailsPage id={params.id} />
+      <CustomerInsightsAccountDetailsPage {...params} />
     </Suspense>
   );
 }

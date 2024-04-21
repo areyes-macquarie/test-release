@@ -12,6 +12,7 @@ import {
   UsersRoundIcon,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 type Props = {
   hideContacts?: boolean;
@@ -30,9 +31,13 @@ export function GlobalMetric({ ...props }: Props) {
       .then((res) => {
         if (res !== null) {
           setMetric(res.objects);
+        } else {
+          toast.error('Unable to retrieve global metric.');
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        toast.error('Unable to retrieve global metric.');
+      });
   }, [apiReady]);
 
   return (
