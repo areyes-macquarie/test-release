@@ -1,6 +1,6 @@
 import { AccountMetric } from '@/components/page/_components/account-metric';
-import { AccountHeader } from './components/account-header';
-import { TableSection } from './components/table-section';
+import { AccountHeader } from './_components/account-header';
+import { TableSection } from './_components/table-section';
 
 type Props = {
   id: string;

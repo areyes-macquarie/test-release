@@ -1,4 +1,4 @@
-import { ContactSection } from './components/contact-section';
+import { ContactSection } from './_components/contact-section';
 
 type Props = {
   id: string;

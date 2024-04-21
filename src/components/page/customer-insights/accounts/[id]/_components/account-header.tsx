@@ -1,9 +1,8 @@
 'use client';
 
-import { getCrispAccountById } from '@/app/test.actions';
 import { Badge } from '@/components/ui/badge';
 import { Skeleton } from '@/components/ui/skeleton';
-import UserContext from '@/contexts/user/user-context';
+import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
 import { CrispAccount } from '@/lib/customer-insights/types';
 import {
   GlobeIcon,
@@ -12,7 +11,7 @@ import {
   PhoneIcon,
   UsersRoundIcon,
 } from 'lucide-react';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 
 type Props = {
@@ -20,17 +19,18 @@ type Props = {
 };
 
 export function AccountHeader({ ...props }: Props) {
+  const { apiClient, apiReady } = useCustomerInsightsApiClient();
   const [loading, setLoading] = useState(false);
   const [account, setAccount] = useState<CrispAccount>();
-  const userContext = useContext(UserContext);
 
   useEffect(() => {
-    if (!userContext?.isLoggedIn() || !props.accountId) {
+    if (!apiReady || !props.accountId) {
       return;
     }
 
     setLoading(true);
-    getCrispAccountById(userContext?.token, props.accountId)
+    apiClient
+      .getCrispAccountById(props.accountId)
       .then((res) => {
         if (res !== null) {
           setAccount(res);
@@ -40,7 +40,7 @@ export function AccountHeader({ ...props }: Props) {
         toast.error('Something unexpected occured while retrieving account.');
       })
       .finally(() => setLoading(false));
-  }, [userContext?.isLoggedIn(), props.accountId]);
+  }, [apiReady, props.accountId]);
 
   return (
     <div>

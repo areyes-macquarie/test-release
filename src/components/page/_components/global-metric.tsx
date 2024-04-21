@@ -1,8 +1,7 @@
 'use client';
 
-import { getGlobalMetric } from '@/app/test.actions';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import UserContext from '@/contexts/user/user-context';
+import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
 import { MetricDataItem } from '@/lib/customer-insights/types';
 import {
   Building2Icon,
@@ -12,7 +11,7 @@ import {
   UserRoundXIcon,
   UsersRoundIcon,
 } from 'lucide-react';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type Props = {
   hideContacts?: boolean;
@@ -20,20 +19,21 @@ type Props = {
 };
 
 export function GlobalMetric({ ...props }: Props) {
+  const { apiClient, apiReady } = useCustomerInsightsApiClient();
   const [metric, setMetric] = useState<MetricDataItem[]>();
-  const userContext = useContext(UserContext);
 
   useEffect(() => {
-    if (!userContext?.isLoggedIn()) return;
+    if (!apiReady) return;
 
-    getGlobalMetric(userContext.token)
+    apiClient
+      .getGlobalMetric()
       .then((res) => {
         if (res !== null) {
           setMetric(res.objects);
         }
       })
       .catch(() => {});
-  }, [userContext?.isLoggedIn()]);
+  }, [apiReady]);
 
   return (
     <div className='grid gap-4 grid-cols-3 w-full'>

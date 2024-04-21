@@ -9,6 +9,9 @@ function useEnvVars() {
     azureClientId: process.env.AZURE_CLIENT_ID ?? '',
     loginredirectUri: process.env.AUTH_LOGIN_REDIRECT_URI ?? '',
     logoutRedirectUri: process.env.AUTH_LOGOUT_REDIRECT_URI ?? '',
+    customerInsightsApiHost:
+      process.env.CUSTOMER_INSIGHT_API_HOST ??
+      'https://customer-insights-api.macquariecloudservices.com/api',
   };
 }
 

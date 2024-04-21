@@ -1,12 +1,12 @@
 'use client';
 
-import { getCrispContactById } from '@/app/test.actions';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 import UserContext from '@/contexts/user/user-context';
+import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
 import { CrispContact } from '@/lib/customer-insights/types';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
@@ -19,17 +19,19 @@ type Props = {
 };
 
 export function ContactSection({ ...props }: Props) {
+  const { apiClient, apiReady } = useCustomerInsightsApiClient();
   const [loading, setLoading] = useState(false);
   const [contact, setContact] = useState<CrispContact>();
   const userContext = useContext(UserContext);
 
   useEffect(() => {
-    if (!userContext?.isLoggedIn() || !props.contactId) {
+    if (!apiReady || !props.contactId) {
       return;
     }
 
     setLoading(true);
-    getCrispContactById(userContext?.token, props.contactId)
+    apiClient
+      .getCrispContactById(props.contactId)
       .then((res) => {
         if (res !== null) {
           setContact(res);
@@ -39,7 +41,7 @@ export function ContactSection({ ...props }: Props) {
         toast.error('Something unexpected occured while retrieving contact.');
       })
       .finally(() => setLoading(false));
-  }, [userContext?.isLoggedIn(), props.contactId]);
+  }, [apiReady, props.contactId]);
 
   const isStale = () => {
     if (!contact) {
