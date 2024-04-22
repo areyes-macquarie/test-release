@@ -1,6 +1,6 @@
 import { Separator } from '@/components/ui/separator';
 import { GlobalMetric } from '../../_components/global-metric';
-import { TableSection } from './components/table-section';
+import { TableSection } from './_components/table-section';
 
 export default function CustomerInsightsAccountsPage() {
   return (

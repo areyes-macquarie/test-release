@@ -1,39 +1,39 @@
 'use client';
 
-import { getCrispAccounts } from '@/app/test.actions';
 import { DataTable } from '@/components/page/_components/data-table';
 import { Skeleton } from '@/components/ui/skeleton';
-import UserContext from '@/contexts/user/user-context';
+import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
 import usePageParams from '@/hooks/use-stateful-search-params';
 import {
   ApiCollectionResponse,
-  CrispAccount,
+  CrispContact,
 } from '@/lib/customer-insights/types';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { columns } from './columns';
 import { DataTableToolbar } from './data-table-toolbar';
 
 export function TableSection() {
-  const userContext = useContext(UserContext);
+  const { apiClient, apiReady } = useCustomerInsightsApiClient();
   const { pageParams, applyParams } = usePageParams();
   const [response, setResponse] = useState<ApiCollectionResponse<
-    CrispAccount[]
+    CrispContact[]
   > | null>();
 
   useEffect(() => {
-    if (!userContext?.isLoggedIn()) return;
+    if (!apiReady) return;
 
     toast.message('Please wait...');
-    getCrispAccounts(userContext?.token, pageParams.toString())
+    apiClient
+      .getCrispContacts(`ordering=-change_dt&${pageParams.toString()}`)
       .then((res) => {
         setResponse(res);
         toast.dismiss();
       })
       .catch(() =>
-        toast.error('Something unexpected occured while retrieving accounts.')
+        toast.error('Something unexpected occured while retrieving contacts.')
       );
-  }, [userContext?.isLoggedIn(), pageParams.toString()]);
+  }, [apiReady, pageParams.toString()]);
 
   return response === undefined ? (
     <div className='space-y-4'>

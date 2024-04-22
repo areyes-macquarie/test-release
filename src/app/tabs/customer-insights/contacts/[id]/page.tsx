@@ -9,7 +9,7 @@ type Props = {
 export default function CustomerInsightsContactsDetailsTab({ params }: Props) {
   return (
     <Suspense fallback={<LoadingPage />}>
-      <CustomerInsightsContactDetailsPage id={params.id} />
+      <CustomerInsightsContactDetailsPage {...params} />
     </Suspense>
   );
 }

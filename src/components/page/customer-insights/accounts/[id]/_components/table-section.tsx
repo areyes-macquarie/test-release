@@ -1,42 +1,51 @@
 'use client';
 
-import { getCrispContacts } from '@/app/test.actions';
 import { DataTable } from '@/components/page/_components/data-table';
 import { Skeleton } from '@/components/ui/skeleton';
-import UserContext from '@/contexts/user/user-context';
+import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
 import usePageParams from '@/hooks/use-stateful-search-params';
 import {
   ApiCollectionResponse,
   CrispContact,
 } from '@/lib/customer-insights/types';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { columns } from './columns';
 import { DataTableToolbar } from './data-table-toolbar';
 
-export function TableSection() {
-  const userContext = useContext(UserContext);
+type Props = {
+  accountId: string;
+};
+
+export function TableSection({ ...props }: Props) {
+  const { apiClient, apiReady } = useCustomerInsightsApiClient();
   const { pageParams, applyParams } = usePageParams();
-  const [response, setResponse] = useState<ApiCollectionResponse<
-    CrispContact[]
-  > | null>();
+  const [response, setResponse] = useState<
+    ApiCollectionResponse<CrispContact[]> | null | undefined
+  >();
 
   useEffect(() => {
-    if (!userContext?.isLoggedIn()) return;
+    if (!apiReady || !props.accountId) {
+      return;
+    }
 
     toast.message('Please wait...');
-    getCrispContacts(
-      userContext?.token,
-      `ordering=-change_dt&${pageParams.toString()}`
-    )
+    apiClient
+      .getCrispContacts(
+        `account_id=${
+          props.accountId
+        }&ordering=-change_dt&${pageParams.toString()}`
+      )
       .then((res) => {
-        setResponse(res);
+        if (res !== null) {
+          setResponse(res);
+        }
         toast.dismiss();
       })
-      .catch(() =>
-        toast.error('Something unexpected occured while retrieving contacts.')
-      );
-  }, [userContext?.isLoggedIn(), pageParams.toString()]);
+      .catch(() => {
+        toast.error('Something unexpected occured while retrieving contacts.');
+      });
+  }, [apiReady, props.accountId, pageParams.toString()]);
 
   return response === undefined ? (
     <div className='space-y-4'>
@@ -56,6 +65,7 @@ export function TableSection() {
         },
         goToPage: (page) => {
           pageParams.set('page', page.toString());
+          alert(pageParams.toString());
           applyParams();
         },
         setPageSize: () => {

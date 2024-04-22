@@ -1,35 +1,35 @@
 'use client';
 
-import { getAccountMetric } from '@/app/test.actions';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import UserContext from '@/contexts/user/user-context';
+import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
 import { MetricDataItem } from '@/lib/customer-insights/types';
 import {
   UserRoundCheckIcon,
   UserRoundMinusIcon,
   UsersRoundIcon,
 } from 'lucide-react';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type Props = {
   accountId: string;
 };
 
 export function AccountMetric({ ...props }: Props) {
+  const { apiClient, apiReady } = useCustomerInsightsApiClient();
   const [metric, setMetric] = useState<MetricDataItem[]>();
-  const userContext = useContext(UserContext);
 
   useEffect(() => {
-    if (!userContext?.isLoggedIn() || !props.accountId) return;
+    if (!apiReady || !props.accountId) return;
 
-    getAccountMetric(userContext.token, props.accountId)
+    apiClient
+      .getAccountMetric(props.accountId)
       .then((res) => {
         if (res !== null) {
           setMetric(res.objects);
         }
       })
       .catch(() => {});
-  }, [props.accountId, userContext?.isLoggedIn()]);
+  }, [props.accountId, apiReady]);
 
   return (
     <div className='grid gap-4 grid-cols-3 w-full'>
