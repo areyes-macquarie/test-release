@@ -15,6 +15,7 @@ export default function RootLayout({
       redirectUri: loginredirectUri,
       postLogoutRedirectUri: logoutRedirectUri,
       navigateToLoginRequestUrl: true,
+      authority: "https://login.microsoftonline.com/macquarietelecom.com"
     },
   };
 

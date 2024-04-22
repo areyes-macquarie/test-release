@@ -49,6 +49,6 @@ export default function manifest() {
     webApplicationInfo: {
       id: `${process.env.AAD_APP_CLIENT_ID}`,
       resource: `api://${process.env.TAB_DOMAIN}/${process.env.AAD_APP_CLIENT_ID}`,
-    },
+    }
   };
 }

@@ -5,7 +5,8 @@ import {
   MetricDataItem,
 } from './types';
 
-const CUSTOMER_INSIGHT_API_HOST = process.env.CUSTOMER_INSIGHT_API_HOST!;
+const CUSTOMER_INSIGHT_API_HOST = process.env.NEXT_PUBLIC_CUSTOMER_INSIGHT_API_HOST!;
+
 
 export class CustomerInsightsApiClient {
   constructor(protected _accessToken?: string) {}
