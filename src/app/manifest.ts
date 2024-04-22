@@ -7,7 +7,7 @@ export default function manifest() {
     id: `${process.env.TEAMS_APP_ID}`,
     packageName: 'com.microsoft.teams.extension',
     developer: {
-      name: 'Macquarie Telecom Group',
+      name: 'Macquarie Technology Group',
       websiteUrl: 'https://macquarietechnologygroup.com/about-us',
       privacyUrl: 'https://macquarietechnologygroup.com/privacy-policy',
       termsOfUseUrl: 'https://macquarietechnologygroup.com/terms-of-use',
@@ -18,11 +18,11 @@ export default function manifest() {
     },
     name: {
       short: 'MTG - Teams App',
-      full: 'Macquarie Telecoms Group - Teams App',
+      full: 'Macquarie Technology Group - Teams App',
     },
     description: {
-      short: 'Teams App for Macquarie Telecom Group',
-      full: 'Teams App extensive features for Macquarie Telecom Group.',
+      short: 'Teams App for Macquarie Technology Group',
+      full: 'Teams App extensive features for Macquarie Technology Group.',
     },
     accentColor: '#FFFFFF',
     bots: [],
@@ -45,7 +45,7 @@ export default function manifest() {
       },
     ],
     permissions: ['identity', 'messageTeamMembers'],
-    validDomains: [`${process.env.TAB_ENDPOINT}`],
+    validDomains: [`${process.env.TAB_DOMAIN}`],
     webApplicationInfo: {
       id: `${process.env.AAD_APP_CLIENT_ID}`,
       resource: `api://${process.env.TAB_DOMAIN}/${process.env.AAD_APP_CLIENT_ID}`,
