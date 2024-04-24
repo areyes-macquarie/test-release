@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import UserContext from '@/contexts/user/user-context';
 import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
+import usePageParams from '@/hooks/use-stateful-search-params';
 import { CrispContact } from '@/lib/customer-insights/types';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { Row } from '@tanstack/react-table';
@@ -23,26 +24,31 @@ interface DataTableRowActionsProps<TData> {
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
+  const { applyParams, pageParams } = usePageParams();
   const [loading, setLoading] = useState(false);
   const { apiClient } = useCustomerInsightsApiClient();
   const userContext = useContext(UserContext);
-  const contact = row.original as CrispContact;
+  const contact = row.original as CrispContact & { subscription_id: number };
 
-  function subscribe(baseContactId: number) {
+  function unsubscribe(subscriptionId: number) {
     if (!userContext?.isLoggedIn() || loading) {
       return;
     }
 
     setLoading(true);
     apiClient
-      .subscribeToContact({
-        baseContactId,
-        userId: userContext?.id ?? '',
-        userName: userContext?.email,
+      .unsubscribeToContact({
+        subscriptionId,
       })
-      .then(() => toast.success('Successfully added this to your data.'))
+      .then(() => {
+        pageParams.set('refresh_on', Date.now().toString());
+        applyParams();
+        toast.success('Successfully unsubscribed from contact.');
+      })
       .catch(() => {
-        toast.error('Sorry, unable to subscribe to contact at this moment.');
+        toast.error(
+          'Sorry, unable to unsubscribe from contact at this moment.'
+        );
       })
       .finally(() => setLoading(false));
   }
@@ -66,8 +72,8 @@ export function DataTableRowActions<TData>({
             View Details
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => subscribe(contact.base_contact_id)}>
-          Subscribe
+        <DropdownMenuItem onClick={() => unsubscribe(contact.subscription_id)}>
+          Unsubscribe
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

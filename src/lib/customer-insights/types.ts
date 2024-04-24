@@ -64,6 +64,14 @@ export type ContactCallLog = {
   start: string;
 };
 
+export type ContactSubscription = {
+  base_contact_id: number;
+  subscription_id: number;
+  user_id: string;
+  user_name: string;
+  created: string;
+};
+
 export type MetricDataItem = {
   metric_id: number;
   value: number;

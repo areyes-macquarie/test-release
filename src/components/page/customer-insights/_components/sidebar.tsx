@@ -4,9 +4,9 @@ import { Button } from '@/components/ui/button';
 import UserContext from '@/contexts/user/user-context';
 import { cn } from '@/lib/utils';
 import {
+  BookUserIcon,
   Building2Icon,
   ContactIcon,
-  HandshakeIcon,
   LayoutGridIcon,
   Settings,
 } from 'lucide-react';
@@ -70,8 +70,8 @@ export function Sidebar({ className }: SidebarProps) {
               }
               className='w-full justify-start'
             >
-              <HandshakeIcon className='size-4 mr-2.5' />
-              Subscriptions
+              <BookUserIcon className='size-4 mr-2.5' />
+              My Data
             </Button>
           </div>
         </div>

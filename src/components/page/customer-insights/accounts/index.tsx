@@ -10,7 +10,7 @@ export default function CustomerInsightsAccountsPage() {
           <div className='space-y-1'>
             <h2 className='text-2xl font-semibold tracking-tight'>Accounts</h2>
             <p className='text-sm text-muted-foreground'>
-              Search for accounts.
+              List of companies and accounts.
             </p>
           </div>
         </div>

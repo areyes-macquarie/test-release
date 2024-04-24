@@ -1,4 +1,5 @@
 import { Separator } from '@/components/ui/separator';
+import { TableSection } from './_components/table-section';
 
 export default function CustomerInsightsSubscriptionsPage() {
   return (
@@ -6,11 +7,9 @@ export default function CustomerInsightsSubscriptionsPage() {
       <div className='space-y-4'>
         <div className='flex items-center justify-between'>
           <div className='space-y-1'>
-            <h2 className='text-2xl font-semibold tracking-tight'>
-              Subscriptions
-            </h2>
+            <h2 className='text-2xl font-semibold tracking-tight'>My Data</h2>
             <p className='text-sm text-muted-foreground'>
-              Search for subscriptions.
+              Contacts you have subscribed to.
             </p>
           </div>
         </div>
@@ -18,7 +17,7 @@ export default function CustomerInsightsSubscriptionsPage() {
       </div>
 
       <div className='relative'>
-        <p>Nothing to see here yet...</p>
+        <TableSection />
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import {
   ApiCollectionResponse,
   ContactCallLog,
   ContactEvent,
+  ContactSubscription,
   CrispAccount,
   CrispContact,
   MetricDataItem,
@@ -104,6 +105,70 @@ export class CustomerInsightsApiClient {
         return (await res.json()) as ApiCollectionResponse<ContactCallLog[]>;
       } else {
         console.error('Failed retrieving calls');
+        return null;
+      }
+    });
+  }
+
+  async getContactSubscriptions(searchParams?: string) {
+    return await fetch(
+      `${CUSTOMER_INSIGHT_API_HOST}/usercontactsubscription/?${searchParams}`,
+      {
+        cache: 'no-store',
+        headers: this.getHeaders(),
+      }
+    ).then(async (res) => {
+      if (res.status === 200) {
+        return (await res.json()) as ApiCollectionResponse<
+          ContactSubscription[]
+        >;
+      } else {
+        console.error('Failed retrieving contact subscriptions');
+        return null;
+      }
+    });
+  }
+
+  async subscribeToContact(params: {
+    baseContactId: number;
+    userId: string;
+    userName: string;
+  }) {
+    const payload = {
+      base_contact_id: params.baseContactId,
+      user_id: params.userId,
+      user_name: params.userName,
+    };
+
+    return await fetch(
+      `${CUSTOMER_INSIGHT_API_HOST}/usercontactsubscription/`,
+      {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: this.getHeaders(),
+      }
+    ).then(async (res) => {
+      if (res.status === 200) {
+        return (await res.json()) as ApiCollectionResponse<ContactCallLog[]>;
+      } else {
+        console.error('Failed subscribing to contact');
+        return null;
+      }
+    });
+  }
+
+  async unsubscribeToContact(params: { subscriptionId: number }) {
+    return await fetch(
+      `${CUSTOMER_INSIGHT_API_HOST}/usercontactsubscription/${params.subscriptionId}/`,
+      {
+        method: 'DELETE',
+        headers: this.getHeaders(),
+      }
+    ).then((res) => {
+      if (res.status === 200) {
+        return true;
+      } else {
+        console.error('Failed unsubscribing from contact');
         return null;
       }
     });
