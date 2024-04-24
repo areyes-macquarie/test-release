@@ -19,7 +19,7 @@ export function Sidebar({ className }: SidebarProps) {
   const userContext = useContext(UserContext);
   const pathname = usePathname();
   const router = useRouter();
-  const basePath = `${userContext?.basePath}/customer-insights`;
+  const basePath = `${userContext?.getBasePath()}/customer-insights`;
 
   return (
     <div className={cn('pb-12 min-h-[calc(100dvh-65px)]', className)}>

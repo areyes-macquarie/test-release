@@ -17,7 +17,7 @@ export const AppMsalSessionProvider = ({ ...props }: Props) => {
 
   return (
     <MsalProvider instance={pca}>
-      <UserContextProvider user={props.user}>
+      <UserContextProvider user={props.user} basePath=''>
         <AppMsalSessionObserver>{props.children}</AppMsalSessionObserver>
       </UserContextProvider>
     </MsalProvider>

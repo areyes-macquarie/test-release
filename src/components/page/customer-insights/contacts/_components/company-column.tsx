@@ -16,7 +16,9 @@ export function ContactCompanyColumn({ row }: Props) {
   return (
     <div className='text-sm text-muted-foreground text-wrap'>
       <Link
-        href={`${userContext?.basePath}/customer-insights/accounts/${row.original?.account_id}`}
+        href={`${userContext?.getBasePath()}/customer-insights/accounts/${
+          row.original?.account_id
+        }`}
         id='company'
         className='tracking-normal hover:text-foreground hover:underline underline-offset-2'
       >

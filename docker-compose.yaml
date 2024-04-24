@@ -9,7 +9,7 @@ services:
       # Application Env
       APP_HOST_URL: 'http://localhost:3000'
       # Customer Insights API
-      CUSTOMER_INSIGHT_API_HOST: 'https://customer-insights-api.macquariecloudservices.com/api'
+      NEXT_PUBLIC_CUSTOMER_INSIGHT_API_HOST: 'https://customer-insights-api.macquariecloudservices.com/api'
       # Azure Auth
       AZURE_CLIENT_ID: 'f782ad4d-81c8-4943-97fd-78332bf533a8'
       AUTH_LOGIN_REDIRECT_URI: 'http://localhost:3000/auth/login-callback'
