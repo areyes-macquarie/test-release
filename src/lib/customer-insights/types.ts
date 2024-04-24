@@ -47,6 +47,23 @@ export type CrispContact = {
   type: string;
 };
 
+export type ContactEvent = {
+  base_contact_id: number;
+  event: string;
+  event_id: number;
+  time: string;
+  type: string;
+};
+
+export type ContactCallLog = {
+  base_contact_id: number;
+  call_id: number;
+  duration: string;
+  from_: string;
+  to: string;
+  start: string;
+};
+
 export type MetricDataItem = {
   metric_id: number;
   value: number;

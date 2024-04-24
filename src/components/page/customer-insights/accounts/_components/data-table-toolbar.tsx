@@ -1,5 +1,6 @@
 'use client';
 
+import { DataTableViewOptions } from '@/components/page/_components/data-table-view-options';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import usePageParams from '@/hooks/use-stateful-search-params';
@@ -7,7 +8,6 @@ import { Cross2Icon } from '@radix-ui/react-icons';
 import { Table } from '@tanstack/react-table';
 import { useRef } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
-import { DataTableViewOptions } from './data-table-view-options';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;

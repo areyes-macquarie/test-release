@@ -130,8 +130,7 @@ export function DataTable<TData, TValue>({
             page: pagination.pagingState.page,
           }}
           goToPage={(page) => {
-            pageParams.set('page', page.toString());
-            applyParams();
+            pagination.goToPage?.(page);
           }}
           setPageSize={(page_size) => pagination.setPageSize?.(page_size)}
           allowedPageSizes={pagination?.allowedPageSizes}

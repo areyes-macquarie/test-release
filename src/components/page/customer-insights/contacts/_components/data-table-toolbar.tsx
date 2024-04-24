@@ -7,7 +7,7 @@ import { Cross2Icon } from '@radix-ui/react-icons';
 import { Table } from '@tanstack/react-table';
 import { useRef } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
-import { DataTableViewOptions } from './data-table-view-options';
+import { DataTableViewOptions } from '../../../_components/data-table-view-options';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;

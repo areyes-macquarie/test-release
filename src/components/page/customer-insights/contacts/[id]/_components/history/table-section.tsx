@@ -3,7 +3,6 @@
 import { DataTable } from '@/components/page/_components/data-table';
 import { Skeleton } from '@/components/ui/skeleton';
 import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
-import usePageParams from '@/hooks/use-stateful-search-params';
 import {
   ApiCollectionResponse,
   CrispContact,
@@ -14,38 +13,36 @@ import { columns } from './columns';
 import { DataTableToolbar } from './data-table-toolbar';
 
 type Props = {
-  accountId: string;
+  baseContactId: number;
 };
 
-export function TableSection({ ...props }: Props) {
+export function HistoryTableSection({ ...props }: Props) {
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState('1');
   const { apiClient, apiReady } = useCustomerInsightsApiClient();
-  const { pageParams, applyParams } = usePageParams();
-  const [response, setResponse] = useState<
-    ApiCollectionResponse<CrispContact[]> | null | undefined
-  >();
+  const [response, setResponse] = useState<ApiCollectionResponse<
+    CrispContact[]
+  > | null>();
 
   useEffect(() => {
-    if (!apiReady || !props.accountId) {
-      return;
-    }
+    if (!apiReady) return;
 
     toast.message('Please wait...');
+
     apiClient
       .getCrispContacts(
-        `account_id=${
-          props.accountId
-        }&ordering=-change_dt&${pageParams.toString()}`
+        `ordering=-change_dt&base_contact_id=${props.baseContactId}&page=${page}`
       )
       .then((res) => {
-        if (res !== null) {
-          setResponse(res);
-        }
+        setResponse(res);
         toast.dismiss();
       })
-      .catch(() => {
-        toast.error('Something unexpected occured while retrieving contacts.');
-      });
-  }, [apiReady, props.accountId, pageParams.toString()]);
+      .catch(() =>
+        toast.error(
+          'Something unexpected occured while retrieving contact events.'
+        )
+      );
+  }, [apiReady, page]);
 
   return response === undefined ? (
     <div className='space-y-4'>
@@ -64,8 +61,7 @@ export function TableSection({ ...props }: Props) {
           page: response?.meta.page ?? 0,
         },
         goToPage: (page) => {
-          pageParams.set('page', page.toString());
-          applyParams();
+          setPage(page.toString());
         },
         setPageSize: () => {
           // Do nothing

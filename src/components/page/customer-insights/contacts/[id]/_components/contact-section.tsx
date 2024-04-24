@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import UserContext from '@/contexts/user/user-context';
 import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
 import { CrispContact } from '@/lib/customer-insights/types';
@@ -13,6 +14,9 @@ import { formatDistanceToNow } from 'date-fns';
 import Link from 'next/link';
 import { useContext, useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { CallsTableSection } from './calls/table-section';
+import { EventsTableSection } from './events/table-section';
+import { HistoryTableSection } from './history/table-section';
 
 type Props = {
   contactId: string;
@@ -20,6 +24,7 @@ type Props = {
 
 export function ContactSection({ ...props }: Props) {
   const { apiClient, apiReady } = useCustomerInsightsApiClient();
+  const [selectedTab, setSelectedTab] = useState('history');
   const [loading, setLoading] = useState(false);
   const [contact, setContact] = useState<CrispContact>();
   const userContext = useContext(UserContext);
@@ -259,6 +264,41 @@ export function ContactSection({ ...props }: Props) {
             </div>
           </CardContent>
         </Card>
+      </div>
+
+      <div>
+        <Tabs
+          defaultValue='history'
+          className='w-full'
+          onValueChange={(value) => setSelectedTab(value)}
+        >
+          <TabsList className='grid w-[400px] grid-cols-4'>
+            <TabsTrigger value='history'>History</TabsTrigger>
+            <TabsTrigger value='calls'>Call Logs</TabsTrigger>
+            <TabsTrigger value='events'>Events</TabsTrigger>
+            <TabsTrigger value='insights'>Insights</TabsTrigger>
+          </TabsList>
+          <div className={selectedTab === 'history' ? 'mt-5' : 'invisible h-0'}>
+            {contact?.base_contact_id && (
+              <HistoryTableSection baseContactId={contact?.base_contact_id} />
+            )}
+          </div>
+          <div className={selectedTab === 'calls' ? 'mt-5' : 'invisible h-0'}>
+            {contact?.base_contact_id && (
+              <CallsTableSection baseContactId={contact?.base_contact_id} />
+            )}
+          </div>
+          <div className={selectedTab === 'events' ? 'mt-5' : 'invisible h-0'}>
+            {contact?.base_contact_id && (
+              <EventsTableSection baseContactId={contact?.base_contact_id} />
+            )}
+          </div>
+          <div
+            className={selectedTab === 'insights' ? 'mt-5' : 'invisible h-0'}
+          >
+            <span className='text-muted-foreground'>Coming soon...</span>
+          </div>
+        </Tabs>
       </div>
     </div>
   );
