@@ -17,9 +17,7 @@ export function AccountNameColumn({ row }: Props) {
     <div className='flex flex-col gap-2 max-w-[400px]'>
       <Link
         className='text-wrap font-medium hover:underline underline-offset-2'
-        href={`${
-          userContext?.basePath
-        }/customer-insights/accounts/${row.original.account_id.toString()}`}
+        href={`${userContext?.getBasePath()}/customer-insights/accounts/${row.original.account_id.toString()}`}
       >
         {row.original.name}
       </Link>

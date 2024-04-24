@@ -96,7 +96,6 @@ export const AppMsalSessionObserver = ({ ...props }: Props) => {
           id: accounts[0].localAccountId ?? '',
           email: accounts[0].username ?? '',
           name: accounts[0].name ?? accounts[0].username,
-          basePath: '',
         });
       })
       .catch(() => {

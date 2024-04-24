@@ -70,7 +70,9 @@ export function ContactSection({ ...props }: Props) {
                   {contact?.position ?? 'Unknown position'} {' at '}
                   {contact?.account_id ? (
                     <Link
-                      href={`${userContext?.basePath}/customer-insights/accounts/${contact?.account_id}`}
+                      href={`${userContext?.getBasePath()}/customer-insights/accounts/${
+                        contact?.account_id
+                      }`}
                       id='company'
                       className='tracking-normal hover:underline underline-offset-2'
                     >
@@ -213,7 +215,9 @@ export function ContactSection({ ...props }: Props) {
                 Company
               </Label>
               <Link
-                href={`${userContext?.basePath}/customer-insights/accounts/${contact?.account_id}`}
+                href={`${userContext?.getBasePath()}/customer-insights/accounts/${
+                  contact?.account_id
+                }`}
                 id='company'
                 className='font-semibold underline underline-offset-2'
               >

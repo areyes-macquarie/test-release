@@ -19,9 +19,7 @@ export function ContactNameColumn({ row }: Props) {
       <div className='flex gap-2'>
         <Link
           className='text-wrap font-medium hover:underline underline-offset-2'
-          href={`${
-            userContext?.basePath
-          }/customer-insights/contacts/${row.original.account_contact_id.toString()}`}
+          href={`${userContext?.getBasePath()}/customer-insights/contacts/${row.original.account_contact_id.toString()}`}
         >
           {!row.original.first_name && !row.original.first_name
             ? 'UNKNOWN'

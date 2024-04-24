@@ -17,9 +17,7 @@ export function AccountIdColumn({ row }: Props) {
     <div className='w-fit'>
       <Link
         className='text-wrap font-light hover:underline underline-offset-2 text-xs'
-        href={`${
-          userContext?.basePath
-        }/customer-insights/accounts/${row.original.account_id.toString()}`}
+        href={`${userContext?.getBasePath()}/customer-insights/accounts/${row.original.account_id.toString()}`}
       >
         {row.original.account_id}
       </Link>

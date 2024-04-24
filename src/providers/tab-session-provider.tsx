@@ -12,7 +12,7 @@ type Props = {
 
 export const TabSessionProvider = ({ ...props }: Props) => {
   return (
-    <UserContextProvider user={props.user}>
+    <UserContextProvider user={props.user} basePath='/tabs'>
       <TabSessionObserver>{props.children}</TabSessionObserver>
     </UserContextProvider>
   );

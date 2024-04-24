@@ -38,9 +38,7 @@ export function DataTableRowActions<TData>({
       <DropdownMenuContent align='end' className='w-[160px]'>
         <DropdownMenuItem>
           <Link
-            href={`${
-              userContext?.basePath
-            }/customer-insights/accounts/${account.account_id.toString()}`}
+            href={`${userContext?.getBasePath()}/customer-insights/accounts/${account.account_id.toString()}`}
           >
             View Contacts
           </Link>

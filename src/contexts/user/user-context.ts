@@ -4,13 +4,14 @@ export type UserInfo = {
   id: string;
   email: string;
   name: string;
-  basePath: string;
   token: string;
 };
 
 export type UserContextCore = UserInfo & {
   setUserContext: (_data?: UserInfo) => void;
   getUserContext: () => UserInfo | undefined | null;
+  getBasePath: () => string;
+  setBasePath: (_path: string) => void;
   isLoggedIn: () => boolean;
 };
 
