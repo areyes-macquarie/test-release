@@ -9,9 +9,7 @@ export default function CustomerInsightsContactsPage() {
         <div className='flex items-center justify-between'>
           <div className='space-y-1'>
             <h2 className='text-2xl font-semibold tracking-tight'>Contacts</h2>
-            <p className='text-sm text-muted-foreground'>
-              Search for contacts.
-            </p>
+            <p className='text-sm text-muted-foreground'>List of contacts.</p>
           </div>
         </div>
         <Separator className='my-4' />
