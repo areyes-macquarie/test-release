@@ -12,7 +12,7 @@ const fontSans = FontSans({
 
 export const metadata: Metadata = {
   title: 'MTG - Teams App',
-  description: 'Macquarie Telecom Group Teams App',
+  description: 'Macquarie Technology Group Teams App',
 };
 
 export default function RootLayout({

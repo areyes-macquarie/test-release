@@ -5,14 +5,19 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import UserContext from '@/contexts/user/user-context';
 import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
 import { CrispContact } from '@/lib/customer-insights/types';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
+import { Building2Icon, UserRoundIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useContext, useEffect, useState } from 'react';
 import { toast } from 'sonner';
+import { CallsTableSection } from './calls/table-section';
+import { EventsTableSection } from './events/table-section';
+import { HistoryTableSection } from './history/table-section';
 
 type Props = {
   contactId: string;
@@ -20,6 +25,7 @@ type Props = {
 
 export function ContactSection({ ...props }: Props) {
   const { apiClient, apiReady } = useCustomerInsightsApiClient();
+  const [selectedTab, setSelectedTab] = useState('history');
   const [loading, setLoading] = useState(false);
   const [contact, setContact] = useState<CrispContact>();
   const userContext = useContext(UserContext);
@@ -114,12 +120,14 @@ export function ContactSection({ ...props }: Props) {
         )}
       </div>
 
-      <div className='grid grid-cols md:grid-cols-2 gap-4'>
+      <div className='grid grid-cols md:grid-cols-3 gap-4'>
         <Card>
           <CardHeader>
-            <CardTitle>Contact Info</CardTitle>
+            <CardTitle className='text-lg flex'>
+              Contact <UserRoundIcon className='size-5 ml-auto' />
+            </CardTitle>
           </CardHeader>
-          <CardContent className='space-y-6'>
+          <CardContent className='space-y-4'>
             <Separator />
             <div className='flex flex-col gap-1'>
               <Label
@@ -128,7 +136,7 @@ export function ContactSection({ ...props }: Props) {
               >
                 Name
               </Label>
-              <span id='firstName' className='font-semibold'>
+              <span id='firstName'>
                 {contact?.first_name} {contact?.middle_name}{' '}
                 {contact?.last_name}
               </span>
@@ -140,9 +148,7 @@ export function ContactSection({ ...props }: Props) {
               >
                 Email
               </Label>
-              <span id='email' className='font-semibold'>
-                {contact?.email ?? '-'}
-              </span>
+              <span id='email'>{contact?.email ?? '-'}</span>
             </div>
             <div className='flex flex-col gap-1'>
               <Label
@@ -151,9 +157,7 @@ export function ContactSection({ ...props }: Props) {
               >
                 Salutation
               </Label>
-              <span id='salutation' className='font-semibold'>
-                {contact?.salutation ?? '-'}
-              </span>
+              <span id='salutation'>{contact?.salutation ?? '-'}</span>
             </div>
             <div className='flex flex-col gap-1'>
               <Label
@@ -162,9 +166,7 @@ export function ContactSection({ ...props }: Props) {
               >
                 Dear
               </Label>
-              <span id='dear' className='font-semibold'>
-                {contact?.dear ?? '-'}
-              </span>
+              <span id='dear'>{contact?.dear ?? '-'}</span>
             </div>
             <div className='flex flex-col gap-1'>
               <Label
@@ -173,20 +175,7 @@ export function ContactSection({ ...props }: Props) {
               >
                 Phone
               </Label>
-              <span id='type' className='font-semibold'>
-                {contact?.phone ?? '-'}
-              </span>
-            </div>
-            <div className='flex flex-col gap-1'>
-              <Label
-                htmlFor='fax'
-                className='uppercase text-xs tracking-wide text-muted-foreground'
-              >
-                Fax
-              </Label>
-              <span id='fax' className='font-semibold'>
-                {contact?.fax ?? '-'}
-              </span>
+              <span id='type'>{contact?.phone ?? '-'}</span>
             </div>
             <div className='flex flex-col gap-1'>
               <Label
@@ -195,15 +184,15 @@ export function ContactSection({ ...props }: Props) {
               >
                 Ext
               </Label>
-              <span id='type' className='font-semibold'>
-                {contact?.ext ?? '-'}
-              </span>
+              <span id='type'>{contact?.ext ?? '-'}</span>
             </div>
           </CardContent>
         </Card>
         <Card>
           <CardHeader>
-            <CardTitle>Company Info</CardTitle>
+            <CardTitle className='text-lg flex'>
+              Account <Building2Icon className='size-5 ml-auto' />
+            </CardTitle>
           </CardHeader>
           <CardContent className='space-y-6'>
             <Separator />
@@ -219,7 +208,7 @@ export function ContactSection({ ...props }: Props) {
                   contact?.account_id
                 }`}
                 id='company'
-                className='font-semibold underline underline-offset-2'
+                className='underline underline-offset-2'
               >
                 {contact?.company ?? '-'}
               </Link>
@@ -231,9 +220,7 @@ export function ContactSection({ ...props }: Props) {
               >
                 Department
               </Label>
-              <span id='department' className='font-semibold'>
-                {contact?.department ?? '-'}
-              </span>
+              <span id='department'>{contact?.department ?? '-'}</span>
             </div>
             <div className='flex flex-col gap-1'>
               <Label
@@ -242,9 +229,7 @@ export function ContactSection({ ...props }: Props) {
               >
                 Position
               </Label>
-              <span id='position' className='font-semibold'>
-                {contact?.position ?? '-'}
-              </span>
+              <span id='position'>{contact?.position ?? '-'}</span>
             </div>
             <div className='flex flex-col gap-1'>
               <Label
@@ -253,12 +238,45 @@ export function ContactSection({ ...props }: Props) {
               >
                 Title
               </Label>
-              <span id='title' className='font-semibold'>
-                {contact?.title ?? '-'}
-              </span>
+              <span id='title'>{contact?.title ?? '-'}</span>
             </div>
           </CardContent>
         </Card>
+      </div>
+
+      <div>
+        <Tabs
+          defaultValue='history'
+          className='w-full'
+          onValueChange={(value) => setSelectedTab(value)}
+        >
+          <TabsList className='grid w-[400px] grid-cols-4'>
+            <TabsTrigger value='history'>History</TabsTrigger>
+            <TabsTrigger value='calls'>Call Logs</TabsTrigger>
+            <TabsTrigger value='events'>Events</TabsTrigger>
+            <TabsTrigger value='insights'>Insights</TabsTrigger>
+          </TabsList>
+          <div className={selectedTab === 'history' ? 'mt-5' : 'invisible h-0'}>
+            {contact?.base_contact_id && (
+              <HistoryTableSection baseContactId={contact?.base_contact_id} />
+            )}
+          </div>
+          <div className={selectedTab === 'calls' ? 'mt-5' : 'invisible h-0'}>
+            {contact?.base_contact_id && (
+              <CallsTableSection baseContactId={contact?.base_contact_id} />
+            )}
+          </div>
+          <div className={selectedTab === 'events' ? 'mt-5' : 'invisible h-0'}>
+            {contact?.base_contact_id && (
+              <EventsTableSection baseContactId={contact?.base_contact_id} />
+            )}
+          </div>
+          <div
+            className={selectedTab === 'insights' ? 'mt-5' : 'invisible h-0'}
+          >
+            <span className='text-muted-foreground'>Coming soon...</span>
+          </div>
+        </Tabs>
       </div>
     </div>
   );

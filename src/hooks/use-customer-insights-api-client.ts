@@ -4,14 +4,15 @@ import UserContext from '@/contexts/user/user-context';
 import { CustomerInsightsApiClient } from '@/lib/customer-insights/customer-insights-api-client';
 import { useContext, useEffect } from 'react';
 
+const apiClient = new CustomerInsightsApiClient();
+
 function useCustomerInsightsApiClient() {
-  const apiClient = new CustomerInsightsApiClient();
   const userContext = useContext(UserContext);
 
   useEffect(() => {
-    if (!userContext?.isLoggedIn()) return;
+    if (!userContext || !userContext.token) return;
     apiClient.setToken(userContext.token);
-  }, [userContext?.isLoggedIn()]);
+  }, [userContext?.token]);
 
   return {
     apiClient,

@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Customer Insights',
-  description: 'Customer insights for Macquarie Telecom Group.',
+  description: 'Customer insights for Macquarie Technology Group.',
 };
 
 type Props = {

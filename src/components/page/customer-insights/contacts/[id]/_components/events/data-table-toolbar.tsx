@@ -3,35 +3,29 @@
 import { DataTableViewOptions } from '@/components/page/_components/data-table-view-options';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import usePageParams from '@/hooks/use-stateful-search-params';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { Table } from '@tanstack/react-table';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
+  onSearch?: (_searchKeyword: string) => void;
 }
 
 export function DataTableToolbar<TData>({
   ...props
 }: DataTableToolbarProps<TData>) {
-  const { pageParams, applyParams } = usePageParams();
-  const isFiltered =
-    pageParams.get('first_name__ilike') !== null ||
-    pageParams.get('last_name__ilike') !== null;
+  const [search, setSearch] = useState<string>('');
+  const isFiltered = search !== '';
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const setSearchKeyword = useDebouncedCallback((value: string) => {
     if (value.length > 0) {
-      pageParams.set('first_name__ilike', `%${value}%`);
-      // pageParams.set('last_name__ilike', `%${value}%`);
+      setSearch(value);
     } else {
-      pageParams.delete('first_name__ilike');
-      // pageParams.delete('last_name__ilike');
+      setSearch('');
     }
-    pageParams.set('page', '1');
-    applyParams();
   }, 500);
 
   return (
@@ -39,10 +33,7 @@ export function DataTableToolbar<TData>({
       <div className='flex flex-1 items-center space-x-2'>
         <Input
           ref={searchInputRef}
-          placeholder='Search contacts...'
-          defaultValue={pageParams
-            .get('first_name__ilike')
-            ?.replaceAll('%', '')}
+          placeholder='Search events...'
           onChange={(event) => {
             setSearchKeyword(event.target.value);
           }}
@@ -55,10 +46,7 @@ export function DataTableToolbar<TData>({
               props.table.resetColumnFilters();
               if (searchInputRef.current) {
                 searchInputRef.current.value = '';
-                pageParams.delete('first_name__ilike');
-                pageParams.delete('last_name__ilike');
-                pageParams.delete('page');
-                applyParams();
+                setSearch('');
               }
             }}
             className='h-8 px-2 lg:px-3'

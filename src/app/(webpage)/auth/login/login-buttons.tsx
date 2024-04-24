@@ -25,7 +25,7 @@ export default function LoginButtons({ ...props }: Props) {
     <>
       {userContext?.isLoggedIn() ? (
         <Button
-          className='text-2xl font-bold rounded-full px-10 py-8'
+          className='text-lg font-bold rounded-full px-10 py-6'
           onClick={async () =>
             await instance.logout({
               account: accounts[0],
@@ -38,7 +38,7 @@ export default function LoginButtons({ ...props }: Props) {
         </Button>
       ) : (
         <Button
-          className='text-2xl font-bold rounded-full px-10 py-8'
+          className='text-lg font-bold rounded-full px-10 py-6'
           onClick={async () =>
             await instance.loginRedirect({
               scopes: ['User.Read'],

@@ -1,12 +1,14 @@
 import {
   ApiCollectionResponse,
+  ContactCallLog,
+  ContactEvent,
   CrispAccount,
   CrispContact,
   MetricDataItem,
 } from './types';
 
-const CUSTOMER_INSIGHT_API_HOST = process.env.NEXT_PUBLIC_CUSTOMER_INSIGHT_API_HOST!;
-
+const CUSTOMER_INSIGHT_API_HOST =
+  process.env.NEXT_PUBLIC_CUSTOMER_INSIGHT_API_HOST!;
 
 export class CustomerInsightsApiClient {
   constructor(protected _accessToken?: string) {}
@@ -68,6 +70,40 @@ export class CustomerInsightsApiClient {
         return (await res.json()) as CrispContact;
       } else {
         console.error('Failed retrieving CRISP contacts');
+        return null;
+      }
+    });
+  }
+
+  async getCrispContactEvents(searchParams?: string) {
+    return await fetch(
+      `${CUSTOMER_INSIGHT_API_HOST}/contactevent/?${searchParams}`,
+      {
+        cache: 'no-store',
+        headers: this.getHeaders(),
+      }
+    ).then(async (res) => {
+      if (res.status === 200) {
+        return (await res.json()) as ApiCollectionResponse<ContactEvent[]>;
+      } else {
+        console.error('Failed retrieving contact events');
+        return null;
+      }
+    });
+  }
+
+  async getCrispContactCalls(searchParams?: string) {
+    return await fetch(
+      `${CUSTOMER_INSIGHT_API_HOST}/twiliocall/?${searchParams}`,
+      {
+        cache: 'no-store',
+        headers: this.getHeaders(),
+      }
+    ).then(async (res) => {
+      if (res.status === 200) {
+        return (await res.json()) as ApiCollectionResponse<ContactCallLog[]>;
+      } else {
+        console.error('Failed retrieving calls');
         return null;
       }
     });

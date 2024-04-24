@@ -5,7 +5,7 @@
   "id": "c778f963-ff1a-41bc-b940-60c1a1a5b14b",
   "packageName": "com.microsoft.teams.extension",
   "developer": {
-    "name": "Macquarie Telecom Group",
+    "name": "Macquarie Technology Group",
     "websiteUrl": "https://macquarietechnologygroup.com/about-us",
     "privacyUrl": "https://macquarietechnologygroup.com/privacy-policy",
     "termsOfUseUrl": "https://macquarietechnologygroup.com/terms-of-use"
@@ -16,11 +16,11 @@
   },
   "name": {
     "short": "MTG - Teams App (Local)",
-    "full": "Macquarie Telecom Group - Teams App (Local)"
+    "full": "Macquarie Technology Group - Teams App (Local)"
   },
   "description": {
-    "short": "Teams App for Macquarie Telecom Group",
-    "full": "Teams App extensive features for Macquarie Telecom Group."
+    "short": "Teams App for Macquarie Technology Group",
+    "full": "Teams App extensive features for Macquarie Technology Group."
   },
   "accentColor": "#FFFFFF",
   "bots": [],
