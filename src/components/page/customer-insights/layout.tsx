@@ -4,7 +4,7 @@ import { Sidebar } from './_components/sidebar';
 
 export const metadata: Metadata = {
   title: 'Customer Insights',
-  description: 'Customer insights for Macquarie Telecom Group.',
+  description: 'Customer insights for Macquarie Technology Group.',
 };
 
 export default function CustomerInsightsLayout({

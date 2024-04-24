@@ -1,4 +1,4 @@
-# Macquarie Telecom Group - Teams App
+# Macquarie Technology Group - Teams App
 
 This is a web application that primarily extends MTGs tools and services to Microsoft Teams App.
 

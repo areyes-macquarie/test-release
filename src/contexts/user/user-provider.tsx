@@ -60,7 +60,6 @@ export default class UserContextProvider extends React.Component<Props, State> {
           email: this.state.userContext?.email ?? '',
           name: this.state.userContext?.name ?? '',
           token: this.state.userContext?.token ?? '',
-          basePath: this.state.userContext?.basePath ?? '',
           getBasePath: this.getBasePath,
           setBasePath: this.setBasePath,
           setUserContext: this.setUserContext,

@@ -8,7 +8,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import usePageParams from '@/hooks/use-stateful-search-params';
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -39,7 +38,6 @@ export function DataTable<TData, TValue>({
   Toolbar,
   pagination,
 }: DataTableProps<TData, TValue>) {
-  const { pageParams, applyParams } = usePageParams();
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});

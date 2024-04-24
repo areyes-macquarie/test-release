@@ -17,7 +17,6 @@ type Props = {
 };
 
 export function HistoryTableSection({ ...props }: Props) {
-  const [loading, setLoading] = useState(false);
   const [page, setPage] = useState('1');
   const { apiClient, apiReady } = useCustomerInsightsApiClient();
   const [response, setResponse] = useState<ApiCollectionResponse<
