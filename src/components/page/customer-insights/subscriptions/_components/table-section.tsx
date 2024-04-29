@@ -89,11 +89,12 @@ export function TableSection() {
     }
 
     apiClient
-      .getCrispContacts(
+      .getBaseContacts(
         `ordering=-change_dt&base_contact_id__in=${baseContactIds?.join()}&${pageParams.toString()}`
       )
       .then((res) => {
         if (res !== null) {
+          console.log(res.objects)
           const objects = res.objects.map((obj) => ({
             ...obj,
             subscription_id:
