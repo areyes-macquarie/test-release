@@ -112,7 +112,7 @@ export class CustomerInsightsApiClient {
 
   async getContactSubscriptions(searchParams?: string) {
     return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/usercontactsubscription/?${searchParams}`,
+      `${CUSTOMER_INSIGHT_API_HOST}/app/usersubscription?${searchParams}`,
       {
         cache: 'no-store',
         headers: this.getHeaders(),
@@ -177,7 +177,7 @@ export class CustomerInsightsApiClient {
   async getGlobalMetric(): Promise<ApiCollectionResponse<
     MetricDataItem[]
   > | null> {
-    return await fetch(`${CUSTOMER_INSIGHT_API_HOST}/globalmetric/`, {
+    return await fetch(`${CUSTOMER_INSIGHT_API_HOST}/core/metrics/global`, {
       headers: this.getHeaders(),
     }).then(async (res) => {
       if (res.status === 200) {
@@ -193,7 +193,7 @@ export class CustomerInsightsApiClient {
     id: string
   ): Promise<ApiCollectionResponse<MetricDataItem[]> | null> {
     return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/accountmetric/?account_id=${id}`,
+      `${CUSTOMER_INSIGHT_API_HOST}/core/metrics/account/?account_id=${id}`,
       {
         headers: this.getHeaders(),
       }
