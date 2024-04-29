@@ -33,9 +33,6 @@ export function ContactSection({ ...props }: Props) {
   const [eventTimelineData, setEventTimelineData] = useState<ContactEvent[]>(
     []
   );
-  // const [eventResponse, setEventResponse] = useState<ApiCollectionResponse<
-  //   ContactEvent[]
-  // > | null>();
 
   useEffect(() => {
     if (!apiReady || !contact?.base_contact_id) return;
