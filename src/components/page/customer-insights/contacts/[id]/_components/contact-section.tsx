@@ -8,7 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import UserContext from '@/contexts/user/user-context';
 import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
-import { CrispContact } from '@/lib/customer-insights/types';
+import { ContactEvent, CrispContact } from '@/lib/customer-insights/types';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
 import { Building2Icon, UserRoundIcon } from 'lucide-react';
@@ -16,6 +16,7 @@ import Link from 'next/link';
 import { useContext, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { CallsTableSection } from './calls/table-section';
+import { EventTimeline } from './event-timeline';
 import { EventsTableSection } from './events/table-section';
 import { HistoryTableSection } from './history/table-section';
 
@@ -29,6 +30,17 @@ export function ContactSection({ ...props }: Props) {
   const [loading, setLoading] = useState(false);
   const [contact, setContact] = useState<CrispContact>();
   const userContext = useContext(UserContext);
+  const [eventTimelineData, setEventTimelineData] = useState<ContactEvent[]>(
+    []
+  );
+
+  useEffect(() => {
+    if (!apiReady || !contact?.base_contact_id) return;
+
+    loadEventsForTimeline()
+      .then(() => {})
+      .catch(() => {});
+  }, [apiReady, contact?.base_contact_id]);
 
   useEffect(() => {
     if (!apiReady || !props.contactId) {
@@ -48,6 +60,35 @@ export function ContactSection({ ...props }: Props) {
       })
       .finally(() => setLoading(false));
   }, [apiReady, props.contactId]);
+
+  async function loadEventsForTimeline() {
+    const cachedData: ContactEvent[] = [];
+    let nextPage = 1;
+
+    const fetchData = async () => {
+      try {
+        const res = await apiClient.getCrispContactEvents(
+          `ordering=-time&base_contact_id=${contact?.base_contact_id}&page=${nextPage}`
+        );
+        if (res) {
+          cachedData.push(...res.objects);
+          toast.dismiss();
+          if (res.meta.next !== '') {
+            nextPage++;
+            await fetchData(); // Recursively call fetchData for the next page
+          } else {
+            setEventTimelineData(cachedData); // Set the final data once all pages are fetched
+          }
+        }
+      } catch (error) {
+        toast.error(
+          'Something unexpected occurred while retrieving contact events.'
+        );
+      }
+    };
+
+    await fetchData();
+  }
 
   const isStale = () => {
     if (!contact) {
@@ -120,7 +161,7 @@ export function ContactSection({ ...props }: Props) {
         )}
       </div>
 
-      <div className='grid grid-cols md:grid-cols-3 gap-4'>
+      <div className='grid grid-cols md:grid-cols-2 gap-4'>
         <Card>
           <CardHeader>
             <CardTitle className='text-lg flex'>
@@ -130,61 +171,43 @@ export function ContactSection({ ...props }: Props) {
           <CardContent className='space-y-4'>
             <Separator />
             <div className='flex flex-col gap-1'>
-              <Label
-                htmlFor='firstName'
-                className='uppercase text-xs tracking-wide text-muted-foreground'
-              >
+              <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
                 Name
               </Label>
-              <span id='firstName'>
+              <span>
                 {contact?.first_name} {contact?.middle_name}{' '}
                 {contact?.last_name}
               </span>
             </div>
             <div className='flex flex-col gap-1'>
-              <Label
-                htmlFor='email'
-                className='uppercase text-xs tracking-wide text-muted-foreground'
-              >
+              <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
                 Email
               </Label>
-              <span id='email'>{contact?.email ?? '-'}</span>
+              <span>{contact?.email ?? '-'}</span>
             </div>
             <div className='flex flex-col gap-1'>
-              <Label
-                htmlFor='salutation'
-                className='uppercase text-xs tracking-wide text-muted-foreground'
-              >
+              <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
                 Salutation
               </Label>
-              <span id='salutation'>{contact?.salutation ?? '-'}</span>
+              <span>{contact?.salutation ?? '-'}</span>
             </div>
             <div className='flex flex-col gap-1'>
-              <Label
-                htmlFor='dear'
-                className='uppercase text-xs tracking-wide text-muted-foreground'
-              >
+              <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
                 Dear
               </Label>
-              <span id='dear'>{contact?.dear ?? '-'}</span>
+              <span>{contact?.dear ?? '-'}</span>
             </div>
             <div className='flex flex-col gap-1'>
-              <Label
-                htmlFor='phone'
-                className='uppercase text-xs tracking-wide text-muted-foreground'
-              >
+              <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
                 Phone
               </Label>
-              <span id='type'>{contact?.phone ?? '-'}</span>
+              <span>{contact?.phone ?? '-'}</span>
             </div>
             <div className='flex flex-col gap-1'>
-              <Label
-                htmlFor='ext'
-                className='uppercase text-xs tracking-wide text-muted-foreground'
-              >
+              <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
                 Ext
               </Label>
-              <span id='type'>{contact?.ext ?? '-'}</span>
+              <span>{contact?.ext ?? '-'}</span>
             </div>
           </CardContent>
         </Card>
@@ -197,39 +220,29 @@ export function ContactSection({ ...props }: Props) {
           <CardContent className='space-y-6'>
             <Separator />
             <div className='flex flex-col gap-1'>
-              <Label
-                htmlFor='company'
-                className='uppercase text-xs tracking-wide text-muted-foreground'
-              >
+              <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
                 Company
               </Label>
               <Link
                 href={`${userContext?.getBasePath()}/customer-insights/accounts/${
                   contact?.account_id
                 }`}
-                id='company'
                 className='underline underline-offset-2'
               >
                 {contact?.company ?? '-'}
               </Link>
             </div>
             <div className='flex flex-col gap-1'>
-              <Label
-                htmlFor='department'
-                className='uppercase text-xs tracking-wide text-muted-foreground'
-              >
+              <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
                 Department
               </Label>
-              <span id='department'>{contact?.department ?? '-'}</span>
+              <span>{contact?.department ?? '-'}</span>
             </div>
             <div className='flex flex-col gap-1'>
-              <Label
-                htmlFor='position'
-                className='uppercase text-xs tracking-wide text-muted-foreground'
-              >
+              <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
                 Position
               </Label>
-              <span id='position'>{contact?.position ?? '-'}</span>
+              <span>{contact?.position ?? '-'}</span>
             </div>
             <div className='flex flex-col gap-1'>
               <Label
@@ -243,7 +256,9 @@ export function ContactSection({ ...props }: Props) {
           </CardContent>
         </Card>
       </div>
-
+      <div>
+        <EventTimeline events={eventTimelineData} />
+      </div>
       <div>
         <Tabs
           defaultValue='history'
@@ -256,24 +271,22 @@ export function ContactSection({ ...props }: Props) {
             <TabsTrigger value='events'>Events</TabsTrigger>
             <TabsTrigger value='insights'>Insights</TabsTrigger>
           </TabsList>
-          <div className={selectedTab === 'history' ? 'mt-5' : 'invisible h-0'}>
+          <div className={selectedTab === 'history' ? 'mt-5' : 'hidden h-0'}>
             {contact?.base_contact_id && (
               <HistoryTableSection baseContactId={contact?.base_contact_id} />
             )}
           </div>
-          <div className={selectedTab === 'calls' ? 'mt-5' : 'invisible h-0'}>
+          <div className={selectedTab === 'calls' ? 'mt-5' : 'hidden h-0'}>
             {contact?.base_contact_id && (
               <CallsTableSection baseContactId={contact?.base_contact_id} />
             )}
           </div>
-          <div className={selectedTab === 'events' ? 'mt-5' : 'invisible h-0'}>
+          <div className={selectedTab === 'events' ? 'mt-5' : 'hidden h-0'}>
             {contact?.base_contact_id && (
               <EventsTableSection baseContactId={contact?.base_contact_id} />
             )}
           </div>
-          <div
-            className={selectedTab === 'insights' ? 'mt-5' : 'invisible h-0'}
-          >
+          <div className={selectedTab === 'insights' ? 'mt-5' : 'hidden h-0'}>
             <span className='text-muted-foreground'>Coming soon...</span>
           </div>
         </Tabs>
