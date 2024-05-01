@@ -8,6 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import UserContext from '@/contexts/user/user-context';
 import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
+import { isStaleContact } from '@/lib/customer-insights/helper';
 import { ContactEvent, CrispContact } from '@/lib/customer-insights/types';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
@@ -90,17 +91,6 @@ export function ContactSection({ ...props }: Props) {
     await fetchData();
   }
 
-  const isStale = () => {
-    if (!contact) {
-      return false;
-    }
-
-    const now = new Date();
-    const lastUpdate = new Date(contact.change_dt);
-    const yearInMs = 1000 * 60 * 60 * 24 * 365;
-    return Number(now) - Number(lastUpdate) >= yearInMs;
-  };
-
   return (
     <div className='space-y-8'>
       <div className='flex justify-between scroll-m-20 border-b pb-4'>
@@ -147,7 +137,7 @@ export function ContactSection({ ...props }: Props) {
                   variant='outline'
                   className={cn(
                     'text-xs h-8 w-fit my-auto',
-                    isStale() ? 'text-orange-400' : ''
+                    isStaleContact(contact.change_dt) ? 'text-orange-400' : ''
                   )}
                 >
                   updated{' '}
