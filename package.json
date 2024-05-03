@@ -6,8 +6,8 @@
   },
   "private": true,
   "scripts": {
-    "dev:teams": "next dev --experimental-https",
-    "dev:web": "next dev",
+    "dev:https": "next dev --experimental-https",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
