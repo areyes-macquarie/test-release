@@ -65,11 +65,21 @@ export type ContactCallLog = {
 };
 
 export type ContactSubscription = {
+  type: string;
+  first_name: string;
+  email: string;
+  last_name: string;
+  account_contact_id: number;
+  account_id: number;
+  company: string;
   base_contact_id: number;
   subscription_id: number;
   user_id: string;
   user_name: string;
   created: string;
+  position: string;
+  active: string;
+  change_dt: string;
 };
 
 export type MetricDataItem = {

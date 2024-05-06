@@ -16,7 +16,7 @@ export class CustomerInsightsApiClient {
 
   async getCrispAccounts(searchParams?: string) {
     return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/crispaccount/?${searchParams}`,
+      `${CUSTOMER_INSIGHT_API_HOST}/crisp/accounts?${searchParams}`,
       {
         cache: 'no-store',
         headers: this.getHeaders(),
@@ -32,7 +32,7 @@ export class CustomerInsightsApiClient {
   }
 
   async getCrispAccountById(id: string) {
-    return await fetch(`${CUSTOMER_INSIGHT_API_HOST}/crispaccount/${id}/`, {
+    return await fetch(`${CUSTOMER_INSIGHT_API_HOST}/crisp/accounts/${id}`, {
       cache: 'no-store',
       headers: this.getHeaders(),
     }).then(async (res) => {
@@ -47,7 +47,7 @@ export class CustomerInsightsApiClient {
 
   async getCrispContacts(searchParams?: string) {
     return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/crispcontact/?${searchParams}`,
+      `${CUSTOMER_INSIGHT_API_HOST}/crisp/contacts?${searchParams}`,
       {
         cache: 'no-store',
         headers: this.getHeaders(),
@@ -63,7 +63,7 @@ export class CustomerInsightsApiClient {
   }
 
   async getCrispContactById(id: string) {
-    return await fetch(`${CUSTOMER_INSIGHT_API_HOST}/crispcontact/${id}/`, {
+    return await fetch(`${CUSTOMER_INSIGHT_API_HOST}/crisp/contacts/${id}`, {
       cache: 'no-store',
       headers: this.getHeaders(),
     }).then(async (res) => {
@@ -78,7 +78,7 @@ export class CustomerInsightsApiClient {
 
   async getCrispContactEvents(searchParams?: string) {
     return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/contactevent/?${searchParams}`,
+      `${CUSTOMER_INSIGHT_API_HOST}/core/events?${searchParams}`,
       {
         cache: 'no-store',
         headers: this.getHeaders(),
@@ -95,7 +95,7 @@ export class CustomerInsightsApiClient {
 
   async getCrispContactCalls(searchParams?: string) {
     return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/twiliocall/?${searchParams}`,
+      `${CUSTOMER_INSIGHT_API_HOST}/core/twilio?${searchParams}`,
       {
         cache: 'no-store',
         headers: this.getHeaders(),
@@ -112,7 +112,7 @@ export class CustomerInsightsApiClient {
 
   async getContactSubscriptions(searchParams?: string) {
     return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/app/usersubscription?${searchParams}`,
+      `${CUSTOMER_INSIGHT_API_HOST}/app/usersubscriptions/contacts?${searchParams}`,
       {
         cache: 'no-store',
         headers: this.getHeaders(),
@@ -141,7 +141,7 @@ export class CustomerInsightsApiClient {
     };
 
     return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/usercontactsubscription/`,
+      `${CUSTOMER_INSIGHT_API_HOST}/app/usersubscriptions`,
       {
         method: 'POST',
         body: JSON.stringify(payload),
@@ -159,7 +159,7 @@ export class CustomerInsightsApiClient {
 
   async unsubscribeToContact(params: { subscriptionId: number }) {
     return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/usercontactsubscription/${params.subscriptionId}/`,
+      `${CUSTOMER_INSIGHT_API_HOST}/app/usersubscriptions/${params.subscriptionId}`,
       {
         method: 'DELETE',
         headers: this.getHeaders(),
@@ -193,7 +193,7 @@ export class CustomerInsightsApiClient {
     id: string
   ): Promise<ApiCollectionResponse<MetricDataItem[]> | null> {
     return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/core/metrics/account/?account_id=${id}`,
+      `${CUSTOMER_INSIGHT_API_HOST}/core/metrics/account?account_id=${id}`,
       {
         headers: this.getHeaders(),
       }

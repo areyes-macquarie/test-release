@@ -18,17 +18,14 @@ export function DataTableToolbar<TData>({
 }: DataTableToolbarProps<TData>) {
   const { pageParams, applyParams } = usePageParams();
   const isFiltered =
-    pageParams.get('first_name__ilike') !== null ||
-    pageParams.get('last_name__ilike') !== null;
+    pageParams.get('filter') !== null;
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const setSearchKeyword = useDebouncedCallback((value: string) => {
     if (value.length > 0) {
-      pageParams.set('first_name__ilike', `${value}%`);
-      // pageParams.set('last_name__ilike', `%${value}%`);
+      pageParams.set('filter', `${value}`);
     } else {
-      pageParams.delete('first_name__ilike');
-      // pageParams.delete('last_name__ilike');
+      pageParams.delete('filter');
     }
     pageParams.set('page', '1');
     applyParams();
@@ -41,8 +38,7 @@ export function DataTableToolbar<TData>({
           ref={searchInputRef}
           placeholder='Search contacts...'
           defaultValue={pageParams
-            .get('first_name__ilike')
-            ?.replaceAll('%', '')}
+            .get('filter') || ''}
           onChange={(event) => {
             setSearchKeyword(event.target.value);
           }}
@@ -55,8 +51,7 @@ export function DataTableToolbar<TData>({
               props.table.resetColumnFilters();
               if (searchInputRef.current) {
                 searchInputRef.current.value = '';
-                pageParams.delete('first_name__ilike');
-                pageParams.delete('last_name__ilike');
+                pageParams.delete('filter');
                 pageParams.delete('page');
                 applyParams();
               }
