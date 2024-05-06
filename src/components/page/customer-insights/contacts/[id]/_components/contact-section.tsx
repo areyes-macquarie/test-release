@@ -71,10 +71,11 @@ export function ContactSection({ ...props }: Props) {
         const res = await apiClient.getCrispContactEvents(
           `ordering=-time&base_contact_id=${contact?.base_contact_id}&page=${nextPage}`
         );
+
         if (res) {
           cachedData.push(...res.objects);
           toast.dismiss();
-          if (res.meta.next !== '') {
+          if (res.meta.next !== null) {
             nextPage++;
             await fetchData(); // Recursively call fetchData for the next page
           } else {

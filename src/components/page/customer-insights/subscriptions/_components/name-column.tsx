@@ -2,13 +2,13 @@
 
 import { Badge } from '@/components/ui/badge';
 import UserContext from '@/contexts/user/user-context';
-import { CrispContact } from '@/lib/customer-insights/types';
+import { ContactSubscription } from '@/lib/customer-insights/types';
 import { Row } from '@tanstack/react-table';
 import Link from 'next/link';
 import { useContext } from 'react';
 
 type Props = {
-  row: Row<CrispContact>;
+  row: Row<ContactSubscription>;
 };
 
 export function ContactNameColumn({ row }: Props) {
