@@ -4,6 +4,7 @@ import { DataTableColumnHeader } from '@/components/page/_components/data-table-
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ContactSubscription } from '@/lib/customer-insights/types';
+import { isStaleContact } from '@/lib/customer-insights/helper';
 import { cn } from '@/lib/utils';
 import { ColumnDef } from '@tanstack/react-table';
 import { formatDistanceToNow } from 'date-fns';
@@ -94,17 +95,15 @@ export const columns: ColumnDef<ContactSubscription>[] = [
       <DataTableColumnHeader column={column} title='Updated' />
     ),
     cell: ({ row }) => {
-      const now = new Date();
-      const lastUpdate = new Date(row.original.change_dt);
-      const yearInMs = 1000 * 60 * 60 * 24 * 365;
-      const isStale = Number(now) - Number(lastUpdate) >= yearInMs;
-
       return !row.original.change_dt ? (
         <></>
       ) : (
         <Badge
           variant='outline'
-          className={cn('font-light', isStale ? 'text-orange-400' : '')}
+          className={cn(
+            'font-light',
+            isStaleContact(row.original.change_dt) ? 'text-orange-400' : ''
+          )}
         >
           <span className='max-w-[500px] truncate'>
             {formatDistanceToNow(new Date(row.original.change_dt), {

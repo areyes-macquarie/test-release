@@ -17,7 +17,7 @@ npm install
 First, run the local development server
 
 ```bash
-npm run dev:teams
+npm run dev:https
 ```
 
 Then install the MTG - Teams App in Microsoft Teams under
@@ -44,7 +44,7 @@ AUTH_LOGOUT_REDIRECT_URI=http://localhost:3000
 Lastly, run the local development server
 
 ```bash
-npm run dev:web
+npm run dev
 ```
 
 Navigate to [http://localhost:3000](http://localhost:3000) on your browser to access the app.
