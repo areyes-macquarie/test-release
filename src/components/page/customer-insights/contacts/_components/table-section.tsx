@@ -25,7 +25,7 @@ export function TableSection() {
 
     toast.message('Please wait...');
     apiClient
-      .getCrispContacts(`ordering=-change_dt&${pageParams.toString()}`)
+      .getCrispContacts(`${pageParams.toString()}`)
       .then((res) => {
         setResponse(res);
         toast.dismiss();

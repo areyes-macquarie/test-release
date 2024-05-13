@@ -5,6 +5,7 @@ import {
   ContactSubscription,
   CrispAccount,
   CrispContact,
+  CrispBaseContact,
   MetricDataItem,
 } from './types';
 
@@ -51,7 +52,7 @@ export class CustomerInsightsApiClient {
       headers: this.getHeaders()
     }).then(async (res) => {
       if (res.status === 200) {
-        return (await res.json()) as ApiCollectionResponse<CrispContact[]>;
+        return (await res.json()) as ApiCollectionResponse<CrispBaseContact[]>;
       } else {
         console.error('Failed retrieving base contacts');
         return null;
@@ -61,7 +62,7 @@ export class CustomerInsightsApiClient {
 
   async getCrispContacts(searchParams?: string) {
     return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/crisp/contacts?${searchParams}`,
+      `${CUSTOMER_INSIGHT_API_HOST}/crisp/contacts/instances?${searchParams}`,
       {
         cache: 'no-store',
         headers: this.getHeaders(),
@@ -82,7 +83,7 @@ export class CustomerInsightsApiClient {
       headers: this.getHeaders(),
     }).then(async (res) => {
       if (res.status === 200) {
-        return (await res.json()) as CrispContact;
+        return (await res.json()) as CrispBaseContact;
       } else {
         console.error('Failed retrieving CRISP contacts');
         return null;
@@ -126,7 +127,7 @@ export class CustomerInsightsApiClient {
 
   async getContactSubscriptions(searchParams?: string) {
     return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/app/usersubscriptions/contacts?${searchParams}`,
+      `${CUSTOMER_INSIGHT_API_HOST}/app/following/contacts?${searchParams}`,
       {
         cache: 'no-store',
         headers: this.getHeaders(),
@@ -155,7 +156,7 @@ export class CustomerInsightsApiClient {
     };
 
     return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/app/usersubscriptions`,
+      `${CUSTOMER_INSIGHT_API_HOST}/app/following`,
       {
         method: 'POST',
         body: JSON.stringify(payload),
@@ -173,7 +174,7 @@ export class CustomerInsightsApiClient {
 
   async unsubscribeToContact(params: { subscriptionId: number }) {
     return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/app/usersubscriptions/${params.subscriptionId}`,
+      `${CUSTOMER_INSIGHT_API_HOST}/app/following/${params.subscriptionId}`,
       {
         method: 'DELETE',
         headers: this.getHeaders(),

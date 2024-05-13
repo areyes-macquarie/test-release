@@ -9,7 +9,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import UserContext from '@/contexts/user/user-context';
 import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
 import { isStaleContact } from '@/lib/customer-insights/helper';
-import { ContactEvent, CrispContact } from '@/lib/customer-insights/types';
+import { ContactEvent, CrispContact, CrispBaseContact } from '@/lib/customer-insights/types';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
 import { Building2Icon, UserRoundIcon } from 'lucide-react';
@@ -30,18 +30,19 @@ export function ContactSection({ ...props }: Props) {
   const [selectedTab, setSelectedTab] = useState('history');
   const [loading, setLoading] = useState(false);
   const [contact, setContact] = useState<CrispContact>();
+  const [baseContact, setBaseContact] = useState<CrispBaseContact>();
   const userContext = useContext(UserContext);
   const [eventTimelineData, setEventTimelineData] = useState<ContactEvent[]>(
     []
   );
 
   useEffect(() => {
-    if (!apiReady || !contact?.base_contact_id) return;
+    if (!apiReady || !baseContact?.base_contact_id) return;
 
     loadEventsForTimeline()
       .then(() => {})
       .catch(() => {});
-  }, [apiReady, contact?.base_contact_id]);
+  }, [apiReady, baseContact?.base_contact_id]);
 
   useEffect(() => {
     if (!apiReady || !props.contactId) {
@@ -53,14 +54,31 @@ export function ContactSection({ ...props }: Props) {
       .getCrispContactById(props.contactId)
       .then((res) => {
         if (res !== null) {
-          setContact(res);
+          setBaseContact(res);
+        }
+      })
+      .catch(() => {
+        toast.error('Something unexpected occured while retrieving contact.');
+      });
+  }, [apiReady, props.contactId]);
+
+  useEffect(() => {
+    if(!apiReady || !baseContact?.base_contact_id) {
+      return;
+    }
+
+    apiClient
+      .getCrispContacts(`base_contact_id=${baseContact?.base_contact_id}&ordering=-change_dt`)
+      .then(res => {
+        if (res !== null) {
+          setContact(res.objects[0])
         }
       })
       .catch(() => {
         toast.error('Something unexpected occured while retrieving contact.');
       })
       .finally(() => setLoading(false));
-  }, [apiReady, props.contactId]);
+  }, [apiReady, baseContact?.base_contact_id])
 
   async function loadEventsForTimeline() {
     const cachedData: ContactEvent[] = [];
@@ -69,7 +87,7 @@ export function ContactSection({ ...props }: Props) {
     const fetchData = async () => {
       try {
         const res = await apiClient.getCrispContactEvents(
-          `ordering=-time&base_contact_id=${contact?.base_contact_id}&page=${nextPage}`
+          `ordering=-time&base_contact_id=${baseContact?.base_contact_id}&page=${nextPage}`
         );
 
         if (res) {
@@ -263,18 +281,18 @@ export function ContactSection({ ...props }: Props) {
             <TabsTrigger value='insights'>Insights</TabsTrigger>
           </TabsList>
           <div className={selectedTab === 'history' ? 'mt-5' : 'hidden h-0'}>
-            {contact?.base_contact_id && (
-              <HistoryTableSection baseContactId={contact?.base_contact_id} />
+            {baseContact?.base_contact_id && (
+              <HistoryTableSection baseContactId={baseContact?.base_contact_id} />
             )}
           </div>
           <div className={selectedTab === 'calls' ? 'mt-5' : 'hidden h-0'}>
-            {contact?.base_contact_id && (
-              <CallsTableSection baseContactId={contact?.base_contact_id} />
+            {baseContact?.base_contact_id && (
+              <CallsTableSection baseContactId={baseContact?.base_contact_id} />
             )}
           </div>
           <div className={selectedTab === 'events' ? 'mt-5' : 'hidden h-0'}>
-            {contact?.base_contact_id && (
-              <EventsTableSection baseContactId={contact?.base_contact_id} />
+            {baseContact?.base_contact_id && (
+              <EventsTableSection baseContactId={baseContact?.base_contact_id} />
             )}
           </div>
           <div className={selectedTab === 'insights' ? 'mt-5' : 'hidden h-0'}>

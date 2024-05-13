@@ -17,7 +17,7 @@ export function ContactIdColumn({ row }: Props) {
     <div className='w-fit'>
       <Link
         className='text-wrap font-light hover:underline underline-offset-2 text-xs'
-        href={`${userContext?.getBasePath()}/customer-insights/contacts/${row.original.account_contact_id.toString()}`}
+        href={`${userContext?.getBasePath()}/customer-insights/contacts/${row.original.base_contact_id.toString()}`}
       >
         {row.original.account_contact_id}
       </Link>

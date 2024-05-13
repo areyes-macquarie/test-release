@@ -23,6 +23,13 @@ export type CrispAccount = {
   phone: string;
 };
 
+export type CrispBaseContact = {
+  base_contact_id: number;
+  first_name: string;
+  last_name: string;
+  state: string;
+}
+
 export type CrispContact = {
   account_contact_id: number;
   account_id: number;
