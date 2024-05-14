@@ -156,7 +156,7 @@ export class CustomerInsightsApiClient {
     };
 
     return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/app/following`,
+      `${CUSTOMER_INSIGHT_API_HOST}/app/following/contacts`,
       {
         method: 'POST',
         body: JSON.stringify(payload),
@@ -174,7 +174,7 @@ export class CustomerInsightsApiClient {
 
   async unsubscribeToContact(params: { subscriptionId: number }) {
     return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/app/following/${params.subscriptionId}`,
+      `${CUSTOMER_INSIGHT_API_HOST}/app/following/contacts/${params.subscriptionId}`,
       {
         method: 'DELETE',
         headers: this.getHeaders(),
