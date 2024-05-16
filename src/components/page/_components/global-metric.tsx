@@ -32,10 +32,12 @@ export function GlobalMetric({ ...props }: Props) {
         if (res !== null) {
           setMetric(res.objects);
         } else {
+          toast.dismiss();
           toast.error('Unable to retrieve global metric.');
         }
       })
       .catch(() => {
+        toast.dismiss();
         toast.error('Unable to retrieve global metric.');
       });
   }, [apiReady]);

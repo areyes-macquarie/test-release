@@ -28,7 +28,7 @@ export type CrispBaseContact = {
   first_name: string;
   last_name: string;
   state: string;
-}
+};
 
 export type CrispContact = {
   account_contact_id: number;
@@ -71,7 +71,7 @@ export type ContactCallLog = {
   start: string;
 };
 
-export type ContactSubscription = {
+export type FollowedContact = {
   type: string;
   first_name: string;
   email: string;
@@ -87,6 +87,15 @@ export type ContactSubscription = {
   position: string;
   active: string;
   change_dt: string;
+};
+
+export type FollowedAccount = {
+  account_id: number;
+  company: string;
+  subscription_id: number;
+  user_id: string;
+  user_name: string;
+  created: string;
 };
 
 export type MetricDataItem = {

@@ -17,7 +17,8 @@ type Props = {
 };
 
 export function EventsTableSection({ ...props }: Props) {
-  const [page, setPage] = useState('1');
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
   const { apiClient, apiReady } = useCustomerInsightsApiClient();
   const [response, setResponse] = useState<ApiCollectionResponse<
     ContactEvent[]
@@ -26,22 +27,23 @@ export function EventsTableSection({ ...props }: Props) {
   useEffect(() => {
     if (!apiReady) return;
 
-    toast.message('Please wait...');
+    toast.message('Loading contact events...');
 
     apiClient
       .getCrispContactEvents(
-        `ordering=-time&base_contact_id=${props.baseContactId}&page=${page}`
+        `ordering=-time&base_contact_id=${props.baseContactId}&page=${page}&count=${perPage}`
       )
       .then((res) => {
         setResponse(res);
         toast.dismiss();
       })
-      .catch(() =>
+      .catch(() => {
+        toast.dismiss();
         toast.error(
           'Something unexpected occured while retrieving contact events.'
-        )
-      );
-  }, [apiReady, page]);
+        );
+      });
+  }, [apiReady, page, perPage]);
 
   return response === undefined ? (
     <div className='space-y-4'>
@@ -56,16 +58,16 @@ export function EventsTableSection({ ...props }: Props) {
       pagination={{
         totalRecords: response?.meta.count ?? 0,
         pagingState: {
-          per_page: 20,
+          per_page: perPage,
           page: response?.meta.page ?? 0,
         },
         goToPage: (page) => {
-          setPage(page.toString());
+          setPage(page);
         },
-        setPageSize: () => {
-          // Do nothing
+        setPageSize: (size) => {
+          setPerPage(size);
         },
-        allowedPageSizes: [20],
+        allowedPageSizes: [10, 50, 100],
       }}
     />
   );

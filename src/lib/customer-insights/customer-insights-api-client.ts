@@ -2,10 +2,10 @@ import {
   ApiCollectionResponse,
   ContactCallLog,
   ContactEvent,
-  ContactSubscription,
   CrispAccount,
-  CrispContact,
   CrispBaseContact,
+  CrispContact,
+  FollowedContact,
   MetricDataItem,
 } from './types';
 
@@ -13,7 +13,11 @@ const CUSTOMER_INSIGHT_API_HOST =
   process.env.NEXT_PUBLIC_CUSTOMER_INSIGHT_API_HOST!;
 
 export class CustomerInsightsApiClient {
-  constructor(protected _accessToken?: string) { }
+  constructor(protected _accessToken?: string) {}
+
+  /**
+   * Account
+   */
 
   async getCrispAccounts(searchParams?: string) {
     return await fetch(
@@ -23,11 +27,10 @@ export class CustomerInsightsApiClient {
         headers: this.getHeaders(),
       }
     ).then(async (res) => {
-      if (res.status === 200) {
+      if (res.ok) {
         return (await res.json()) as ApiCollectionResponse<CrispAccount[]>;
       } else {
-        console.error('Failed retrieving CRISP accounts');
-        return null;
+        throw new Error('Failed retrieving CRISP accounts.');
       }
     });
   }
@@ -37,27 +40,32 @@ export class CustomerInsightsApiClient {
       cache: 'no-store',
       headers: this.getHeaders(),
     }).then(async (res) => {
-      if (res.status === 200) {
+      if (res.ok) {
         return (await res.json()) as CrispAccount;
       } else {
-        console.error('Failed retrieving CRISP account');
-        return null;
+        throw new Error('Failed retrieving account details.');
       }
     });
   }
 
+  /**
+   * Contact
+   */
+
   async getBaseContacts(searchParams?: string) {
-    return await fetch(`${CUSTOMER_INSIGHT_API_HOST}/basecontact/?${searchParams}`, {
-      cache: 'no-store',
-      headers: this.getHeaders()
-    }).then(async (res) => {
-      if (res.status === 200) {
+    return await fetch(
+      `${CUSTOMER_INSIGHT_API_HOST}/basecontact/?${searchParams}`,
+      {
+        cache: 'no-store',
+        headers: this.getHeaders(),
+      }
+    ).then(async (res) => {
+      if (res.ok) {
         return (await res.json()) as ApiCollectionResponse<CrispBaseContact[]>;
       } else {
-        console.error('Failed retrieving base contacts');
-        return null;
+        throw new Error('Failed retrieving base contacts.');
       }
-    })
+    });
   }
 
   async getCrispContacts(searchParams?: string) {
@@ -68,11 +76,10 @@ export class CustomerInsightsApiClient {
         headers: this.getHeaders(),
       }
     ).then(async (res) => {
-      if (res.status === 200) {
+      if (res.ok) {
         return (await res.json()) as ApiCollectionResponse<CrispContact[]>;
       } else {
-        console.error('Failed retrieving CRISP contacts');
-        return null;
+        throw new Error('Failed retrieving CRISP contacts.');
       }
     });
   }
@@ -82,14 +89,17 @@ export class CustomerInsightsApiClient {
       cache: 'no-store',
       headers: this.getHeaders(),
     }).then(async (res) => {
-      if (res.status === 200) {
+      if (res.ok) {
         return (await res.json()) as CrispBaseContact;
       } else {
-        console.error('Failed retrieving CRISP contacts');
-        return null;
+        throw new Error('Failed retrieving contact details.');
       }
     });
   }
+
+  /**
+   * Contact Sub Data
+   */
 
   async getCrispContactEvents(searchParams?: string) {
     return await fetch(
@@ -99,11 +109,10 @@ export class CustomerInsightsApiClient {
         headers: this.getHeaders(),
       }
     ).then(async (res) => {
-      if (res.status === 200) {
+      if (res.ok) {
         return (await res.json()) as ApiCollectionResponse<ContactEvent[]>;
       } else {
-        console.error('Failed retrieving contact events');
-        return null;
+        throw new Error('Failed retrieving events.');
       }
     });
   }
@@ -116,35 +125,19 @@ export class CustomerInsightsApiClient {
         headers: this.getHeaders(),
       }
     ).then(async (res) => {
-      if (res.status === 200) {
+      if (res.ok) {
         return (await res.json()) as ApiCollectionResponse<ContactCallLog[]>;
       } else {
-        console.error('Failed retrieving calls');
-        return null;
+        throw new Error('Failed retrieving calls.');
       }
     });
   }
 
-  async getContactSubscriptions(searchParams?: string) {
-    return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/app/following/contacts?${searchParams}`,
-      {
-        cache: 'no-store',
-        headers: this.getHeaders(),
-      }
-    ).then(async (res) => {
-      if (res.status === 200) {
-        return (await res.json()) as ApiCollectionResponse<
-          ContactSubscription[]
-        >;
-      } else {
-        console.error('Failed retrieving contact subscriptions');
-        return null;
-      }
-    });
-  }
+  /**
+   * My Data
+   */
 
-  async subscribeToContact(params: {
+  async followContact(params: {
     baseContactId: number;
     userId: string;
     userName: string;
@@ -155,24 +148,20 @@ export class CustomerInsightsApiClient {
       user_name: params.userName,
     };
 
-    return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/app/following/contacts`,
-      {
-        method: 'POST',
-        body: JSON.stringify(payload),
-        headers: this.getHeaders(),
-      }
-    ).then(async (res) => {
-      if (res.status === 200) {
+    return await fetch(`${CUSTOMER_INSIGHT_API_HOST}/app/following/contacts`, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: this.getHeaders(),
+    }).then(async (res) => {
+      if (res.ok) {
         return (await res.json()) as ApiCollectionResponse<ContactCallLog[]>;
       } else {
-        console.error('Failed subscribing to contact');
-        return null;
+        throw new Error('Failed to follow contact.');
       }
     });
   }
 
-  async unsubscribeToContact(params: { subscriptionId: number }) {
+  async unfollowContact(params: { subscriptionId: number }) {
     return await fetch(
       `${CUSTOMER_INSIGHT_API_HOST}/app/following/contacts/${params.subscriptionId}`,
       {
@@ -180,14 +169,121 @@ export class CustomerInsightsApiClient {
         headers: this.getHeaders(),
       }
     ).then((res) => {
-      if (res.status === 200) {
+      if (res.ok) {
         return true;
       } else {
-        console.error('Failed unsubscribing from contact');
-        return null;
+        throw new Error('Failed to unfollow contact.');
       }
     });
   }
+
+  async getFollowedContacts(searchParams?: string) {
+    return await fetch(
+      `${CUSTOMER_INSIGHT_API_HOST}/app/following/contacts?${searchParams}`,
+      {
+        cache: 'no-store',
+        headers: this.getHeaders(),
+      }
+    ).then(async (res) => {
+      if (res.ok) {
+        return (await res.json()) as ApiCollectionResponse<FollowedContact[]>;
+      } else {
+        throw new Error('Failed retrieving followed contacts.');
+      }
+    });
+  }
+
+  async followAccount(params: {
+    accountId: number;
+    userId: string;
+    userName: string;
+  }) {
+    const payload = {
+      account_id: params.accountId,
+      user_id: params.userId,
+      user_name: params.userName,
+    };
+
+    return await fetch(`${CUSTOMER_INSIGHT_API_HOST}/app/following/accounts`, {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: this.getHeaders(),
+    }).then(async (res) => {
+      if (res.ok) {
+        return (await res.json()) as ApiCollectionResponse<ContactCallLog[]>;
+      } else {
+        throw new Error('Failed to follow account.');
+      }
+    });
+  }
+
+  async unfollowAccount(params: { subscriptionId: number }) {
+    return await fetch(
+      `${CUSTOMER_INSIGHT_API_HOST}/app/following/accounts/${params.subscriptionId}`,
+      {
+        method: 'DELETE',
+        headers: this.getHeaders(),
+      }
+    ).then((res) => {
+      if (res.ok) {
+        return true;
+      } else {
+        throw new Error('Failed to unfollow account.');
+      }
+    });
+  }
+
+  async getFollowedAccounts(searchParams?: string) {
+    return await fetch(
+      `${CUSTOMER_INSIGHT_API_HOST}/app/following/accounts?${searchParams}`,
+      {
+        cache: 'no-store',
+        headers: this.getHeaders(),
+      }
+    ).then(async (res) => {
+      if (res.ok) {
+        return (await res.json()) as ApiCollectionResponse<FollowedContact[]>;
+      } else {
+        throw new Error('Failed retrieving followed accounts.');
+      }
+    });
+  }
+
+  async getManagedContacts(searchParams?: string) {
+    return await fetch(
+      `${CUSTOMER_INSIGHT_API_HOST}/app/managed/contacts?${searchParams}`,
+      {
+        cache: 'no-store',
+        headers: this.getHeaders(),
+      }
+    ).then(async (res) => {
+      if (res.ok) {
+        return (await res.json()) as ApiCollectionResponse<FollowedContact[]>;
+      } else {
+        throw new Error('Failed retrieving managed contacts.');
+      }
+    });
+  }
+
+  async getManagedAccounts(searchParams?: string) {
+    return await fetch(
+      `${CUSTOMER_INSIGHT_API_HOST}/app/managed/accounts?${searchParams}`,
+      {
+        cache: 'no-store',
+        headers: this.getHeaders(),
+      }
+    ).then(async (res) => {
+      if (res.ok) {
+        return (await res.json()) as ApiCollectionResponse<FollowedContact[]>;
+      } else {
+        throw new Error('Failed retrieving managed accounts.');
+      }
+    });
+  }
+
+  /**
+   * Metrics
+   */
 
   async getGlobalMetric(): Promise<ApiCollectionResponse<
     MetricDataItem[]
@@ -195,11 +291,10 @@ export class CustomerInsightsApiClient {
     return await fetch(`${CUSTOMER_INSIGHT_API_HOST}/core/metrics/global`, {
       headers: this.getHeaders(),
     }).then(async (res) => {
-      if (res.status === 200) {
+      if (res.ok) {
         return (await res.json()) as ApiCollectionResponse<MetricDataItem[]>;
       } else {
-        console.error('Failed retrieving global metric');
-        return null;
+        throw new Error('Failed retrieving global metric.');
       }
     });
   }
@@ -213,14 +308,17 @@ export class CustomerInsightsApiClient {
         headers: this.getHeaders(),
       }
     ).then(async (res) => {
-      if (res.status === 200) {
+      if (res.ok) {
         return (await res.json()) as ApiCollectionResponse<MetricDataItem[]>;
       } else {
-        console.error('Failed retrieving global metric');
-        return null;
+        throw new Error('Failed retrieving account metric.');
       }
     });
   }
+
+  /**
+   * Class setting
+   */
 
   setToken(accessToken: string) {
     this._accessToken = accessToken;

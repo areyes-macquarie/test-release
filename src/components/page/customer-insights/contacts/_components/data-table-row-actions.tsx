@@ -28,21 +28,24 @@ export function DataTableRowActions<TData>({
   const userContext = useContext(UserContext);
   const contact = row.original as CrispContact;
 
-  function subscribe(baseContactId: number) {
+  function follow(baseContactId: number) {
     if (!userContext?.isLoggedIn() || loading) {
       return;
     }
 
     setLoading(true);
     apiClient
-      .subscribeToContact({
+      .followContact({
         baseContactId,
         userId: userContext?.id ?? '',
         userName: userContext?.email,
       })
-      .then(() => toast.success('Successfully added this to your data.'))
+      .then(() => toast.success(`Successfully followed ${contact.first_name}.`))
       .catch(() => {
-        toast.error('Sorry, unable to subscribe to contact at this moment.');
+        toast.dismiss();
+        toast.error(
+          `Sorry, unable to follow ${contact.first_name} at this moment.`
+        );
       })
       .finally(() => setLoading(false));
   }
@@ -52,7 +55,7 @@ export function DataTableRowActions<TData>({
       <DropdownMenuTrigger asChild>
         <Button
           variant='ghost'
-          className='flex h-8 w-8 p-0 data-[state=open]:bg-muted'
+          className='flex h-8 w-8 p-0 data-[state=open]:bg-muted ml-auto'
         >
           <DotsHorizontalIcon className='h-4 w-4' />
           <span className='sr-only'>Open menu</span>
@@ -66,8 +69,8 @@ export function DataTableRowActions<TData>({
             View Details
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => subscribe(contact.base_contact_id)}>
-          Subscribe
+        <DropdownMenuItem onClick={() => follow(contact.base_contact_id)}>
+          Follow
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

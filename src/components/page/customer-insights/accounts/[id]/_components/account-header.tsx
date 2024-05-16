@@ -37,6 +37,7 @@ export function AccountHeader({ ...props }: Props) {
         }
       })
       .catch(() => {
+        toast.dismiss();
         toast.error('Something unexpected occured while retrieving account.');
       })
       .finally(() => setLoading(false));

@@ -10,8 +10,16 @@ function usePageParams() {
   const [hasUpdate, setUpdate] = useState(searchParams.toString());
   const pageParams = new URLSearchParams(searchParams.toString());
 
-  const applyParams = (): void => {
+  const push = (): void => {
     router.push(`${pathname}?${pageParams.toString()}`);
+  };
+
+  const refresh = (): void => {
+    router.refresh();
+  };
+
+  const replace = (): void => {
+    router.replace(`${pathname}?${pageParams.toString()}`);
   };
 
   useEffect(() => {
@@ -24,7 +32,9 @@ function usePageParams() {
 
   return {
     pageParams,
-    applyParams,
+    push,
+    refresh,
+    replace,
     hasUpdate,
   };
 }

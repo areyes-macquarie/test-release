@@ -6,36 +6,86 @@ import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-clie
 import usePageParams from '@/hooks/use-stateful-search-params';
 import {
   ApiCollectionResponse,
-  CrispAccount,
+  FollowedContact,
 } from '@/lib/customer-insights/types';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { columns } from './columns';
 import { DataTableToolbar } from './data-table-toolbar';
 
-export function TableSection() {
-  const { apiClient, apiReady } = useCustomerInsightsApiClient();
+export function CustomerTableSection() {
   const { pageParams, push } = usePageParams();
+  const { apiClient, apiReady } = useCustomerInsightsApiClient();
+
   const [response, setResponse] = useState<ApiCollectionResponse<
-    CrispAccount[]
+    FollowedContact[]
   > | null>();
 
   useEffect(() => {
     if (!apiReady) return;
 
-    toast.message('Loading accounts..');
+    if (pageParams.get('subject')?.toLowerCase() === 'followed') {
+      loadFollowedContacts();
+    } else {
+      loadManagedContacts();
+    }
+  }, [apiReady, pageParams.toString()]);
 
+  function loadManagedContacts() {
     apiClient
-      .getCrispAccounts(pageParams.toString())
+      .getManagedContacts(`${pageParams.toString()}`)
       .then((res) => {
-        setResponse(res);
         toast.dismiss();
+        if (!res) {
+          setResponse({
+            meta: {
+              count: 0,
+              model: '',
+              next: '',
+              page: 1,
+              previous: '',
+            },
+            objects: [],
+          });
+        } else {
+          setResponse(res);
+        }
       })
       .catch(() => {
         toast.dismiss();
-        toast.error('Something unexpected occured while retrieving accounts.');
+        toast.error(
+          'Something unexpected occured while retrieving managed contacts.'
+        );
       });
-  }, [apiReady, pageParams.toString()]);
+  }
+
+  function loadFollowedContacts() {
+    apiClient
+      .getFollowedContacts(`${pageParams.toString()}`)
+      .then((res) => {
+        toast.dismiss();
+        if (!res) {
+          setResponse({
+            meta: {
+              count: 0,
+              model: '',
+              next: '',
+              page: 1,
+              previous: '',
+            },
+            objects: [],
+          });
+        } else {
+          setResponse(res);
+        }
+      })
+      .catch(() => {
+        toast.dismiss();
+        toast.error(
+          'Something unexpected occured while retrieving followed contacts.'
+        );
+      });
+  }
 
   return response === undefined ? (
     <div className='space-y-4'>

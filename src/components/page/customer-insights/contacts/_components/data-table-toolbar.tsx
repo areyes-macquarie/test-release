@@ -1,5 +1,6 @@
 'use client';
 
+import { PAGE_PARAM_NAME } from '@/components/page/constants';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import usePageParams from '@/hooks/use-stateful-search-params';
@@ -16,9 +17,8 @@ interface DataTableToolbarProps<TData> {
 export function DataTableToolbar<TData>({
   ...props
 }: DataTableToolbarProps<TData>) {
-  const { pageParams, applyParams } = usePageParams();
-  const isFiltered =
-    pageParams.get('filter') !== null;
+  const { pageParams, push } = usePageParams();
+  const isFiltered = pageParams.get('filter') !== null;
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   const setSearchKeyword = useDebouncedCallback((value: string) => {
@@ -28,7 +28,7 @@ export function DataTableToolbar<TData>({
       pageParams.delete('filter');
     }
     pageParams.set('page', '1');
-    applyParams();
+    push();
   }, 500);
 
   return (
@@ -37,8 +37,7 @@ export function DataTableToolbar<TData>({
         <Input
           ref={searchInputRef}
           placeholder='Search contacts...'
-          defaultValue={pageParams
-            .get('filter') || ''}
+          defaultValue={pageParams.get('filter') || ''}
           onChange={(event) => {
             setSearchKeyword(event.target.value);
           }}
@@ -46,17 +45,17 @@ export function DataTableToolbar<TData>({
         />
         {isFiltered && (
           <Button
-            variant='ghost'
+            variant='destructive'
             onClick={() => {
               props.table.resetColumnFilters();
               if (searchInputRef.current) {
                 searchInputRef.current.value = '';
                 pageParams.delete('filter');
-                pageParams.delete('page');
-                applyParams();
+                pageParams.delete(PAGE_PARAM_NAME);
+                push();
               }
             }}
-            className='h-8 px-2 lg:px-3'
+            className='h-8 px-3'
           >
             Reset
             <Cross2Icon className='ml-2 h-4 w-4' />

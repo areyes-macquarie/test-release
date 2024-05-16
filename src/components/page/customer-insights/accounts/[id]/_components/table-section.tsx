@@ -19,7 +19,7 @@ type Props = {
 
 export function TableSection({ ...props }: Props) {
   const { apiClient, apiReady } = useCustomerInsightsApiClient();
-  const { pageParams, applyParams } = usePageParams();
+  const { pageParams, push } = usePageParams();
   const [response, setResponse] = useState<
     ApiCollectionResponse<CrispContact[]> | null | undefined
   >();
@@ -29,7 +29,7 @@ export function TableSection({ ...props }: Props) {
       return;
     }
 
-    toast.message('Please wait...');
+    toast.message('Loading account contacts...');
     apiClient
       .getCrispContacts(
         `account_id=${
@@ -43,7 +43,10 @@ export function TableSection({ ...props }: Props) {
         toast.dismiss();
       })
       .catch(() => {
-        toast.error('Something unexpected occured while retrieving contacts.');
+        toast.dismiss();
+        toast.error(
+          'Something unexpected occured while retrieving account contacts.'
+        );
       });
   }, [apiReady, props.accountId, pageParams.toString()]);
 
@@ -60,17 +63,21 @@ export function TableSection({ ...props }: Props) {
       pagination={{
         totalRecords: response?.meta.count ?? 0,
         pagingState: {
-          per_page: 20,
+          per_page:
+            Number(pageParams.get('count')) < 1
+              ? 100
+              : Number(pageParams.get('count')),
           page: response?.meta.page ?? 0,
         },
         goToPage: (page) => {
           pageParams.set('page', page.toString());
-          applyParams();
+          push();
         },
-        setPageSize: () => {
-          // Do nothing
+        setPageSize: (size) => {
+          pageParams.set('count', size.toString());
+          push();
         },
-        allowedPageSizes: [20],
+        allowedPageSizes: [10, 50, 100],
       }}
     />
   );

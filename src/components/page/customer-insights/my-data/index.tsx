@@ -1,5 +1,5 @@
 import { Separator } from '@/components/ui/separator';
-import { TableSection } from './_components/table-section';
+import { MyDataSection } from './_components/my-data-section';
 
 export default function CustomerInsightsSubscriptionsPage() {
   return (
@@ -17,7 +17,7 @@ export default function CustomerInsightsSubscriptionsPage() {
       </div>
 
       <div className='relative'>
-        <TableSection />
+        <MyDataSection />
       </div>
     </div>
   );

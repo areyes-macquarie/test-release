@@ -24,7 +24,7 @@ interface DataTableRowActionsProps<TData> {
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const { applyParams, pageParams } = usePageParams();
+  const { push, pageParams } = usePageParams();
   const [loading, setLoading] = useState(false);
   const { apiClient } = useCustomerInsightsApiClient();
   const userContext = useContext(UserContext);
@@ -37,17 +37,21 @@ export function DataTableRowActions<TData>({
 
     setLoading(true);
     apiClient
-      .unsubscribeToContact({
+      .unfollowContact({
         subscriptionId,
       })
       .then(() => {
+        toast.success(
+          `Successfully unfollowed ${contact.first_name} ${contact.last_name}.`
+        );
+        // Force a refresh
         pageParams.set('refresh_on', Date.now().toString());
-        applyParams();
-        toast.success('Successfully unsubscribed from contact.');
+        push();
       })
       .catch(() => {
+        toast.dismiss();
         toast.error(
-          'Sorry, unable to unsubscribe from contact at this moment.'
+          `Sorry, unable to unfollow ${contact.first_name} ${contact.last_name} at this moment.`
         );
       })
       .finally(() => setLoading(false));
@@ -58,7 +62,7 @@ export function DataTableRowActions<TData>({
       <DropdownMenuTrigger asChild>
         <Button
           variant='ghost'
-          className='flex h-8 w-8 p-0 data-[state=open]:bg-muted'
+          className='flex h-8 w-8 p-0 data-[state=open]:bg-muted ml-auto'
         >
           <DotsHorizontalIcon className='h-4 w-4' />
           <span className='sr-only'>Open menu</span>
@@ -73,7 +77,7 @@ export function DataTableRowActions<TData>({
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => unsubscribe(contact.subscription_id)}>
-          Unsubscribe
+          Unfollow
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

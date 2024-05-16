@@ -1,13 +1,13 @@
 'use client';
 
 import UserContext from '@/contexts/user/user-context';
-import { ContactSubscription } from '@/lib/customer-insights/types';
+import { FollowedContact } from '@/lib/customer-insights/types';
 import { Row } from '@tanstack/react-table';
 import Link from 'next/link';
 import { useContext } from 'react';
 
 type Props = {
-  row: Row<ContactSubscription>;
+  row: Row<FollowedContact>;
 };
 
 export function ContactIdColumn({ row }: Props) {

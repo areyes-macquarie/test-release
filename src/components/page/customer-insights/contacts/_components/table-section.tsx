@@ -15,7 +15,7 @@ import { DataTableToolbar } from './data-table-toolbar';
 
 export function TableSection() {
   const { apiClient, apiReady } = useCustomerInsightsApiClient();
-  const { pageParams, applyParams } = usePageParams();
+  const { pageParams, push } = usePageParams();
   const [response, setResponse] = useState<ApiCollectionResponse<
     CrispContact[]
   > | null>();
@@ -23,16 +23,17 @@ export function TableSection() {
   useEffect(() => {
     if (!apiReady) return;
 
-    toast.message('Please wait...');
+    toast.message('Loading contacts...');
     apiClient
       .getCrispContacts(`${pageParams.toString()}`)
       .then((res) => {
         setResponse(res);
         toast.dismiss();
       })
-      .catch(() =>
-        toast.error('Something unexpected occured while retrieving contacts.')
-      );
+      .catch(() => {
+        toast.dismiss();
+        toast.error('Something unexpected occured while retrieving contacts.');
+      });
   }, [apiReady, pageParams.toString()]);
 
   return response === undefined ? (
@@ -48,17 +49,21 @@ export function TableSection() {
       pagination={{
         totalRecords: response?.meta.count ?? 0,
         pagingState: {
-          per_page: 20,
+          per_page:
+            Number(pageParams.get('count')) < 1
+              ? 100
+              : Number(pageParams.get('count')),
           page: response?.meta.page ?? 0,
         },
         goToPage: (page) => {
           pageParams.set('page', page.toString());
-          applyParams();
+          push();
         },
-        setPageSize: () => {
-          // Do nothing
+        setPageSize: (size) => {
+          pageParams.set('count', size.toString());
+          push();
         },
-        allowedPageSizes: [20],
+        allowedPageSizes: [10, 50, 100],
       }}
     />
   );

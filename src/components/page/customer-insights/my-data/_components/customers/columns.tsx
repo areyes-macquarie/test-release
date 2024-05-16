@@ -3,8 +3,8 @@
 import { DataTableColumnHeader } from '@/components/page/_components/data-table-column-header';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
-import { ContactSubscription } from '@/lib/customer-insights/types';
 import { isStaleContact } from '@/lib/customer-insights/helper';
+import { FollowedContact } from '@/lib/customer-insights/types';
 import { cn } from '@/lib/utils';
 import { ColumnDef } from '@tanstack/react-table';
 import { formatDistanceToNow } from 'date-fns';
@@ -14,7 +14,7 @@ import { DataTableRowActions } from './data-table-row-actions';
 import { ContactIdColumn } from './id-column';
 import { ContactNameColumn } from './name-column';
 
-export const columns: ColumnDef<ContactSubscription>[] = [
+export const columns: ColumnDef<FollowedContact>[] = [
   {
     id: 'select',
     enableSorting: false,

@@ -124,7 +124,7 @@ export function DataTable<TData, TValue>({
         <DataTablePagination
           totalRecords={pagination.totalRecords}
           pagingState={{
-            per_page: 20,
+            per_page: pagination.pagingState.per_page,
             page: pagination.pagingState.page,
           }}
           goToPage={(page) => {

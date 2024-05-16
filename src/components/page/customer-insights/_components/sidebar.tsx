@@ -62,9 +62,11 @@ export function Sidebar({ className }: SidebarProps) {
               Contacts
             </Button>
             <Button
-              onClick={() => router.push(`${basePath}/subscriptions`)}
+              onClick={() =>
+                router.push(`${basePath}/my-data?tab=contacts&subject=managed`)
+              }
               variant={
-                pathname.startsWith(`${basePath}/subscriptions`)
+                pathname.startsWith(`${basePath}/my-data`)
                   ? 'secondary'
                   : 'ghost'
               }

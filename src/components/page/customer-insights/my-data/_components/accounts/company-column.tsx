@@ -1,13 +1,13 @@
 'use client';
 
 import UserContext from '@/contexts/user/user-context';
-import { ContactSubscription } from '@/lib/customer-insights/types';
+import { FollowedAccount } from '@/lib/customer-insights/types';
 import { Row } from '@tanstack/react-table';
 import Link from 'next/link';
 import { useContext } from 'react';
 
 type Props = {
-  row: Row<ContactSubscription>;
+  row: Row<FollowedAccount>;
 };
 
 export function ContactCompanyColumn({ row }: Props) {
@@ -20,7 +20,7 @@ export function ContactCompanyColumn({ row }: Props) {
           row.original?.account_id
         }`}
         id='company'
-        className='tracking-normal hover:text-foreground hover:underline underline-offset-2'
+        className='tracking-normal hover:text-foreground underline underline-offset-2'
       >
         {row.original.company}
       </Link>

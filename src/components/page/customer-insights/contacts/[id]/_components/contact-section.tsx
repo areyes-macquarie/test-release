@@ -3,13 +3,16 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import UserContext from '@/contexts/user/user-context';
 import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
 import { isStaleContact } from '@/lib/customer-insights/helper';
-import { ContactEvent, CrispContact, CrispBaseContact } from '@/lib/customer-insights/types';
+import {
+  ContactEvent,
+  CrispBaseContact,
+  CrispContact,
+} from '@/lib/customer-insights/types';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
 import { Building2Icon, UserRoundIcon } from 'lucide-react';
@@ -58,27 +61,31 @@ export function ContactSection({ ...props }: Props) {
         }
       })
       .catch(() => {
+        toast.dismiss();
         toast.error('Something unexpected occured while retrieving contact.');
       });
   }, [apiReady, props.contactId]);
 
   useEffect(() => {
-    if(!apiReady || !baseContact?.base_contact_id) {
+    if (!apiReady || !baseContact?.base_contact_id) {
       return;
     }
 
     apiClient
-      .getCrispContacts(`base_contact_id=${baseContact?.base_contact_id}&ordering=-change_dt`)
-      .then(res => {
+      .getCrispContacts(
+        `base_contact_id=${baseContact?.base_contact_id}&ordering=-change_dt`
+      )
+      .then((res) => {
         if (res !== null) {
-          setContact(res.objects[0])
+          setContact(res.objects[0]);
         }
       })
       .catch(() => {
+        toast.dismiss();
         toast.error('Something unexpected occured while retrieving contact.');
       })
       .finally(() => setLoading(false));
-  }, [apiReady, baseContact?.base_contact_id])
+  }, [apiReady, baseContact?.base_contact_id]);
 
   async function loadEventsForTimeline() {
     const cachedData: ContactEvent[] = [];
@@ -101,6 +108,7 @@ export function ContactSection({ ...props }: Props) {
           }
         }
       } catch (error) {
+        toast.dismiss();
         toast.error(
           'Something unexpected occurred while retrieving contact events.'
         );
@@ -130,7 +138,7 @@ export function ContactSection({ ...props }: Props) {
                         contact?.account_id
                       }`}
                       id='company'
-                      className='tracking-normal hover:underline underline-offset-2'
+                      className='tracking-normal underline underline-offset-2'
                     >
                       {contact?.company ?? 'Unknown company'}
                     </Link>
@@ -171,96 +179,104 @@ export function ContactSection({ ...props }: Props) {
       </div>
 
       <div className='grid grid-cols md:grid-cols-2 gap-4'>
-        <Card>
+        <Card className='shadow-lg'>
           <CardHeader>
             <CardTitle className='text-lg flex'>
               Contact <UserRoundIcon className='size-5 ml-auto' />
             </CardTitle>
           </CardHeader>
-          <CardContent className='space-y-4'>
-            <Separator />
-            <div className='flex flex-col gap-1'>
-              <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
-                Name
-              </Label>
-              <span>
-                {contact?.first_name} {contact?.middle_name}{' '}
-                {contact?.last_name}
-              </span>
-            </div>
-            <div className='flex flex-col gap-1'>
-              <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
-                Email
-              </Label>
-              <span>{contact?.email ?? '-'}</span>
-            </div>
-            <div className='flex flex-col gap-1'>
-              <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
-                Salutation
-              </Label>
-              <span>{contact?.salutation ?? '-'}</span>
-            </div>
-            <div className='flex flex-col gap-1'>
-              <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
-                Dear
-              </Label>
-              <span>{contact?.dear ?? '-'}</span>
-            </div>
-            <div className='flex flex-col gap-1'>
-              <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
-                Phone
-              </Label>
-              <span>{contact?.phone ?? '-'}</span>
-            </div>
-            <div className='flex flex-col gap-1'>
-              <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
-                Ext
-              </Label>
-              <span>{contact?.ext ?? '-'}</span>
+          <CardContent className='space-y-6 p-6 rounded-lg'>
+            <div className='space-y-4'>
+              <div className='flex items-center justify-between pb-4 border-b border-muted'>
+                <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
+                  Name
+                </Label>
+                <span className='font-medium'>
+                  {contact?.first_name} {contact?.middle_name}{' '}
+                  {contact?.last_name}
+                </span>
+              </div>
+              <div className='flex items-center justify-between pb-4 border-b border-muted'>
+                <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
+                  Email
+                </Label>
+                <span className='font-medium'>{contact?.email ?? '-'}</span>
+              </div>
+              <div className='flex items-center justify-between pb-4 border-b border-muted'>
+                <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
+                  Salutation
+                </Label>
+                <span className='font-medium'>
+                  {contact?.salutation ?? '-'}
+                </span>
+              </div>
+              <div className='flex items-center justify-between pb-4 border-b border-muted'>
+                <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
+                  Dear
+                </Label>
+                <span className='font-medium'>{contact?.dear ?? '-'}</span>
+              </div>
+              <div className='flex items-center justify-between pb-4 border-b border-muted'>
+                <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
+                  Phone
+                </Label>
+                <span className='font-medium'>{contact?.phone ?? '-'}</span>
+              </div>
+              <div className='flex items-center justify-between pb-4 border-b border-muted'>
+                <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
+                  Ext
+                </Label>
+                <span className='font-medium'>{contact?.ext ?? '-'}</span>
+              </div>
             </div>
           </CardContent>
         </Card>
-        <Card>
+        <Card className='shadow-lg'>
           <CardHeader>
             <CardTitle className='text-lg flex'>
               Account <Building2Icon className='size-5 ml-auto' />
             </CardTitle>
           </CardHeader>
-          <CardContent className='space-y-6'>
-            <Separator />
-            <div className='flex flex-col gap-1'>
-              <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
-                Company
-              </Label>
-              <Link
-                href={`${userContext?.getBasePath()}/customer-insights/accounts/${
-                  contact?.account_id
-                }`}
-                className='underline underline-offset-2'
-              >
-                {contact?.company ?? '-'}
-              </Link>
-            </div>
-            <div className='flex flex-col gap-1'>
-              <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
-                Department
-              </Label>
-              <span>{contact?.department ?? '-'}</span>
-            </div>
-            <div className='flex flex-col gap-1'>
-              <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
-                Position
-              </Label>
-              <span>{contact?.position ?? '-'}</span>
-            </div>
-            <div className='flex flex-col gap-1'>
-              <Label
-                htmlFor='title'
-                className='uppercase text-xs tracking-wide text-muted-foreground'
-              >
-                Title
-              </Label>
-              <span id='title'>{contact?.title ?? '-'}</span>
+          <CardContent className='space-y-6 p-6 rounded-lg'>
+            <div className='space-y-4'>
+              <div className='flex items-center justify-between pb-4 border-b border-muted'>
+                <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
+                  Company
+                </Label>
+                <Link
+                  href={`${userContext?.getBasePath()}/customer-insights/accounts/${
+                    contact?.account_id
+                  }`}
+                  className='underline underline-offset-2 font-medium'
+                >
+                  {contact?.company ?? '-'}
+                </Link>
+              </div>
+              <div className='flex items-center justify-between pb-4 border-b border-muted'>
+                <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
+                  Department
+                </Label>
+                <span className='font-medium'>
+                  {contact?.department ?? '-'}
+                </span>
+              </div>
+              <div className='flex items-center justify-between pb-4 border-b border-muted'>
+                <Label className='uppercase text-xs tracking-wide text-muted-foreground'>
+                  Position
+                </Label>
+                <span className='font-medium'>{contact?.position ?? '-'}</span>
+              </div>
+              <div className='flex items-center justify-between pb-4 border-b border-muted'>
+                <Label
+                  htmlFor='title'
+                  className='uppercase text-xs tracking-wide text-muted-foreground'
+                >
+                  Title
+                </Label>
+                <span id='title' className='font-medium'>
+                  {contact?.title ?? '-'}
+                </span>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -282,7 +298,9 @@ export function ContactSection({ ...props }: Props) {
           </TabsList>
           <div className={selectedTab === 'history' ? 'mt-5' : 'hidden h-0'}>
             {baseContact?.base_contact_id && (
-              <HistoryTableSection baseContactId={baseContact?.base_contact_id} />
+              <HistoryTableSection
+                baseContactId={baseContact?.base_contact_id}
+              />
             )}
           </div>
           <div className={selectedTab === 'calls' ? 'mt-5' : 'hidden h-0'}>
@@ -292,7 +310,9 @@ export function ContactSection({ ...props }: Props) {
           </div>
           <div className={selectedTab === 'events' ? 'mt-5' : 'hidden h-0'}>
             {baseContact?.base_contact_id && (
-              <EventsTableSection baseContactId={baseContact?.base_contact_id} />
+              <EventsTableSection
+                baseContactId={baseContact?.base_contact_id}
+              />
             )}
           </div>
           <div className={selectedTab === 'insights' ? 'mt-5' : 'hidden h-0'}>
