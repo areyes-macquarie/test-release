@@ -14,7 +14,7 @@ export default function CustomerInsightsLayout({
 }>) {
   return (
     <div className='grid lg:grid-cols-6 flex-grow'>
-      <Sidebar className='hidden lg:block' />
+      <Sidebar className='hidden lg:flex' />
       <div className='col-span-4 lg:col-span-5 lg:border-l'>{children}</div>
     </div>
   );

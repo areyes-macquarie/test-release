@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 import UserContext from '@/contexts/user/user-context';
 import { cn } from '@/lib/utils';
 import {
@@ -12,6 +13,7 @@ import {
 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useContext } from 'react';
+import { ReleaseNotesDialog } from '../../_components/release-notes/release-notes';
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -22,7 +24,9 @@ export function Sidebar({ className }: SidebarProps) {
   const basePath = `${userContext?.getBasePath()}/customer-insights`;
 
   return (
-    <div className={cn('pb-12 min-h-[calc(100dvh-65px)]', className)}>
+    <div
+      className={cn('pb-6 min-h-[calc(100dvh-65px)] flex flex-col', className)}
+    >
       <div className='space-y-4 py-4'>
         <div className='px-3 py-2'>
           <h2 className='mb-2 px-4 text-lg font-semibold tracking-tight'>
@@ -96,6 +100,17 @@ export function Sidebar({ className }: SidebarProps) {
             </Button>
           </div>
         </div>
+      </div>
+
+      <div className='px-4 text-left w-full text-xs underline-offset-2 text-muted-foreground'>
+        <Separator />
+        <ReleaseNotesDialog>
+          <Button
+            type='button'
+            variant='link'
+            className='text-muted-foreground'
+          >{`What's new?`}</Button>
+        </ReleaseNotesDialog>
       </div>
     </div>
   );

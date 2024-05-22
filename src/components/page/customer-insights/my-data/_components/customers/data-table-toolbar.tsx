@@ -49,7 +49,7 @@ export function DataTableToolbar<TData>({
       <div className='flex flex-1 items-center space-x-2'>
         <Input
           ref={searchInputRef}
-          placeholder='Search customers...'
+          placeholder='Search contacts...'
           defaultValue={pageParams.get(SEARCH_KEYWORD_PARAM_NAME) ?? ''}
           onChange={(event) => {
             setSearchKeyword(event.target.value);

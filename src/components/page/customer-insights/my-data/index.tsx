@@ -9,7 +9,7 @@ export default function CustomerInsightsSubscriptionsPage() {
           <div className='space-y-1'>
             <h2 className='text-2xl font-semibold tracking-tight'>My Data</h2>
             <p className='text-sm text-muted-foreground'>
-              Contacts you have subscribed to.
+              Manage your contacts and accounts.
             </p>
           </div>
         </div>
