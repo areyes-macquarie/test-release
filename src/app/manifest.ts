@@ -17,8 +17,8 @@ export default function manifest() {
       outline: 'outline.png',
     },
     name: {
-      short: 'MTG - Teams App',
-      full: 'Macquarie Technology Group - Teams App',
+      short: 'Customer Insights',
+      full: 'Macquarie Technology Group - Customer Insights',
     },
     description: {
       short: 'Teams App for Macquarie Technology Group',
