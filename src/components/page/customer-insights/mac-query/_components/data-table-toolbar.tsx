@@ -1,6 +1,5 @@
 'use client';
 
-import { DataTableViewOptions } from '@/components/page/_components/data-table-view-options';
 import { PAGE_PARAM_NAME } from '@/components/page/constants';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -62,7 +61,6 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-      <DataTableViewOptions table={props.table} />
     </div>
   );
 }
