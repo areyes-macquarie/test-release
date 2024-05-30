@@ -5,6 +5,7 @@ import { Separator } from '@/components/ui/separator';
 import UserContext from '@/contexts/user/user-context';
 import { cn } from '@/lib/utils';
 import {
+  AsteriskIcon,
   BookUserIcon,
   Building2Icon,
   ContactIcon,
@@ -78,6 +79,18 @@ export function Sidebar({ className }: SidebarProps) {
             >
               <BookUserIcon className='size-4 mr-2.5' />
               My Data
+            </Button>
+            <Button
+              onClick={() => router.push(`${basePath}/mac-query`)}
+              variant={
+                pathname.startsWith(`${basePath}/mac-query`)
+                  ? 'secondary'
+                  : 'ghost'
+              }
+              className='w-full justify-start'
+            >
+              <AsteriskIcon className='size-4 mr-2.5' />
+              Mac Query
             </Button>
           </div>
         </div>

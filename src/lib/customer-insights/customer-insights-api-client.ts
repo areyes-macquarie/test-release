@@ -7,6 +7,7 @@ import {
   CrispContact,
   FollowedContact,
   MetricDataItem,
+  QueryResultAccount,
 } from './types';
 
 const CUSTOMER_INSIGHT_API_HOST =
@@ -277,6 +278,29 @@ export class CustomerInsightsApiClient {
         return (await res.json()) as ApiCollectionResponse<FollowedContact[]>;
       } else {
         throw new Error('Failed retrieving managed accounts.');
+      }
+    });
+  }
+
+  /**
+   * Mac Query
+   */
+
+  async sendEngineQuery(query: string) {
+    return await fetch(`${CUSTOMER_INSIGHT_API_HOST}/engine/query`, {
+      method: 'POST',
+      cache: 'no-store',
+      headers: this.getHeaders(),
+      body: JSON.stringify({
+        query: query,
+      }),
+    }).then(async (res) => {
+      if (res.ok) {
+        return (await res.json()) as ApiCollectionResponse<
+          QueryResultAccount[]
+        >;
+      } else {
+        throw new Error('Failed executing engine query.');
       }
     });
   }

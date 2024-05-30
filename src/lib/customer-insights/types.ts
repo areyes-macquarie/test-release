@@ -103,3 +103,10 @@ export type MetricDataItem = {
   value: number;
   metric: string;
 };
+
+export type QueryResultAccount = {
+  account_id: number;
+  company_name: number;
+  industry?: string;
+  similarity: string;
+};
