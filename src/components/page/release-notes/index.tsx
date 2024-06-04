@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { Metadata } from "next";
-import { useContext, useEffect, useState } from "react";
-import { getAllReleaseNotes } from "./actions";
-import { ReleaseNote } from "@/lib/release-notes/get-release-notes";
-import UserContext from "@/contexts/user/user-context";
-import { markdownToHtml } from "@/lib/release-notes/markdown-to-html";
-import Tags from "./_components/tags";
-import Notes from "./_components/notes";
+import { Metadata } from 'next';
+import { useContext, useEffect, useState } from 'react';
+import { getAllReleaseNotes } from './actions';
+import { ReleaseNote } from '@/lib/release-notes/get-release-notes';
+import UserContext from '@/contexts/user/user-context';
+import { markdownToHtml } from '@/lib/release-notes/markdown-to-html';
+import Tags from './_components/tags';
+import Notes from './_components/notes';
 
 export const metadata: Metadata = {
-  title: "Release - MTG",
-  description: "Macquarie Technology Group.",
+  title: 'Release - MTG',
+  description: 'Macquarie Technology Group.',
 };
 
 interface ReleaseNoteWithHtml extends ReleaseNote {
@@ -51,9 +51,9 @@ function ReleasePage() {
   }
 
   return (
-    <div className="min-h-full px-4 py-6 lg:px-8">
+    <div className='min-h-full px-4 py-6 lg:px-8'>
       {releaseNotes.map((notes) => (
-        <div key={notes.version} className="flex flex-row justify-center mb-8">
+        <div key={notes.version} className='flex flex-row justify-center mb-8'>
           <Tags {...notes} />
           <Notes contentHtml={notes.contentHtml} />
         </div>
