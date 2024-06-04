@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Dialog,
@@ -7,12 +7,12 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import UserContext from '@/contexts/user/user-context';
-import { ReleaseNote } from '@/lib/release-notes/get-release-notes';
-import { markdownToHtml } from '@/lib/release-notes/markdown-to-html';
-import { ReactNode, useContext, useEffect, useState } from 'react';
-import { getAllReleaseNotes } from './actions';
+} from "@/components/ui/dialog";
+import UserContext from "@/contexts/user/user-context";
+import { ReleaseNote } from "@/lib/release-notes/get-release-notes";
+import { markdownToHtml } from "@/lib/release-notes/markdown-to-html";
+import { ReactNode, useContext, useEffect, useState } from "react";
+import { getAllReleaseNotes } from "./actions";
 
 interface ReleaseNoteWithHtml extends ReleaseNote {
   contentHtml: string;
@@ -57,13 +57,13 @@ export function ReleaseNotesDialog({ ...props }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>{props.children}</DialogTrigger>
-      <DialogContent className='max-w-3xl w-fit max-h-[80%] flex flex-col'>
+      <DialogContent className="max-w-3xl w-fit max-h-[80%] flex flex-col">
         <DialogHeader>
           <DialogTitle>Release Notes</DialogTitle>
           <DialogDescription>Here are the latest changes.</DialogDescription>
         </DialogHeader>
-        <div className='flex items-center space-x-2'>
-          <div className='flex-grow overflow-y-auto max-h-96 min-w-96'>
+        <div className="flex items-center space-x-2">
+          <div className="flex-grow overflow-y-auto max-h-96 min-w-96">
             {releaseNotes.map((notes) => (
               <div
                 key={notes.version}

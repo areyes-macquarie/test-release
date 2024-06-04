@@ -40,6 +40,13 @@
       "contentUrl": "https://localhost:3000/tabs/customer-insights",
       "websiteUrl": "https://localhost:3000/customer-insights",
       "scopes": ["personal"]
+    },
+    {
+      "entityId": "release-notes",
+      "name": "Release Notes",
+      "contentUrl": "https://localhost:3000/tabs/release-notes",
+      "websiteUrl": "https://localhost:3000/release-notes",
+      "scopes": ["personal"]
     }
   ],
   "permissions": ["identity", "messageTeamMembers"],

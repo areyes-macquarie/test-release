@@ -1,4 +1,4 @@
-import { marked } from 'marked';
+import { marked } from "marked";
 
 /**
  * Converts markdown text to HTML format
@@ -20,12 +20,14 @@ export async function markdownToHtml(
       return `
             <h${level} class="${
         level === 1
-          ? 'text-2xl'
+          ? "text-2xl"
           : level === 2
-          ? 'text-xl'
+          ? "text-xl"
           : level === 3
-          ? 'text-lg'
-          : 'text-base'
+          ? "text-lg"
+          : level === 4
+          ? "text-2xl font-semibold leading-none tracking-tight text-white mb-2"
+          : "text-base"
       }">
               ${text}
             </h${level}>`;
