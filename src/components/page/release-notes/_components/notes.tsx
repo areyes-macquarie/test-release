@@ -1,6 +1,6 @@
 import { Card, CardDescription, CardHeader } from "@/components/ui/card";
 
-function Tags({ contentHtml }: { contentHtml: string }) {
+function Notes({ contentHtml }: { contentHtml: string }) {
   return (
     <div className="w-2/3">
       <Card className="w-2/3">
@@ -14,4 +14,4 @@ function Tags({ contentHtml }: { contentHtml: string }) {
   );
 }
 
-export default Tags;
+export default Notes;
