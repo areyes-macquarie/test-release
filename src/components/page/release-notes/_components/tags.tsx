@@ -1,16 +1,56 @@
-import { ReleaseNote } from '@/lib/release-notes/get-release-notes';
-import { TagIcon } from 'lucide-react';
+'use client';
 
-function Tags({ version, content = '' }: ReleaseNote) {
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { TagIcon } from 'lucide-react';
+import { version as currentVersion } from '../../../../../package.json';
+import { Badge } from '@/components/ui/badge';
+
+interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
+  versions: string[];
+}
+
+function Sidebar({ className, versions }: SidebarProps) {
+  const scrollIntoView = (version: string) => {
+    document.getElementById(`#${version}`)?.scrollIntoView({
+      behavior: 'smooth',
+    });
+  };
+
   return (
-    <div className='w-1/3 p-8 text-right flex flex-col gap-2'>
-      <h5 className='text-white'>{content.match(/`(.*)`/)?.pop()}</h5>
-      <div className='flex justify-end items-center'>
-        <TagIcon className='size-4 mr-1' />
-        <span className='text-sm'>{version}</span>
+    <div
+      className={cn('pb-6 min-h-[calc(100dvh-65px)] flex flex-col', className)}
+    >
+      <div className='space-y-4 py-4'>
+        <div className='px-3 py-2'>
+          <h2 className='mb-2 px-4 text-lg font-semibold tracking-tight'>
+            Tags
+          </h2>
+          <div className='space-y-1'>
+            {versions.map((version) => (
+              <Button
+                key={`tag-${version}`}
+                onClick={() => scrollIntoView(version)}
+                variant={'ghost'}
+                className='w-full justify-start'
+              >
+                <TagIcon className='size-4 mr-2.5' />
+                {version}
+
+                {version === `v${currentVersion}` && (
+                  <Badge variant='outline' className='ml-2 bg-green-600'>
+                    Latest
+                  </Badge>
+                )}
+              </Button>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-export default Tags;
+Sidebar.displayName = 'ReleaseNotes.Sidebar';
+
+export default Sidebar;
