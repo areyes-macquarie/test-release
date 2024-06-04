@@ -19,4 +19,6 @@ function Notes({ contentHtml, version }: Props) {
   );
 }
 
+Notes.displayName = 'ReleaseNotes.Notes';
+
 export default Notes;

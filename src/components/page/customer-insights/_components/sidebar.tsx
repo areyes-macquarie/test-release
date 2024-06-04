@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import UserContext from '@/contexts/user/user-context';
 import { cn } from '@/lib/utils';
 import {
@@ -13,7 +12,6 @@ import {
 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useContext } from 'react';
-import { ReleaseNotesDialog } from '../../release-notes/release-notes';
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -100,17 +98,6 @@ export function Sidebar({ className }: SidebarProps) {
             </Button>
           </div>
         </div>
-      </div>
-
-      <div className='px-4 text-left w-full text-xs underline-offset-2 text-muted-foreground'>
-        <Separator />
-        <ReleaseNotesDialog>
-          <Button
-            type='button'
-            variant='link'
-            className='text-muted-foreground'
-          >{`What's new?`}</Button>
-        </ReleaseNotesDialog>
       </div>
     </div>
   );

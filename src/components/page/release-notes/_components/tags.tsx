@@ -6,11 +6,11 @@ import { TagIcon } from 'lucide-react';
 import { version as currentVersion } from '../../../../../package.json';
 import { Badge } from '@/components/ui/badge';
 
-interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
+interface Props extends React.HTMLAttributes<HTMLDivElement> {
   versions: string[];
 }
 
-function Sidebar({ className, versions }: SidebarProps) {
+function Tags({ className, versions }: Props) {
   const scrollIntoView = (version: string) => {
     document.getElementById(`#${version}`)?.scrollIntoView({
       behavior: 'smooth',
@@ -51,6 +51,6 @@ function Sidebar({ className, versions }: SidebarProps) {
   );
 }
 
-Sidebar.displayName = 'ReleaseNotes.Sidebar';
+Tags.displayName = 'ReleaseNotes.Tags';
 
-export default Sidebar;
+export default Tags;

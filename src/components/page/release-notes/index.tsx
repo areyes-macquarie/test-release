@@ -60,8 +60,6 @@ function ReleasePage({ webpage = false }: Props) {
     return releaseNotes.map(({ version }) => version);
   }, [releaseNotes]);
 
-  console.log(versions);
-
   return (
     <div className='grid lg:grid-cols-6 flex-grow'>
       <ScrollArea
@@ -90,5 +88,7 @@ function ReleasePage({ webpage = false }: Props) {
     </div>
   );
 }
+
+ReleasePage.displayName = 'ReleaseNotes';
 
 export default ReleasePage;
