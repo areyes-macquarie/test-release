@@ -34,7 +34,7 @@ export async function markdownToHtml(
     },
     list(body: string) {
       return `
-            <ul class="my-6 ml-6 list-disc [&>li]:mt-2 text-sm">
+            <ul class="my-6 ml-6 mb-0 list-disc [&>li]:mt-2 text-sm">
               ${body}
             </ul>`;
     },
@@ -42,7 +42,7 @@ export async function markdownToHtml(
       return `<code class="text-mono relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-xs">${text}</code>`;
     },
     link(href: string, title: string | null | undefined, text: string) {
-      return `<a titke="${title}" href="${options?.urlBasePath}${href}" class="underline underline-offset-2 hover:text-primary">
+      return `<a title="${title}" href="${options?.urlBasePath}${href}" class="underline underline-offset-2 hover:text-primary">
                 ${text}
               </a>`;
     },

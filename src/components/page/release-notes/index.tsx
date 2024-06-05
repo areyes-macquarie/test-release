@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   description: 'Macquarie Technology Group.',
 };
 
-interface ReleaseNoteWithHtml extends ReleaseNote {
+export interface ReleaseNoteWithHtml extends ReleaseNote {
   contentHtml: string;
 }
 
@@ -27,12 +27,14 @@ type Props = {
 function ReleasePage({ webpage = false }: Props) {
   const userContext = useContext(UserContext);
   const [releaseNotes, setReleaseNotes] = useState<ReleaseNoteWithHtml[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     getAllReleaseNotes()
       .then((res) => {
         convertToNotesWithHtml(res)
           .then((result) => {
+            setLoading(false);
             setReleaseNotes(result);
           })
           .catch(() => {});
@@ -65,7 +67,11 @@ function ReleasePage({ webpage = false }: Props) {
       <ScrollArea
         className={cn('w-full', webpage ? 'h-[calc(100vh-65px)]' : 'h-screen')}
       >
-        <Tags className='hidden lg:flex' versions={versions} />
+        <Tags
+          className='hidden lg:flex'
+          versions={versions}
+          loading={loading}
+        />
       </ScrollArea>
       <div className='col-span-4 lg:col-span-5 lg:border-l overflow-x-auto'>
         <ScrollArea
@@ -74,15 +80,7 @@ function ReleasePage({ webpage = false }: Props) {
             webpage ? 'h-[calc(100vh-65px)]' : 'h-screen'
           )}
         >
-          <div className='flex flex-col items-center p-6'>
-            {releaseNotes.map(({ version, contentHtml }) => (
-              <Notes
-                key={version}
-                version={version}
-                contentHtml={contentHtml}
-              />
-            ))}
-          </div>
+          <Notes notes={releaseNotes} loading={loading} />
         </ScrollArea>
       </div>
     </div>

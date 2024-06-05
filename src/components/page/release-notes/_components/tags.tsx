@@ -5,12 +5,14 @@ import { cn } from '@/lib/utils';
 import { TagIcon } from 'lucide-react';
 import { version as currentVersion } from '../../../../../package.json';
 import { Badge } from '@/components/ui/badge';
+import TagsLoader from './tags-loader';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   versions: string[];
+  loading?: boolean;
 }
 
-function Tags({ className, versions }: Props) {
+function Tags({ className, versions, loading }: Props) {
   const scrollIntoView = (version: string) => {
     document.getElementById(`#${version}`)?.scrollIntoView({
       behavior: 'smooth',
@@ -27,6 +29,8 @@ function Tags({ className, versions }: Props) {
             Tags
           </h2>
           <div className='space-y-1'>
+            {loading && <TagsLoader />}
+
             {versions.map((version) => (
               <Button
                 key={`tag-${version}`}

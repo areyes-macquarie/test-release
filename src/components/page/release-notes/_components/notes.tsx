@@ -1,20 +1,19 @@
-import { Card, CardDescription, CardHeader } from '@/components/ui/card';
+import { ReleaseNoteWithHtml } from '..';
+import Note from './note';
+import NotesLoader from './notes-loader';
 
 type Props = {
-  contentHtml: string;
-  version: string;
+  notes: ReleaseNoteWithHtml[];
+  loading?: boolean;
 };
 
-function Notes({ contentHtml, version }: Props) {
+function Notes({ notes, loading }: Props) {
   return (
-    <div id={`#${version}`} className='w-2/3 p-5'>
-      <Card className='w-full'>
-        <CardHeader>
-          <CardDescription>
-            <div dangerouslySetInnerHTML={{ __html: contentHtml }}></div>
-          </CardDescription>
-        </CardHeader>
-      </Card>
+    <div className='flex flex-col items-center p-6 gap-7'>
+      {loading && <NotesLoader />}
+      {notes.map(({ version, contentHtml }) => (
+        <Note key={version} version={version} contentHtml={contentHtml} />
+      ))}
     </div>
   );
 }
