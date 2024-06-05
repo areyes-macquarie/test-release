@@ -12,6 +12,7 @@ function useEnvVars() {
     customerInsightsApiHost:
       process.env.NEXT_PUBLIC_CUSTOMER_INSIGHT_API_HOST ??
       'https://customer-insights-api.macquariecloudservices.com/api',
+    appVersion: process.env.version ?? ''
   };
 }
 
