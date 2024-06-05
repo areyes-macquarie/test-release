@@ -32,27 +32,25 @@
       "name": "Dashboard",
       "contentUrl": "https://customer-insights.macquariecloudservices.com/tabs/dashboard",
       "websiteUrl": "https://customer-insights.macquariecloudservices.com",
-      "scopes": [
-        "personal"
-      ]
+      "scopes": ["personal"]
     },
     {
       "entityId": "customer-insights",
       "name": "Customer Insights",
       "contentUrl": "https://customer-insights.macquariecloudservices.com/tabs/customer-insights",
       "websiteUrl": "https://customer-insights.macquariecloudservices.com/customer-insights",
-      "scopes": [
-        "personal"
-      ]
+      "scopes": ["personal"]
+    },
+    {
+      "entityId": "release-notes",
+      "name": "Release Notes",
+      "contentUrl": "https://customer-insights.macquariecloudservices.com/tabs/release-notes",
+      "websiteUrl": "https://customer-insights.macquariecloudservices.com/release-notes",
+      "scopes": ["personal"]
     }
   ],
-  "permissions": [
-    "identity",
-    "messageTeamMembers"
-  ],
-  "validDomains": [
-    "customer-insights.macquariecloudservices.com"
-  ],
+  "permissions": ["identity", "messageTeamMembers"],
+  "validDomains": ["customer-insights.macquariecloudservices.com"],
   "webApplicationInfo": {
     "id": "5c65c252-952a-49e7-9e8b-d3a18f3e92dc",
     "resource": "api://customer-insights.macquariecloudservices.com/5c65c252-952a-49e7-9e8b-d3a18f3e92dc"
