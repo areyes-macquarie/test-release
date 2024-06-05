@@ -3,7 +3,6 @@
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { TagIcon } from 'lucide-react';
-import { version as currentVersion } from '../../../../../package.json';
 import { Badge } from '@/components/ui/badge';
 import TagsLoader from './tags-loader';
 
@@ -41,7 +40,7 @@ function Tags({ className, versions, loading }: Props) {
                 <TagIcon className='size-4 mr-2.5' />
                 {version}
 
-                {version === `v${currentVersion}` && (
+                {version === `v${process.env.version}` && (
                   <Badge variant='outline' className='ml-2 bg-green-600'>
                     Latest
                   </Badge>
