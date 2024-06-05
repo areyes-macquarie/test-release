@@ -10,6 +10,7 @@ import Tags from './_components/tags';
 import Notes from './_components/notes';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
 
 export const metadata: Metadata = {
   title: 'Release - MTG',
@@ -37,9 +38,15 @@ function ReleasePage({ webpage = false }: Props) {
             setLoading(false);
             setReleaseNotes(result);
           })
-          .catch(() => {});
+          .catch((err) => {
+            throw err;
+          });
       })
-      .catch(() => {});
+      .catch(() => {
+        toast.error(
+          'Something unexpected occured while retrieving followed release notes.'
+        );
+      });
   }, []);
 
   async function convertToNotesWithHtml(notes: ReleaseNote[]) {
