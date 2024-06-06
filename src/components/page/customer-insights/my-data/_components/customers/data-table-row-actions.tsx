@@ -10,7 +10,7 @@ import {
 import UserContext from '@/contexts/user/user-context';
 import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
 import usePageParams from '@/hooks/use-stateful-search-params';
-import { CrispContact } from '@/lib/customer-insights/types';
+import { FollowedContact } from '@/lib/customer-insights/types';
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { Row } from '@tanstack/react-table';
 import Link from 'next/link';
@@ -28,7 +28,7 @@ export function DataTableRowActions<TData>({
   const [loading, setLoading] = useState(false);
   const { apiClient } = useCustomerInsightsApiClient();
   const userContext = useContext(UserContext);
-  const contact = row.original as CrispContact & { subscription_id: number };
+  const contact = row.original as FollowedContact;
 
   function unsubscribe(subscriptionId: number) {
     if (!userContext?.isLoggedIn() || loading) {
@@ -42,7 +42,7 @@ export function DataTableRowActions<TData>({
       })
       .then(() => {
         toast.success(
-          `Successfully unfollowed ${contact.first_name} ${contact.last_name}.`
+          `Successfully unfollowed ${contact.base_contact.first_name} ${contact.base_contact.last_name}.`
         );
         // Force a refresh
         pageParams.set('refresh_on', Date.now().toString());
@@ -51,7 +51,7 @@ export function DataTableRowActions<TData>({
       .catch(() => {
         toast.dismiss();
         toast.error(
-          `Sorry, unable to unfollow ${contact.first_name} ${contact.last_name} at this moment.`
+          `Sorry, unable to unfollow ${contact.base_contact.first_name} ${contact.base_contact.last_name} at this moment.`
         );
       })
       .finally(() => setLoading(false));
@@ -71,7 +71,7 @@ export function DataTableRowActions<TData>({
       <DropdownMenuContent align='end' className='w-[160px]'>
         <DropdownMenuItem>
           <Link
-            href={`${userContext?.getBasePath()}/customer-insights/contacts/${contact.base_contact_id.toString()}`}
+            href={`${userContext?.getBasePath()}/customer-insights/contacts/${contact.base_contact.base_contact_id.toString()}`}
           >
             View Details
           </Link>

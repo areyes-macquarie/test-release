@@ -19,24 +19,24 @@ export function ContactNameColumn({ row }: Props) {
       <div className='flex gap-2'>
         <Link
           className='text-wrap font-medium hover:underline underline-offset-2'
-          href={`${userContext?.getBasePath()}/customer-insights/contacts/${row.original.base_contact_id.toString()}`}
+          href={`${userContext?.getBasePath()}/customer-insights/contacts/${row.original.base_contact.base_contact_id.toString()}`}
         >
-          {!row.original.first_name && !row.original.first_name
+          {!row.original.base_contact.first_name && !row.original.base_contact.first_name
             ? 'UNKNOWN'
-            : `${row.original.first_name} ${row.original.last_name}`}
+            : `${row.original.base_contact.first_name} ${row.original.base_contact.last_name}`}
         </Link>
-        {row.original.type && row.original.type !== 'Active' && (
+        {row.original.base_contact.type && row.original.base_contact.type !== 'Active' && (
           <Badge
             variant='outline'
             className='text-xs w-fit hover:underline underline-offset-2 truncate flex gap-2'
           >
-            {row.original.type}
+            {row.original.base_contact.type}
           </Badge>
         )}
       </div>
-      {row.original.email && (
+      {row.original.base_contact.company && (
         <div className='text-xs text-muted-foreground text-wrap'>
-          {row.original.email}
+          {row.original.base_contact.company}
         </div>
       )}
     </div>

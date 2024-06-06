@@ -43,9 +43,9 @@ export function EventTimeline({ ...props }: Props) {
     let lastTimelineValue = 0;
     let lastEventTime: Date | undefined;
     const mappedEvents: TimelineData[] = props.events.reverse().map((e) => {
-      const newEventTime = new Date(e.time);
+      const newEventTime = new Date(e.datetime);
       if (!lastEventTime) {
-        lastEventTime = new Date(e.time);
+        lastEventTime = new Date(e.datetime);
       }
       // Calculate the difference in milliseconds
       const timeDifference = newEventTime.getTime() - lastEventTime.getTime();

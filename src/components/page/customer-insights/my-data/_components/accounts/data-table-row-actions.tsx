@@ -28,7 +28,7 @@ export function DataTableRowActions<TData>({
   const [loading, setLoading] = useState(false);
   const { apiClient } = useCustomerInsightsApiClient();
   const userContext = useContext(UserContext);
-  const account = row.original as FollowedAccount & { subscription_id: number };
+  const account = row.original as FollowedAccount;
 
   function unfollow(subscriptionId: number) {
     if (!userContext?.isLoggedIn() || loading) {
@@ -41,7 +41,7 @@ export function DataTableRowActions<TData>({
         subscriptionId,
       })
       .then(() => {
-        toast.success(`Successfully unfollowed ${account.company}.`);
+        toast.success(`Successfully unfollowed ${account.account.name}.`);
         // Force a refresh
         pageParams.set('refresh_on', Date.now().toString());
         push();
@@ -49,7 +49,7 @@ export function DataTableRowActions<TData>({
       .catch(() => {
         toast.dismiss();
         toast.error(
-          `Sorry, unable to unfollow ${account.company} at this moment.`
+          `Sorry, unable to unfollow ${account.account.name} at this moment.`
         );
       })
       .finally(() => setLoading(false));
@@ -69,7 +69,7 @@ export function DataTableRowActions<TData>({
       <DropdownMenuContent align='end' className='w-[160px]'>
         <DropdownMenuItem>
           <Link
-            href={`${userContext?.getBasePath()}/customer-insights/accounts/${account.account_id.toString()}`}
+            href={`${userContext?.getBasePath()}/customer-insights/accounts/${account.account.account_id.toString()}`}
           >
             View Details
           </Link>
