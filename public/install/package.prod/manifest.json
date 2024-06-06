@@ -49,6 +49,7 @@
       "scopes": ["personal"]
     }
   ],
+  "devicePermissions": ["media"],
   "permissions": ["identity", "messageTeamMembers"],
   "validDomains": ["customer-insights.macquariecloudservices.com"],
   "webApplicationInfo": {
