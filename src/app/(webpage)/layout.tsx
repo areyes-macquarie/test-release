@@ -7,15 +7,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { azureClientId, logoutRedirectUri, loginredirectUri } = useEnvVars();
+  const { azureClientId, logoutRedirectUri, loginRedirectUri } = useEnvVars();
 
   const config: Configuration = {
     auth: {
       clientId: azureClientId,
-      redirectUri: loginredirectUri,
+      redirectUri: loginRedirectUri,
       postLogoutRedirectUri: logoutRedirectUri,
       navigateToLoginRequestUrl: true,
-      authority: "https://login.microsoftonline.com/macquarietelecom.com"
+      authority: 'https://login.microsoftonline.com/macquarietelecom.com',
     },
   };
 
