@@ -54,8 +54,6 @@ export function ChatSection() {
 
       if (!reader) return;
 
-      if (reader) return;
-
       let done = false;
 
       let response = '';
