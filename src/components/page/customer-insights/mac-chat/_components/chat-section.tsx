@@ -32,10 +32,11 @@ export function ChatSection() {
       ]);
     }
 
+    // Add the prompt to history
     setChatHistory((prevHistory) => [
       ...prevHistory,
       <div
-        className='bg-stone-200 dark:bg-stone-700 max-w-[70%] p-4 w-fit rounded-2xl ml-auto'
+        className='bg-stone-200 dark:bg-stone-700 max-w-[70%] px-4 py-2 w-fit rounded-2xl ml-auto'
         key={prevHistory.length}
       >
         {prompt}
@@ -52,6 +53,8 @@ export function ChatSection() {
       );
 
       if (!reader) return;
+
+      if (reader) return;
 
       let done = false;
 
@@ -71,7 +74,7 @@ export function ChatSection() {
       setChatHistory((prevHistory) => [
         ...prevHistory,
         <div
-          className='bg-blue-600 max-w-[70%] p-4 w-fit rounded-2xl mr-auto'
+          className='bg-blue-600 max-w-[70%] px-4 py-2 w-fit rounded-2xl mr-auto'
           key={prevHistory.length}
         >
           {response.replaceAll('data: ', '')}
@@ -132,6 +135,15 @@ export function ChatSection() {
             }}
             abort={() => {
               abortController?.abort();
+              setChatHistory((prevHistory) => [
+                ...prevHistory,
+                <div
+                  className='text-xs text-muted-foreground rounded-2xl ml-auto w-fit'
+                  key={prevHistory.length}
+                >
+                  <span>Prompt was aborted.</span>
+                </div>,
+              ]);
             }}
           />
         </div>
