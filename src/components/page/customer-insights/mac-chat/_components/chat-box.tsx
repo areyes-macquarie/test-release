@@ -8,7 +8,7 @@ import { CircleStopIcon, SendIcon } from 'lucide-react';
 import { KeyboardEvent, useRef } from 'react';
 
 type Props = {
-  sendMessage?: (value: string) => void;
+  sendMessage?: (_value: string) => void;
   abort?: () => void;
   processing?: boolean;
 };

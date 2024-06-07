@@ -340,7 +340,7 @@ export class CustomerInsightsApiClient {
         headers: this.getHeaders(),
         signal,
       }
-    ).then(async (res) => {
+    ).then((res) => {
       if (!res.ok) {
         throw new Error('Failed to send chat prompt.');
       }

@@ -43,7 +43,7 @@ export function CustomerTableSection() {
               model: '',
               next: '',
               page: 1,
-              previous: '',
+              prev: '',
             },
             objects: [],
           });
@@ -71,7 +71,7 @@ export function CustomerTableSection() {
               model: '',
               next: '',
               page: 1,
-              previous: '',
+              prev: '',
             },
             objects: [],
           });

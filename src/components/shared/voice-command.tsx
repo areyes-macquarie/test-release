@@ -41,7 +41,11 @@ export function VoiceCommand({ ...props }: Props) {
         )}
         variant='secondary'
       >
-        <MicIcon className={cn('size-4')} />
+        {isListening ? (
+          <div className={cn('size-2 bg-white')}></div>
+        ) : (
+          <MicIcon className={cn('size-4')} />
+        )}
       </Button>
     </>
   ) : (
