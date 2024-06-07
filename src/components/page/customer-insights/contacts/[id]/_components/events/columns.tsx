@@ -62,12 +62,12 @@ export const columns: ColumnDef<ContactEvent>[] = [
       <DataTableColumnHeader column={column} title='Time' />
     ),
     cell: ({ row }) => {
-      return !row.original.time ? (
+      return !row.original.datetime ? (
         <></>
       ) : (
         <Badge variant='outline' className='font-light'>
           <span className='max-w-[500px]'>
-            {formatDistanceToNow(new Date(row.original.time), {
+            {formatDistanceToNow(new Date(row.original.datetime), {
               addSuffix: true,
             })}
           </span>

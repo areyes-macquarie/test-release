@@ -5,6 +5,7 @@ import {
   CrispAccount,
   CrispBaseContact,
   CrispContact,
+  FollowedAccount,
   FollowedContact,
   MetricDataItem,
 } from './types';
@@ -143,7 +144,7 @@ export class CustomerInsightsApiClient {
     userName: string;
   }) {
     const payload = {
-      base_contact_id: params.baseContactId,
+      base_contact: params.baseContactId,
       user_id: params.userId,
       user_name: params.userName,
     };
@@ -163,7 +164,7 @@ export class CustomerInsightsApiClient {
 
   async unfollowContact(params: { subscriptionId: number }) {
     return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/app/following/contacts/${params.subscriptionId}`,
+      `${CUSTOMER_INSIGHT_API_HOST}/app/following/contacts/${params.subscriptionId}/delete`,
       {
         method: 'DELETE',
         headers: this.getHeaders(),
@@ -199,7 +200,7 @@ export class CustomerInsightsApiClient {
     userName: string;
   }) {
     const payload = {
-      account_id: params.accountId,
+      account: params.accountId,
       user_id: params.userId,
       user_name: params.userName,
     };
@@ -219,7 +220,7 @@ export class CustomerInsightsApiClient {
 
   async unfollowAccount(params: { subscriptionId: number }) {
     return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/app/following/accounts/${params.subscriptionId}`,
+      `${CUSTOMER_INSIGHT_API_HOST}/app/following/accounts/${params.subscriptionId}/delete`,
       {
         method: 'DELETE',
         headers: this.getHeaders(),
@@ -242,7 +243,7 @@ export class CustomerInsightsApiClient {
       }
     ).then(async (res) => {
       if (res.ok) {
-        return (await res.json()) as ApiCollectionResponse<FollowedContact[]>;
+        return (await res.json()) as ApiCollectionResponse<FollowedAccount[]>;
       } else {
         throw new Error('Failed retrieving followed accounts.');
       }
@@ -274,7 +275,7 @@ export class CustomerInsightsApiClient {
       }
     ).then(async (res) => {
       if (res.ok) {
-        return (await res.json()) as ApiCollectionResponse<FollowedContact[]>;
+        return (await res.json()) as ApiCollectionResponse<FollowedAccount[]>;
       } else {
         throw new Error('Failed retrieving managed accounts.');
       }
