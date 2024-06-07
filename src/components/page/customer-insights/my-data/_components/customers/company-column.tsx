@@ -17,12 +17,12 @@ export function ContactCompanyColumn({ row }: Props) {
     <div className='text-sm text-muted-foreground text-wrap'>
       <Link
         href={`${userContext?.getBasePath()}/customer-insights/accounts/${
-          row.original?.account_id
+          row.original?.base_contact.account_id
         }`}
         id='company'
         className='tracking-normal hover:text-foreground underline underline-offset-2'
       >
-        {row.original.company}
+        {row.original.base_contact.company}
       </Link>
     </div>
   );

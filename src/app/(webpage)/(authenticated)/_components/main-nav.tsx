@@ -35,6 +35,15 @@ export function MainNav({
       >
         Customer Insights
       </Link>
+      <Link
+        href='/release-notes'
+        className={cn(
+          'text-sm font-medium transition-colors hover:text-primary',
+          pathname.startsWith('/release-notes') ? '' : 'text-muted-foreground'
+        )}
+      >
+        Release Notes
+      </Link>
     </nav>
   );
 }

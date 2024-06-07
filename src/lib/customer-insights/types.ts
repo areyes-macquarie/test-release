@@ -58,7 +58,7 @@ export type ContactEvent = {
   base_contact_id: number;
   event: string;
   event_id: number;
-  time: string;
+  datetime: string;
   type: string;
 };
 
@@ -72,26 +72,15 @@ export type ContactCallLog = {
 };
 
 export type FollowedContact = {
-  type: string;
-  first_name: string;
-  email: string;
-  last_name: string;
-  account_contact_id: number;
-  account_id: number;
-  company: string;
-  base_contact_id: number;
+  base_contact: CrispContact;
   subscription_id: number;
   user_id: string;
   user_name: string;
   created: string;
-  position: string;
-  active: string;
-  change_dt: string;
 };
 
 export type FollowedAccount = {
-  account_id: number;
-  company: string;
+  account: CrispAccount;
   subscription_id: number;
   user_id: string;
   user_name: string;

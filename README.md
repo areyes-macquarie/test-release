@@ -31,6 +31,12 @@ The app package is found in the repository located at `public/install/package.lo
 You can now start editing the pages.
 The page auto-updates as you edit the file.
 
+#### Updating of zip files
+
+Select the 3 files for the [standard package](https://confluence.macquarietelecom.com/display/Hosting/MCS-ALL-WI+Customer+Insights+MS-Teams+App) to zip
+
+To validate your zip file by uploading it to https://dev.teams.microsoft.com/appvalidation.html
+
 ### Running on Local Dev (Browser App)
 
 First, make sure you have the correct env variable value for `AZURE_CLIENT_ID`.
