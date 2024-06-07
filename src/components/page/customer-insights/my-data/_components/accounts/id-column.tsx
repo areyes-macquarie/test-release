@@ -13,6 +13,8 @@ type Props = {
 export function AccountIdColumn({ row }: Props) {
   const userContext = useContext(UserContext);
 
+  console.log(row);
+
   return (
     <div className='w-fit'>
       <Link

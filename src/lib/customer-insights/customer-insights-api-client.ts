@@ -5,6 +5,7 @@ import {
   CrispAccount,
   CrispBaseContact,
   CrispContact,
+  FollowedAccount,
   FollowedContact,
   MetricDataItem,
 } from './types';
@@ -242,7 +243,7 @@ export class CustomerInsightsApiClient {
       }
     ).then(async (res) => {
       if (res.ok) {
-        return (await res.json()) as ApiCollectionResponse<FollowedContact[]>;
+        return (await res.json()) as ApiCollectionResponse<FollowedAccount[]>;
       } else {
         throw new Error('Failed retrieving followed accounts.');
       }
@@ -274,7 +275,7 @@ export class CustomerInsightsApiClient {
       }
     ).then(async (res) => {
       if (res.ok) {
-        return (await res.json()) as ApiCollectionResponse<FollowedContact[]>;
+        return (await res.json()) as ApiCollectionResponse<FollowedAccount[]>;
       } else {
         throw new Error('Failed retrieving managed accounts.');
       }

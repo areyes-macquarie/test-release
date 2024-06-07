@@ -71,7 +71,7 @@ export const columns: ColumnDef<FollowedContact>[] = [
     cell: ({ row }) => {
       return (
         <div className='text-xs text-muted-foreground text-wrap'>
-          {row.original.position}
+          {row.original.base_contact.position}
         </div>
       );
     },
@@ -95,18 +95,18 @@ export const columns: ColumnDef<FollowedContact>[] = [
       <DataTableColumnHeader column={column} title='Updated' />
     ),
     cell: ({ row }) => {
-      return !row.original.change_dt ? (
+      return !row.original.created ? (
         <></>
       ) : (
         <Badge
           variant='outline'
           className={cn(
             'font-light',
-            isStaleContact(row.original.change_dt) ? 'text-orange-400' : ''
+            isStaleContact(row.original.created) ? 'text-orange-400' : ''
           )}
         >
           <span className='max-w-[500px] truncate'>
-            {formatDistanceToNow(new Date(row.original.change_dt), {
+            {formatDistanceToNow(new Date(row.original.created), {
               addSuffix: true,
             })}
           </span>
@@ -122,7 +122,7 @@ export const columns: ColumnDef<FollowedContact>[] = [
       <DataTableColumnHeader column={column} title='Active' />
     ),
     cell: ({ row }) => {
-      return row.original.active ? <CheckIcon className='size-4' /> : <></>;
+      return row.original.base_contact.active ? <CheckIcon className='size-4' /> : <></>;
     },
   },
   {
