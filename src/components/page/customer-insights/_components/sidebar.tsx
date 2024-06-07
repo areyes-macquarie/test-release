@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import {
   AsteriskIcon,
   BookUserIcon,
+  BotMessageSquareIcon,
   Building2Icon,
   ContactIcon,
   LayoutGridIcon,
@@ -89,6 +90,18 @@ export function Sidebar({ className }: SidebarProps) {
             >
               <AsteriskIcon className='size-4 mr-2.5' />
               Mac Query
+            </Button>
+            <Button
+              onClick={() => router.push(`${basePath}/mac-chat`)}
+              variant={
+                pathname.startsWith(`${basePath}/mac-chat`)
+                  ? 'secondary'
+                  : 'ghost'
+              }
+              className='w-full justify-start'
+            >
+              <BotMessageSquareIcon className='size-4 mr-2.5' />
+              Mac Chat
             </Button>
           </div>
         </div>
