@@ -1,17 +1,18 @@
-'use client';
+"use client";
 
-import { DataTable } from '@/components/page/_components/data-table';
-import { Skeleton } from '@/components/ui/skeleton';
-import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
-import usePageParams from '@/hooks/use-stateful-search-params';
+import { DataTable } from "@/components/page/_components/data-table";
+import { Skeleton } from "@/components/ui/skeleton";
+import useCustomerInsightsApiClient from "@/hooks/use-customer-insights-api-client";
+import usePageParams from "@/hooks/use-stateful-search-params";
 import {
   ApiCollectionResponse,
   QueryResultAccount,
-} from '@/lib/customer-insights/types';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
-import { columns } from './columns';
-import { DataTableToolbar } from './data-table-toolbar';
+} from "@/lib/customer-insights/types";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { columns } from "./columns";
+import { DataTableToolbar } from "./data-table-toolbar";
+import MOCK_QUERY from "../mock-query.json";
 
 export function TableSection() {
   const { apiClient, apiReady } = useCustomerInsightsApiClient();
@@ -23,24 +24,27 @@ export function TableSection() {
   useEffect(() => {
     if (!apiReady) return;
 
-    toast.message('Processing query, please wait...');
+    setResponse(MOCK_QUERY);
+    return;
+
+    toast.message("Processing query, please wait...");
 
     apiClient
-      .sendEngineQuery(pageParams.get('query') ?? '')
+      .getEngineQuery(pageParams.toString())
       .then((res) => {
         setResponse(res);
         toast.dismiss();
       })
       .catch(() => {
         toast.dismiss();
-        toast.error('Something unexpected occured while retrieving accounts.');
+        toast.error("Something unexpected occured while retrieving accounts.");
       });
   }, [apiReady, pageParams.toString()]);
 
   return response === undefined ? (
-    <div className='space-y-4'>
-      <Skeleton className='w-64 h-8' />
-      <Skeleton className='w-full h-48' />
+    <div className="space-y-4">
+      <Skeleton className="w-64 h-8" />
+      <Skeleton className="w-full h-48" />
     </div>
   ) : (
     <DataTable
@@ -51,17 +55,17 @@ export function TableSection() {
         totalRecords: response?.meta.count ?? 0,
         pagingState: {
           per_page:
-            Number(pageParams.get('count')) < 1
+            Number(pageParams.get("count")) < 1
               ? 100
-              : Number(pageParams.get('count')),
+              : Number(pageParams.get("count")),
           page: response?.meta.page ?? 0,
         },
         goToPage: (page) => {
-          pageParams.set('page', page.toString());
+          pageParams.set("page", page.toString());
           push();
         },
         setPageSize: (size) => {
-          pageParams.set('count', size.toString());
+          pageParams.set("count", size.toString());
           push();
         },
         allowedPageSizes: [10, 50, 100],

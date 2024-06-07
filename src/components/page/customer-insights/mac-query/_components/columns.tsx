@@ -56,6 +56,23 @@ export const columns: ColumnDef<QueryResultAccount>[] = [
     },
   },
   {
+    accessorKey: 'homepage',
+    enableSorting: false,
+    enableHiding: true,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Content' />
+    ),
+    cell: ({ row }) => {
+      return row.original.content ? (
+        <span className='max-w-[500px] truncate font-light text-xs'>
+          {row.original.content}
+        </span>
+      ) : (
+        <></>
+      );
+    },
+  },
+  {
     id: 'actions',
     cell: ({ row }) => <DataTableRowActions row={row} />,
   },

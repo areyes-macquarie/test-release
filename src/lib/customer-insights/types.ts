@@ -1,9 +1,9 @@
 export type ApiResponseMeta = {
   count: number;
-  model: string;
+  model?: string;
   next: string;
   page: number;
-  previous: string;
+  prev?: string | null;
 };
 
 export type ApiCollectionResponse<T> = {
@@ -13,11 +13,11 @@ export type ApiCollectionResponse<T> = {
 
 export type CrispAccount = {
   account_id: number;
-  ext: number;
+  ext: number | null;
   home_page: string;
-  industry: string;
+  industry: string | null;
   name: string;
-  notes: string;
+  notes: string | null;
   num_of_employees: number;
   parent_id: number;
   phone: string;
@@ -105,8 +105,8 @@ export type MetricDataItem = {
 };
 
 export type QueryResultAccount = {
-  account_id: number;
-  company_name: number;
-  industry?: string;
-  similarity: string;
+  account: CrispAccount;
+  content: string;
+  id: number;
+  similarity?: number;
 };
