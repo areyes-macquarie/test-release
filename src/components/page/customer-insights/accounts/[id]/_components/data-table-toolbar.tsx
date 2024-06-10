@@ -5,7 +5,7 @@ import { PAGE_PARAM_NAME } from '@/components/page/constants';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import usePageParams from '@/hooks/use-stateful-search-params';
-import { hasValue } from '@/services/shared/helpers';
+import hasValue from '@/services/shared/helpers/has-value';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { Table } from '@tanstack/react-table';
 import { useRef } from 'react';

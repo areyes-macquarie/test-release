@@ -1,5 +1,10 @@
-export async function copyToClipboard(input: string) {
-  await navigator.clipboard.writeText(input);
+export function isObjectEmpty(obj: Record<string, unknown>): boolean {
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      return false;
+    }
+  }
+  return true;
 }
 
 /**
@@ -31,20 +36,4 @@ export function hasValue(
   return false;
 }
 
-/**
- * Returns true if the input is [], {}, "", null, undefined
- */
-export function isEmpty(
-  input: undefined | null | string | unknown[] | Record<string, unknown>
-): boolean {
-  return !hasValue(input);
-}
-
-function isObjectEmpty(obj: Record<string, unknown>): boolean {
-  for (const key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      return false;
-    }
-  }
-  return true;
-}
+export default hasValue;
