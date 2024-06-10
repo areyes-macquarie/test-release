@@ -1,19 +1,7 @@
-import { renderHook } from '@testing-library/react';
-import useCustomerInsightsApiClient from '../use-customer-insights-api-client';
 import UserContextProvider from '@/contexts/user/user-provider';
+import { renderHook } from '@testing-library/react';
 import { ReactNode } from 'react';
-
-// const mockValue = {
-//   id: this.state.userContext?.id ?? '',
-//   email: this.state.userContext?.email ?? '',
-//   name: this.state.userContext?.name ?? '',
-//   token: this.state.userContext?.token ?? '',
-//   getBasePath: this.getBasePath,
-//   setBasePath: this.setBasePath,
-//   setUserContext: this.setUserContext,
-//   getUserContext: this.getUserContext,
-//   isLoggedIn: this.isLoggedIn,
-// };
+import useCustomerInsightsApiClient from '../use-customer-insights-api-client';
 
 const mockUser = {
   id: '1',
