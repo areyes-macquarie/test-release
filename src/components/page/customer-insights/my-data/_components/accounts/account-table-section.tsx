@@ -10,7 +10,7 @@ import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-clie
 import usePageParams from '@/hooks/use-stateful-search-params';
 import {
   ApiCollectionResponse,
-  FollowedContact,
+  FollowedAccount
 } from '@/lib/customer-insights/types';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -22,7 +22,7 @@ export function AccountTableSection() {
   const { apiClient, apiReady } = useCustomerInsightsApiClient();
 
   const [response, setResponse] = useState<ApiCollectionResponse<
-    FollowedContact[]
+    FollowedAccount[]
   > | null>();
 
   useEffect(() => {

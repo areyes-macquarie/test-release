@@ -43,12 +43,20 @@ export default function manifest() {
         websiteUrl: `${process.env.TAB_ENDPOINT}/customer-insights`,
         scopes: ['personal'],
       },
+      {
+        entityId: 'release-notes',
+        name: 'Release Notes',
+        contentUrl: `${process.env.TAB_ENDPOINT}/tabs/release-notes`,
+        websiteUrl: `${process.env.TAB_ENDPOINT}/release-notes`,
+        scopes: ['personal'],
+      },
     ],
+    devicePermissions: ['media'],
     permissions: ['identity', 'messageTeamMembers'],
     validDomains: [`${process.env.TAB_DOMAIN}`],
     webApplicationInfo: {
       id: `${process.env.AAD_APP_CLIENT_ID}`,
       resource: `api://${process.env.TAB_DOMAIN}/${process.env.AAD_APP_CLIENT_ID}`,
-    }
+    },
   };
 }

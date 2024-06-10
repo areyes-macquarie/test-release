@@ -13,13 +13,15 @@ type Props = {
 export function AccountIdColumn({ row }: Props) {
   const userContext = useContext(UserContext);
 
+  console.log(row);
+
   return (
     <div className='w-fit'>
       <Link
         className='text-wrap font-light underline underline-offset-2 text-xs'
-        href={`${userContext?.getBasePath()}/customer-insights/accounts/${row.original.account_id.toString()}`}
+        href={`${userContext?.getBasePath()}/customer-insights/accounts/${row.original.account.account_id.toString()}`}
       >
-        {row.original.account_id}
+        {row.original.account.account_id}
       </Link>
     </div>
   );

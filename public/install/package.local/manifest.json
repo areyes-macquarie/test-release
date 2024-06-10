@@ -49,6 +49,7 @@
       "scopes": ["personal"]
     }
   ],
+  "devicePermissions": ["media"],
   "permissions": ["identity", "messageTeamMembers"],
   "validDomains": ["localhost:3000"],
   "webApplicationInfo": {
