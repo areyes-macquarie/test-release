@@ -1,3 +1,4 @@
+import { isEmpty } from '@/services/shared/helpers';
 import {
   ApiCollectionResponse,
   ContactCallLog,
@@ -8,6 +9,7 @@ import {
   FollowedAccount,
   FollowedContact,
   MetricDataItem,
+  QueryResultAccount,
 } from './types';
 
 const CUSTOMER_INSIGHT_API_HOST =
@@ -279,6 +281,72 @@ export class CustomerInsightsApiClient {
       } else {
         throw new Error('Failed retrieving managed accounts.');
       }
+    });
+  }
+
+  /**
+   * Mac Query
+   */
+
+  async sendEngineQuery(query: string) {
+    return await fetch(`${CUSTOMER_INSIGHT_API_HOST}/engine/query`, {
+      method: 'POST',
+      cache: 'no-store',
+      headers: this.getHeaders(),
+      body: JSON.stringify({
+        query: query,
+      }),
+    }).then(async (res) => {
+      if (res.ok) {
+        return (await res.json()) as ApiCollectionResponse<
+          QueryResultAccount[]
+        >;
+      } else {
+        throw new Error('Failed executing engine query.');
+      }
+    });
+  }
+
+  async getEngineQuery(query: string) {
+    const queryParams = isEmpty(query) ? `?query=` : `?${query}`;
+
+    return await fetch(
+      `${CUSTOMER_INSIGHT_API_HOST}/engine/query${queryParams}`,
+      {
+        cache: 'no-store',
+        headers: this.getHeaders(),
+      }
+    ).then(async (res) => {
+      if (res.ok) {
+        return (await res.json()) as ApiCollectionResponse<
+          QueryResultAccount[]
+        >;
+      } else {
+        throw new Error('Failed executing engine query.');
+      }
+    });
+  }
+
+  /**
+   * Mac Chat
+   */
+
+  async sendChatMessage(prompt: string, signal?: AbortSignal) {
+    return await fetch(
+      `${CUSTOMER_INSIGHT_API_HOST}/engine/generate?prompt=${prompt}`,
+      {
+        method: 'GET',
+        cache: 'no-store',
+        headers: this.getHeaders(),
+        signal,
+      }
+    ).then((res) => {
+      if (!res.ok) {
+        throw new Error('Failed to send chat prompt.');
+      }
+
+      const reader = res.body?.getReader();
+      return reader;
     });
   }
 

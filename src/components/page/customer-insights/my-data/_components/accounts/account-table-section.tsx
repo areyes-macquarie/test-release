@@ -10,7 +10,7 @@ import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-clie
 import usePageParams from '@/hooks/use-stateful-search-params';
 import {
   ApiCollectionResponse,
-  FollowedAccount
+  FollowedAccount,
 } from '@/lib/customer-insights/types';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -47,7 +47,7 @@ export function AccountTableSection() {
               model: '',
               next: '',
               page: 1,
-              previous: '',
+              prev: '',
             },
             objects: [],
           });
@@ -76,7 +76,7 @@ export function AccountTableSection() {
               model: '',
               next: '',
               page: 1,
-              previous: '',
+              prev: '',
             },
             objects: [],
           });

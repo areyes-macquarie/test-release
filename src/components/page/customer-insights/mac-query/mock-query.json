@@ -1,0 +1,330 @@
+{
+  "meta": {
+    "count": 10790,
+    "next": "/engine/query?query=tell+me+about+macquarie+university&page=2",
+    "page": 1,
+    "prev": null
+  },
+  "objects": [
+    {
+      "account": {
+        "account_id": 30570,
+        "ext": null,
+        "home_page": "www.mq.edu.au",
+        "industry": "Educational Services",
+        "name": "Macquarie University",
+        "notes": "1",
+        "num_of_employees": 5500,
+        "parent_id": 27436,
+        "phone": "(02) 9850 7111"
+      },
+      "content": "the company macquarie university is a educational service company",
+      "id": 3364,
+      "similarity": 0.2592185514932436
+    },
+    {
+      "account": {
+        "account_id": 30570,
+        "ext": null,
+        "home_page": "www.mq.edu.au",
+        "industry": "Educational Services",
+        "name": "Macquarie University",
+        "notes": "1",
+        "num_of_employees": 5500,
+        "parent_id": 27436,
+        "phone": "(02) 9850 7111"
+      },
+      "content": "you can find the website for the company named macquarie university here www.mq.edu.au",
+      "id": 3372,
+      "similarity": 0.2689156096527331
+    },
+    {
+      "account": {
+        "account_id": 105368,
+        "ext": null,
+        "home_page": "www.mq.edu.au",
+        "industry": null,
+        "name": "Macquarie University IT",
+        "notes": null,
+        "num_of_employees": 4700,
+        "parent_id": 30570,
+        "phone": "(02) 9850 7111"
+      },
+      "content": "macquarie university it ha 4700.0 staff",
+      "id": 9194,
+      "similarity": 0.27430133376709487
+    },
+    {
+      "account": {
+        "account_id": 105368,
+        "ext": null,
+        "home_page": "www.mq.edu.au",
+        "industry": null,
+        "name": "Macquarie University IT",
+        "notes": null,
+        "num_of_employees": 4700,
+        "parent_id": 30570,
+        "phone": "(02) 9850 7111"
+      },
+      "content": "you can find the website for the company named macquarie university it here www.mq.edu.au",
+      "id": 9197,
+      "similarity": 0.2858397960662842
+    },
+    {
+      "account": {
+        "account_id": 30570,
+        "ext": null,
+        "home_page": "www.mq.edu.au",
+        "industry": "Educational Services",
+        "name": "Macquarie University",
+        "notes": "1",
+        "num_of_employees": 5500,
+        "parent_id": 27436,
+        "phone": "(02) 9850 7111"
+      },
+      "content": "the name of the company is macquarie university",
+      "id": 3360,
+      "similarity": 0.2906543016433716
+    },
+    {
+      "account": {
+        "account_id": 105368,
+        "ext": null,
+        "home_page": "www.mq.edu.au",
+        "industry": null,
+        "name": "Macquarie University IT",
+        "notes": null,
+        "num_of_employees": 4700,
+        "parent_id": 30570,
+        "phone": "(02) 9850 7111"
+      },
+      "content": "macquarie university it is a customer",
+      "id": 9192,
+      "similarity": 0.30148184299468994
+    },
+    {
+      "account": {
+        "account_id": 30570,
+        "ext": null,
+        "home_page": "www.mq.edu.au",
+        "industry": "Educational Services",
+        "name": "Macquarie University",
+        "notes": "1",
+        "num_of_employees": 5500,
+        "parent_id": 27436,
+        "phone": "(02) 9850 7111"
+      },
+      "content": "the industry of macquarie university is educational service",
+      "id": 3366,
+      "similarity": 0.3070135482565769
+    },
+    {
+      "account": {
+        "account_id": 30570,
+        "ext": null,
+        "home_page": "www.mq.edu.au",
+        "industry": "Educational Services",
+        "name": "Macquarie University",
+        "notes": "1",
+        "num_of_employees": 5500,
+        "parent_id": 27436,
+        "phone": "(02) 9850 7111"
+      },
+      "content": "macquarie university is a customer",
+      "id": 3363,
+      "similarity": 0.3092273701158271
+    },
+    {
+      "account": {
+        "account_id": 30570,
+        "ext": null,
+        "home_page": "www.mq.edu.au",
+        "industry": "Educational Services",
+        "name": "Macquarie University",
+        "notes": "1",
+        "num_of_employees": 5500,
+        "parent_id": 27436,
+        "phone": "(02) 9850 7111"
+      },
+      "content": "macquarie university operates in the educational service industry",
+      "id": 3365,
+      "similarity": 0.32803400325977705
+    },
+    {
+      "account": {
+        "account_id": 105368,
+        "ext": null,
+        "home_page": "www.mq.edu.au",
+        "industry": null,
+        "name": "Macquarie University IT",
+        "notes": null,
+        "num_of_employees": 4700,
+        "parent_id": 30570,
+        "phone": "(02) 9850 7111"
+      },
+      "content": "the name of the company is macquarie university it",
+      "id": 9189,
+      "similarity": 0.3359552226039888
+    },
+    {
+      "account": {
+        "account_id": 30570,
+        "ext": null,
+        "home_page": "www.mq.edu.au",
+        "industry": "Educational Services",
+        "name": "Macquarie University",
+        "notes": "1",
+        "num_of_employees": 5500,
+        "parent_id": 27436,
+        "phone": "(02) 9850 7111"
+      },
+      "content": "the company macquarie university is status customer",
+      "id": 3362,
+      "similarity": 0.34112489223480225
+    },
+    {
+      "account": {
+        "account_id": 105367,
+        "ext": null,
+        "home_page": "www.mq.edu.au",
+        "industry": null,
+        "name": "Macquarie University B-LINE",
+        "notes": null,
+        "num_of_employees": 4700,
+        "parent_id": 30570,
+        "phone": "(02) 9850 7111"
+      },
+      "content": "macquarie university b-line ha 4700.0 staff",
+      "id": 9185,
+      "similarity": 0.34180674899776164
+    },
+    {
+      "account": {
+        "account_id": 105368,
+        "ext": null,
+        "home_page": "www.mq.edu.au",
+        "industry": null,
+        "name": "Macquarie University IT",
+        "notes": null,
+        "num_of_employees": 4700,
+        "parent_id": 30570,
+        "phone": "(02) 9850 7111"
+      },
+      "content": "the company macquarie university it is status customer",
+      "id": 9191,
+      "similarity": 0.3492259979248047
+    },
+    {
+      "account": {
+        "account_id": 105368,
+        "ext": null,
+        "home_page": "www.mq.edu.au",
+        "industry": null,
+        "name": "Macquarie University IT",
+        "notes": null,
+        "num_of_employees": 4700,
+        "parent_id": 30570,
+        "phone": "(02) 9850 7111"
+      },
+      "content": "contact the company named macquarie university it with the phone number ( 02 ) 9850 7111",
+      "id": 9195,
+      "similarity": 0.35009700059890747
+    },
+    {
+      "account": {
+        "account_id": 30570,
+        "ext": null,
+        "home_page": "www.mq.edu.au",
+        "industry": "Educational Services",
+        "name": "Macquarie University",
+        "notes": "1",
+        "num_of_employees": 5500,
+        "parent_id": 27436,
+        "phone": "(02) 9850 7111"
+      },
+      "content": "contact the company named macquarie university with the phone number ( 02 ) 9850 7111",
+      "id": 3369,
+      "similarity": 0.3512528716024267
+    },
+    {
+      "account": {
+        "account_id": 30570,
+        "ext": null,
+        "home_page": "www.mq.edu.au",
+        "industry": "Educational Services",
+        "name": "Macquarie University",
+        "notes": "1",
+        "num_of_employees": 5500,
+        "parent_id": 27436,
+        "phone": "(02) 9850 7111"
+      },
+      "content": "macquarie university ha 5500.0 staff",
+      "id": 3368,
+      "similarity": 0.3515413999557495
+    },
+    {
+      "account": {
+        "account_id": 30570,
+        "ext": null,
+        "home_page": "www.mq.edu.au",
+        "industry": "Educational Services",
+        "name": "Macquarie University",
+        "notes": "1",
+        "num_of_employees": 5500,
+        "parent_id": 27436,
+        "phone": "(02) 9850 7111"
+      },
+      "content": "these are the collected note about macquarie university 1",
+      "id": 3371,
+      "similarity": 0.3519381284713745
+    },
+    {
+      "account": {
+        "account_id": 30570,
+        "ext": null,
+        "home_page": "www.mq.edu.au",
+        "industry": "Educational Services",
+        "name": "Macquarie University",
+        "notes": "1",
+        "num_of_employees": 5500,
+        "parent_id": 27436,
+        "phone": "(02) 9850 7111"
+      },
+      "content": "the name of the account is macquarie university",
+      "id": 3361,
+      "similarity": 0.3526850728580301
+    },
+    {
+      "account": {
+        "account_id": 105367,
+        "ext": null,
+        "home_page": "www.mq.edu.au",
+        "industry": null,
+        "name": "Macquarie University B-LINE",
+        "notes": null,
+        "num_of_employees": 4700,
+        "parent_id": 30570,
+        "phone": "(02) 9850 7111"
+      },
+      "content": "you can find the website for the company named macquarie university b-line here www.mq.edu.au",
+      "id": 9188,
+      "similarity": 0.35718550426873474
+    },
+    {
+      "account": {
+        "account_id": 105367,
+        "ext": null,
+        "home_page": "www.mq.edu.au",
+        "industry": null,
+        "name": "Macquarie University B-LINE",
+        "notes": null,
+        "num_of_employees": 4700,
+        "parent_id": 30570,
+        "phone": "(02) 9850 7111"
+      },
+      "content": "macquarie university b-line is a customer",
+      "id": 9183,
+      "similarity": 0.3639032027779089
+    }
+  ]
+}
