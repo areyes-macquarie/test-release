@@ -14,6 +14,7 @@ import { Button } from '../ui/button';
 
 type Props = {
   commandUpdated?: (_value: string) => void;
+  className?: string;
 };
 
 export function VoiceCommand({ ...props }: Props) {
@@ -33,10 +34,18 @@ export function VoiceCommand({ ...props }: Props) {
     <>
       <Button
         onClick={() => (isListening ? stopListening() : startListening())}
-        className={cn('rounded-full aspect-square p-0 size-8')}
+        className={cn(
+          'rounded-full aspect-square p-0 size-8',
+          isListening ? 'bg-red-500 hover:bg-red-400' : '',
+          props.className
+        )}
         variant='secondary'
       >
-        <MicIcon className={cn('size-4', isListening ? 'text-red-500' : '')} />
+        {isListening ? (
+          <div className={cn('size-2 bg-white')}></div>
+        ) : (
+          <MicIcon className={cn('size-4')} />
+        )}
       </Button>
     </>
   ) : (
@@ -44,7 +53,10 @@ export function VoiceCommand({ ...props }: Props) {
       <Tooltip>
         <TooltipTrigger asChild>
           <Button
-            className={cn('rounded-full aspect-square p-0 size-8')}
+            className={cn(
+              'rounded-full aspect-square p-0 size-8',
+              props.className
+            )}
             variant='secondary'
           >
             <MicOffIcon className='size-4 text-muted-foreground' />
