@@ -3,9 +3,9 @@
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { TagIcon } from 'lucide-react';
-import { version as currentVersion } from '../../../../../package.json';
 import { Badge } from '@/components/ui/badge';
 import TagsLoader from './tags-loader';
+import useEnvVars from '@/hooks/use-env-vars';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   versions: string[];
@@ -13,6 +13,8 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 function Tags({ className, versions, loading }: Props) {
+  const { appVersion } = useEnvVars();
+
   const scrollIntoView = (version: string) => {
     document.getElementById(`#${version}`)?.scrollIntoView({
       behavior: 'smooth',
@@ -41,7 +43,7 @@ function Tags({ className, versions, loading }: Props) {
                 <TagIcon className='size-4 mr-2.5' />
                 {version}
 
-                {version === `v${currentVersion}` && (
+                {version === `v${appVersion}` && (
                   <Badge variant='outline' className='ml-2 bg-green-600'>
                     Latest
                   </Badge>

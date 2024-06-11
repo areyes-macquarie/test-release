@@ -3,7 +3,7 @@
 import { VoiceCommand } from '@/components/shared/voice-command';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { isEmpty } from '@/services/shared/helpers';
+import isEmpty from '@/services/shared/helpers/is-empty';
 import { CircleStopIcon, SendIcon } from 'lucide-react';
 import { KeyboardEvent, useRef } from 'react';
 

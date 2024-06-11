@@ -5,7 +5,7 @@ import { VoiceCommand } from '@/components/shared/voice-command';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import usePageParams from '@/hooks/use-stateful-search-params';
-import { isEmpty } from '@/services/shared/helpers';
+import isEmpty from '@/services/shared/helpers/is-empty';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { Table } from '@tanstack/react-table';
 import { useRef } from 'react';

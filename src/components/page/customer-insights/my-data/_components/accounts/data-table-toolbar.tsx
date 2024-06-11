@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import usePageParams from '@/hooks/use-stateful-search-params';
-import { hasValue } from '@/services/shared/helpers';
+import hasValue from '@/services/shared/helpers/has-value';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { Table } from '@tanstack/react-table';
 import { HeartIcon, Link2Icon } from 'lucide-react';
