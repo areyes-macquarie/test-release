@@ -10,10 +10,9 @@ type Props = {
   row: Row<FollowedAccount>;
 };
 
+// TODO: Update type for account_id
 export function AccountIdColumn({ row }: Props) {
   const userContext = useContext(UserContext);
-
-  console.log(row);
 
   return (
     <div className='w-fit'>

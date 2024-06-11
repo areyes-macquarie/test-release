@@ -23,6 +23,9 @@ export function UserNav({ ...props }: Props) {
   const userContext = useContext(UserContext);
   const { instance, accounts } = useMsal();
 
+  // TODO: Add event listener for keydown events when user type ⇧⌘Q
+  // TODO: Correct key handling for windows and mac users in DropdownMenuShortcut
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

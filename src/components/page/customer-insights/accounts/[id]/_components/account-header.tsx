@@ -18,6 +18,8 @@ type Props = {
   accountId: string;
 };
 
+// TODO:  Convert to Link if there is account?.home_page
+
 export function AccountHeader({ ...props }: Props) {
   const { apiClient, apiReady } = useCustomerInsightsApiClient();
   const [loading, setLoading] = useState(false);
