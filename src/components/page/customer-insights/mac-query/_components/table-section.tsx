@@ -8,7 +8,7 @@ import {
   ApiCollectionResponse,
   QueryResultAccount,
 } from '@/lib/customer-insights/types';
-import { isEmpty } from '@/services/shared/helpers';
+import isEmpty from '@/services/shared/helpers/is-empty';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import EMPTY_QUERY from '../empty-query.json';

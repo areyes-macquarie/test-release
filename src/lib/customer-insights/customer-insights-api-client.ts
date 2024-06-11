@@ -1,4 +1,4 @@
-import { isEmpty } from '@/services/shared/helpers';
+import isEmpty from '@/services/shared/helpers/is-empty';
 import {
   ApiCollectionResponse,
   ContactCallLog,
