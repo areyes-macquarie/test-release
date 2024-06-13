@@ -3,6 +3,7 @@
 import { VoiceCommand } from '@/components/shared/voice-command';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import hasValue from '@/services/shared/helpers/has-value';
 import isEmpty from '@/services/shared/helpers/is-empty';
 import { CircleStopIcon, SendIcon } from 'lucide-react';
 import { KeyboardEvent, useRef } from 'react';
@@ -24,11 +25,19 @@ export function ChatBox({ ...props }: Props) {
   };
 
   const handleSubmit = () => {
-    if (!searchInputRef.current || isEmpty(searchInputRef.current.value)) {
+    if (!searchInputRef.current) {
       return;
     }
 
-    props.sendMessage?.(searchInputRef.current.value);
+    if (props.processing) {
+      props.abort?.();
+      return;
+    }
+
+    if (hasValue(searchInputRef.current.value.trim())) {
+      props.sendMessage?.(searchInputRef.current.value);
+    }
+
     searchInputRef.current.value = '';
     searchInputRef.current.focus();
   };
@@ -48,35 +57,15 @@ export function ChatBox({ ...props }: Props) {
         />
       </div>
       <Textarea
-        disabled={props.processing}
-        placeholder={
-          props.processing
-            ? `I'm thinking, please wait...`
-            : 'What do you want to know?'
-        }
+        autoFocus
+        placeholder={props.processing ? `Please wait...` : 'Message MacChat'}
         onKeyDown={handleKeyDown}
         ref={searchInputRef}
         className='mx-0 px-0 min-h-[40px] h-[40px] resize-none bg-transparent border-none active:ring-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0'
       />
       <div className='my-auto mr-1'>
         <Button
-          onClick={() => {
-            if (props.processing) {
-              props.abort?.();
-              return;
-            }
-            if (!searchInputRef.current) return;
-
-            if (isEmpty(searchInputRef.current.value.trim())) {
-              searchInputRef.current.value = '';
-              searchInputRef.current.focus();
-              return;
-            }
-
-            props.sendMessage?.(searchInputRef.current.value);
-            searchInputRef.current.value = '';
-            searchInputRef.current.focus();
-          }}
+          onClick={handleSubmit}
           type='button'
           variant='ghost'
           className='rounded-full size-8 aspect-square'

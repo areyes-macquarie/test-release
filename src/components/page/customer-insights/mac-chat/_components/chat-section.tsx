@@ -9,6 +9,7 @@ import { ChatHistory } from './chat-history';
 
 export function ChatSection() {
   const { apiClient } = useCustomerInsightsApiClient();
+  const [_currentResponse, setCurrentResponse] = useState<string>('');
   const [chatHistory, setChatHistory] = useState<ReactNode[]>([]);
   const decoder = new TextDecoder('utf-8');
   const userContext = useContext(UserContext);
@@ -36,7 +37,7 @@ export function ChatSection() {
     setChatHistory((prevHistory) => [
       ...prevHistory,
       <div
-        className='bg-stone-200 dark:bg-stone-700 max-w-[70%] px-4 py-2 w-fit rounded-2xl ml-auto'
+        className='bg-stone-200 dark:bg-stone-700 max-w-[90%] lg:max-w-[70%] px-4 py-2 w-fit rounded-2xl ml-auto'
         key={prevHistory.length}
       >
         {prompt}
@@ -55,8 +56,10 @@ export function ChatSection() {
       if (!reader) return;
 
       let done = false;
-
       let response = '';
+
+      // This will act as a separator
+      setChatHistory((prevHistory) => [...prevHistory, <div></div>]);
 
       // Read the stream
       while (!done) {
@@ -64,20 +67,23 @@ export function ChatSection() {
         done = doneReading;
         if (value) {
           const chunk = decoder.decode(value, { stream: true });
-          response += chunk;
+          response += chunk.replaceAll('data: ', '');
+
+          setTimeout(() => {
+            updateRecentHistoryItem(
+              <div className='bg-blue-600 text-white max-w-[90%] lg:max-w-[70%] px-4 py-2 w-fit rounded-2xl mr-auto'>
+                {response}
+              </div>
+            );
+
+            setCurrentResponse(
+              (prevState) => prevState + chunk.replaceAll('data: ', '')
+            );
+
+            scrollToBottom();
+          }, 5);
         }
       }
-
-      // Add the response to chat history
-      setChatHistory((prevHistory) => [
-        ...prevHistory,
-        <div
-          className='bg-blue-600 max-w-[70%] px-4 py-2 w-fit rounded-2xl mr-auto'
-          key={prevHistory.length}
-        >
-          {response.replaceAll('data: ', '')}
-        </div>,
-      ]);
     } catch (error) {
       console.error('Error reading from stream:', error);
       // setChatHistory((prevHistory) => [
@@ -92,6 +98,14 @@ export function ChatSection() {
     } finally {
       setAbortController(null);
     }
+  };
+
+  const updateRecentHistoryItem = (value: ReactNode) => {
+    setChatHistory((prevHistory) => {
+      const newHistory = prevHistory;
+      newHistory[prevHistory.length - 1] = value;
+      return newHistory;
+    });
   };
 
   const scrollToBottom = () => {
@@ -133,15 +147,6 @@ export function ChatSection() {
             }}
             abort={() => {
               abortController?.abort();
-              setChatHistory((prevHistory) => [
-                ...prevHistory,
-                <div
-                  className='text-xs text-muted-foreground rounded-2xl ml-auto w-fit'
-                  key={prevHistory.length}
-                >
-                  <span>Prompt was aborted.</span>
-                </div>,
-              ]);
             }}
           />
         </div>
