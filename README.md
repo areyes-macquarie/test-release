@@ -1,4 +1,4 @@
-# Macquarie Technology Group - Teams App
+# Macquarie Technology Group - Customer Insights
 
 This is a web application that primarily extends MTGs tools and services to Microsoft Teams App.
 
