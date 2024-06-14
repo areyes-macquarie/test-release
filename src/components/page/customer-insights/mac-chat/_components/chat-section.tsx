@@ -3,13 +3,15 @@
 import UserContext from '@/contexts/user/user-context';
 import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
 import { cn } from '@/lib/utils';
-import { ReactNode, useContext, useEffect, useState } from 'react';
+import { ReactNode, useContext, useEffect, useId, useState } from 'react';
 import { ChatBox } from './chat-box';
 import { ChatHistory } from './chat-history';
 
 export function ChatSection() {
+  const id = useId();
   const { apiClient } = useCustomerInsightsApiClient();
-  const [_currentResponse, setCurrentResponse] = useState<string>('');
+
+  const [_currentResponse, setCurrentResponse] = useState<string>(''); // eslint-disable-line
   const [chatHistory, setChatHistory] = useState<ReactNode[]>([]);
   const decoder = new TextDecoder('utf-8');
   const userContext = useContext(UserContext);
@@ -59,7 +61,7 @@ export function ChatSection() {
       let response = '';
 
       // This will act as a separator
-      setChatHistory((prevHistory) => [...prevHistory, <div></div>]);
+      setChatHistory((prevHistory) => [...prevHistory, <div key={id}></div>]);
 
       // Read the stream
       while (!done) {
