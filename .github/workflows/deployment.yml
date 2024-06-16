@@ -23,4 +23,4 @@ jobs:
     steps:
       - name: Set enviroment
         id: set-env
-        uses: macquarie-cloud-services/customer-insights-frontend/.github/actions/set-enviroment@main
+        uses: macquarie-cloud-services/customer-insights-frontend/.github/actions/set-enviroment
