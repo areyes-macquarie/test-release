@@ -1,0 +1,26 @@
+name: Production Deployment
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  set-enviroment:
+    name: Set enviroment
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.set-env.outputs.enviroment }}
+
+    steps:
+      - name: Set enviroment
+        id: set-env
+        uses: macquarie-cloud-services/customer-insights-frontend/.github/actions/set-enviroment@main
