@@ -13,7 +13,7 @@ runs:
       id: environment
       run: |
         BRANCH_NAME=""
-        if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+        if [[ "${{ github.event_name }}" == "pull_request" ]] || [[ "${{ github.event_name }}" == "push" ]]; then
           BRANCH_NAME=${{ github.base_ref }}
         else
           BRANCH_NAME=${{ github.ref }}
