@@ -27,4 +27,4 @@ runs:
           echo "Unknown branch name: $BRANCH_NAME"
           exit 1
         fi
-      shell: bash -ileo pipefail {0}
+      shell: bash
