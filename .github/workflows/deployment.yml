@@ -20,6 +20,8 @@ jobs:
     outputs:
       environment: ${{ steps.set-env.outputs.enviroment }}
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
       - name: Set enviroment
         id: set-env
         uses: ./.github/actions/set-environment
