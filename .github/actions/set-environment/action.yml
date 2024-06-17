@@ -14,8 +14,10 @@ runs:
       run: |
         if [[ "${{ github.event_name }}" == "pull_request" || "${{ github.event_name }}" == "push" ]]; then
           echo "environment=staging" >> $GITHUB_OUTPUT
+          exit 0
         elif [[ "${{ github.event_name }}" == "release" && "${{ github.event.action }}" == "created"]]; then
           echo "environment=production" >> $GITHUB_OUTPUT
+          exit 0
         else
           # Setup other env here 
           exit 1
