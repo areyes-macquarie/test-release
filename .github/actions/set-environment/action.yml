@@ -12,10 +12,9 @@ runs:
     - name: Set Environment
       id: environment
       run: |
-        BRANCH_NAME=""
         if [[ "${{ github.event_name }}" == "pull_request" || "${{ github.event_name }}" == "push" ]]; then
           echo "environment=staging" >> $GITHUB_OUTPUT
-        elif [[ "${{ github.event_name }}" == "release" && "${{ github.event.action }}" == "created"]]: then
+        elif [[ "${{ github.event_name }}" == "release" && "${{ github.event.action }}" == "created"]]; then
           echo "environment=production" >> $GITHUB_OUTPUT
         else
           # Setup other env here 
