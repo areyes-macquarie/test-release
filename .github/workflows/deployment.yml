@@ -19,8 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       environment: ${{ steps.set-env.outputs.enviroment }}
-
+å
     steps:
       - name: Set enviroment
         id: set-env
-        uses: macquarie-cloud-services/customer-insights-frontend/.github/actions/set-environment/action.yml@feature/github
+        uses: ./.github/actions/set-environment/action.yml@feature/github
