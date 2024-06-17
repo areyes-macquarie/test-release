@@ -13,7 +13,7 @@ runs:
       id: environment
       run: |
         BRANCH_NAME=""
-        if [[ "${{ github.event_name }}" == "pull_request" ]] || [[ "${{ github.event_name }}" == "push" ]]; then
+        if [[ "${{ github.event_name }}" == "pull_request" || "${{ github.event_name }}" == "push" ]]; then
           BRANCH_NAME=${{ github.base_ref }}
         else
           BRANCH_NAME=${{ github.ref }}
@@ -27,4 +27,4 @@ runs:
           echo "Unknown branch name: $BRANCH_NAME"
           exit 1
         fi
-      shell: bash
+      shell: bash -ileo pipefail {0}
