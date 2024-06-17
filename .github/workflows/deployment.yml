@@ -45,6 +45,10 @@ jobs:
         with:
           submodules: true
           lfs: false
+      - name: Check ENV
+        shell: bash
+        run: |
+          echo ENVIRONMENT VARIABLE "${{ needs.set-enviroment.outputs.environment }}"
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
