@@ -12,19 +12,19 @@ runs:
     - name: Set Environment
       id: environment
       run: |
-        BRANCH_NAME=""
-        if [[ "${{ github.event_name }}" == "pull_request" || "${{ github.event_name }}" == "push" ]]; then
-          BRANCH_NAME=${{ github.base_ref }}
-        else
-          BRANCH_NAME=${{ github.ref }}
-        fi
+        # BRANCH_NAME=""
+        # if [[ "${{ github.event_name }}" == "pull_request" || "${{ github.event_name }}" == "push" ]]; then
+        #   BRANCH_NAME=${{ github.base_ref }}
+        # else
+        #   BRANCH_NAME=${{ github.ref }}
+        # fi
                 
-        if [[ "$BRANCH_NAME" == "main" || "$BRANCH_NAME" == "refs/heads/main" ]]; then
-          echo "environment=production" >> $GITHUB_OUTPUT
-        elif [[ "$BRANCH_NAME" == "development" || "$BRANCH_NAME" == "refs/heads/development" ]]; then
+        # if [[ "$BRANCH_NAME" == "main" || "$BRANCH_NAME" == "refs/heads/main" ]]; then
+          # echo "environment=production" >> $GITHUB_OUTPUT
+        # elif [[ "$BRANCH_NAME" == "development" || "$BRANCH_NAME" == "refs/heads/development" ]]; then
           echo "environment=staging" >> $GITHUB_OUTPUT
-        else 
-          echo "Unknown branch name: $BRANCH_NAME"
-          exit 1
-        fi
+        # else 
+        #   echo "Unknown branch name: $BRANCH_NAME"
+        #   exit 1
+        # fi
       shell: bash
