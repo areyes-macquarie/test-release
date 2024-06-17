@@ -13,9 +13,9 @@ runs:
       id: environment
       run: |
         if [[ "${{ github.event_name }}" == "pull_request" || "${{ github.event_name }}" == "push" ]]; then
-          echo "environment=staging" >> $GITHUB_OUTPUT
+          echo "environment=Staging" >> $GITHUB_OUTPUT
         elif [[ "${{ github.event_name }}" == "release" && "${{ github.event.action }}" == "created" ]]; then
-          echo "environment=production" >> $GITHUB_OUTPUT
+          echo "environment=Production" >> $GITHUB_OUTPUT
         else
           # Setup other env here 
           echo "No other environment"
