@@ -27,8 +27,14 @@ jobs:
           npm run build --if-present
           npm run test --if-present
 
+      - name: Move files for Azure deployment
+        run: |
+          mv .next/standalone ./app
+          mv .next/static ./app/.next/static
+          mv public ./app/public
+
       - name: Zip artifact for deployment
-        run: zip release.zip ./.next/* -r
+        run: zip release.zip ./app/* -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
