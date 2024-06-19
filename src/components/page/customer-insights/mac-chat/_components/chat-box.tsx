@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import hasValue from '@/services/shared/helpers/has-value';
 import isEmpty from '@/services/shared/helpers/is-empty';
-import { CircleStopIcon, SendIcon } from 'lucide-react';
+import { ArrowUpIcon, CircleStopIcon } from 'lucide-react';
 import { KeyboardEvent, useRef } from 'react';
 
 type Props = {
@@ -67,13 +67,13 @@ export function ChatBox({ ...props }: Props) {
         <Button
           onClick={handleSubmit}
           type='button'
-          variant='ghost'
+          variant={props.processing ? 'ghost' : 'secondary'}
           className='rounded-full size-8 aspect-square'
         >
           {props.processing ? (
             <CircleStopIcon className='size-6 min-w-6' />
           ) : (
-            <SendIcon className='size-4 min-w-5' />
+            <ArrowUpIcon className='size-4 min-w-6' />
           )}
         </Button>
       </div>
