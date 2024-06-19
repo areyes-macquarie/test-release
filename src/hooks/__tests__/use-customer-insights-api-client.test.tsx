@@ -15,7 +15,7 @@ type WrapperProps = {
 };
 
 describe('useCustomerInsightsApiClient', () => {
-  test('API should be  ready if there is a user', () => {
+  test('API should be ready if there is a user', () => {
     const wrapper = ({ children }: WrapperProps) => {
       return (
         <UserContextProvider user={mockUser} basePath=''>
@@ -34,7 +34,7 @@ describe('useCustomerInsightsApiClient', () => {
     expect(apiReady).toBeTruthy();
   });
 
-  test('API should not be ready if there is a user', () => {
+  test('API should not be ready if there is no user', () => {
     const wrapper = ({ children }: WrapperProps) => {
       return (
         <UserContextProvider user={null} basePath=''>
