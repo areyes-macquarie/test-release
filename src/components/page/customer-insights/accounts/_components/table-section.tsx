@@ -13,6 +13,9 @@ import { toast } from 'sonner';
 import { columns } from './columns';
 import { DataTableToolbar } from './data-table-toolbar';
 
+
+// TODO: API fetch 20 items but page size default is 100, update to use allowedPageSizes: [10, 50, 100]
+
 export function TableSection() {
   const { apiClient, apiReady } = useCustomerInsightsApiClient();
   const { pageParams, push } = usePageParams();

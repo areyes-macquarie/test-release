@@ -20,6 +20,9 @@ interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
+// TODO: Follow Indicator if already followed
+// TODO: If Account already followed show text as "Followed" else "Follow"
+
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
@@ -47,6 +50,8 @@ export function DataTableRowActions<TData>({
       })
       .finally(() => setLoading(false));
   }
+
+
 
   return (
     <DropdownMenu>

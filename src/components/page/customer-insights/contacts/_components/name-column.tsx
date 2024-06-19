@@ -11,6 +11,8 @@ type Props = {
   row: Row<CrispContact>;
 };
 
+// TODO: Fix Badge is broken if not fit to column width
+
 export function ContactNameColumn({ row }: Props) {
   const userContext = useContext(UserContext);
 
