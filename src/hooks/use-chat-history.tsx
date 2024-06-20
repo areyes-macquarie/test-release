@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import copyToClipboard from '@/services/shared/helpers/copy-to-clipboard';
 import { CheckIcon, CopyIcon } from 'lucide-react';
 import Image from 'next/image';
-import { ReactNode, useId, useState } from 'react';
+import { Fragment, ReactNode, useId, useState } from 'react';
 
 type Params = {
   historyModified?: () => void;
@@ -21,7 +21,12 @@ function useChatHistory({ historyModified }: Params) {
         className='bg-stone-200 dark:bg-stone-700 max-w-[90%] lg:max-w-[70%] px-4 py-2 w-fit rounded-2xl ml-auto'
         key={prevHistory.length}
       >
-        {prompt}
+        {prompt.split('\n').map((line, index) => (
+          <Fragment key={index}>
+            {line}
+            <br />
+          </Fragment>
+        ))}
       </div>,
     ]);
   };
@@ -64,7 +69,12 @@ function useChatHistory({ historyModified }: Params) {
               />
             </div>
             <div className='bg-blue-600 text-white max-w-[90%] lg:max-w-[70%] px-4 py-2 w-fit rounded-2xl mr-auto'>
-              {reply}
+              {reply.split('\n').map((line, index) => (
+                <Fragment key={index}>
+                  {line}
+                  <br />
+                </Fragment>
+              ))}
             </div>
           </div>,
         ]);
