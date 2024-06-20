@@ -43,8 +43,8 @@ export function ChatBox({ ...props }: Props) {
   };
 
   return (
-    <div className='bg-stone-200 dark:bg-stone-700 rounded-full flex gap-2'>
-      <div className='my-auto ml-1'>
+    <div className='bg-stone-200 dark:bg-stone-700 rounded-3xl flex gap-2 h-fit py-1'>
+      <div className='mt-auto ml-1 mb-1'>
         <VoiceCommand
           commandUpdated={(value) => {
             if (!searchInputRef.current || isEmpty(value)) {
@@ -60,10 +60,19 @@ export function ChatBox({ ...props }: Props) {
         autoFocus
         placeholder={props.processing ? `Please wait...` : 'Message MacChat'}
         onKeyDown={handleKeyDown}
+        onInput={(e) => {
+          if (!searchInputRef.current) {
+            return;
+          }
+
+          const textArea = searchInputRef.current;
+          textArea.style.height = '';
+          textArea.style.height = textArea.scrollHeight + 'px';
+        }}
         ref={searchInputRef}
-        className='mx-0 px-0 min-h-[40px] h-[40px] resize-none bg-transparent border-none active:ring-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0'
+        className='mx-0 px-0 h-[40px] min-h-[40px] max-h-[140px] resize-none bg-transparent border-none active:ring-0 focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0'
       />
-      <div className='my-auto mr-1'>
+      <div className='mt-auto mr-1 mb-1'>
         <Button
           onClick={handleSubmit}
           type='button'
