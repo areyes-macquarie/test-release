@@ -350,22 +350,19 @@ export class CustomerInsightsApiClient {
     });
   }
 
-  async getChatHistory(prompt: string, signal?: AbortSignal) {
-    return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/engine/generate?prompt=${prompt}`,
-      {
-        method: 'GET',
-        cache: 'no-store',
-        headers: this.getHeaders(),
-        signal,
+  async getUserChatSession(signal?: AbortSignal) {
+    return await fetch(`${CUSTOMER_INSIGHT_API_HOST}/app/sessions`, {
+      method: 'GET',
+      cache: 'no-store',
+      headers: this.getHeaders(),
+      signal,
+    }).then(async (res) => {
+      if (res.ok) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return (await res.json()) as ApiCollectionResponse<any>;
+      } else {
+        throw new Error('Failed retrieving global metric.');
       }
-    ).then((res) => {
-      if (!res.ok) {
-        throw new Error('Failed to send chat prompt.');
-      }
-
-      const reader = res.body?.getReader();
-      return reader;
     });
   }
 
