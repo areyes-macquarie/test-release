@@ -97,7 +97,7 @@ export function ChatSection() {
   return (
     <div
       className={cn(
-        'space-y-4 flex flex-col',
+        'space-y-4 flex flex-col w-full',
         userContext?.getBasePath() === ''
           ? 'h-full max-h-[91vh]'
           : 'h-dvh max-h-dvh'
