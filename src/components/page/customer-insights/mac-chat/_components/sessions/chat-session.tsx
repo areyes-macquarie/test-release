@@ -1,16 +1,11 @@
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { groupByDate, soryObjectByOrder } from '@/lib/utils';
-import { Fragment } from 'react';
-import MockSession from '../../mock-session.json';
-import SessionButton from './session-button';
+'use client';
 
-interface ISession {
-  created: string;
-  session_id: string;
-  session_name: string;
-  user_id: string;
-  user_name: string;
-}
+import { ScrollArea } from '@/components/ui/scroll-area';
+import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
+import { groupByDate, soryObjectByOrder } from '@/lib/utils';
+import { Fragment, useMemo } from 'react';
+import MockSession from '../../mock-session.json';
+import GroupSessionList from './chat-group-session-list';
 
 const SessionOrder = [
   'Today',
@@ -32,41 +27,39 @@ const SessionOrder = [
 ];
 
 function ChatSession() {
-  const sessions = soryObjectByOrder(
-    groupByDate(MockSession, 'created'),
-    SessionOrder
+  const { apiClient } = useCustomerInsightsApiClient();
+
+  const fetchSessions = async () => {
+    try {
+      const response = await apiClient.getUserChatSession();
+    } catch (error) {
+      console.log('Error while fetching user chat session: ', error);
+    }
+  };
+
+  void fetchSessions();
+
+  // TODO: once api is working
+  // 1. Store the result list
+  // 2. Add loading skeleton while fetching session list
+  // 3. Update fetch function to be reuse with infinite fetching
+
+  const sessions = useMemo(
+    () => soryObjectByOrder(groupByDate(MockSession, 'created'), SessionOrder),
+    [MockSession]
   );
+
   return (
     <div className='h-full w-[300px]'>
       <ScrollArea className='h-[calc(100vh-66px)] border-r border:bg-muted '>
         <div className='flex flex-col gap-7 px-3 py-5 w-[300px]'>
           {Object.entries(sessions).map(([date, session]) => (
             <Fragment key={date}>
-              <GroupSession session={session} title={date} />
+              <GroupSessionList session={session} title={date} />
             </Fragment>
           ))}
         </div>
       </ScrollArea>
-    </div>
-  );
-}
-
-type GroupSession = {
-  session: ISession[];
-  title: string;
-};
-
-function GroupSession({ session, title }: GroupSession) {
-  return (
-    <div className='w-full flex flex-col gap-1'>
-      <p className='px-4 text-sm text-muted-foreground w-full'> {title}</p>
-      {session.map(({ session_id, session_name }) => (
-        <SessionButton key={session_id} id={session_id}>
-          <span className='whitespace-nowrap w-full overflow-hidden text-ellipsis'>
-            {session_name}
-          </span>
-        </SessionButton>
-      ))}
     </div>
   );
 }

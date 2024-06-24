@@ -99,3 +99,11 @@ export type QueryResultAccount = {
   id: number;
   similarity?: number;
 };
+
+export type Session = {
+  created: string;
+  session_id: string;
+  session_name: string;
+  user_id: string;
+  user_name: string;
+};
