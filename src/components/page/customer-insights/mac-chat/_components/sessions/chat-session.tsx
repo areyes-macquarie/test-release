@@ -32,7 +32,6 @@ const SessionOrder = [
 ];
 
 function ChatSession() {
-  console.log('will rerender');
   const sessions = soryObjectByOrder(
     groupByDate(MockSession, 'created'),
     SessionOrder

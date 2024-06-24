@@ -4,11 +4,16 @@ import UserContext from '@/contexts/user/user-context';
 import useChatHistory from '@/hooks/use-chat-history';
 import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
 import { cn } from '@/lib/utils';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { ChatBox } from './chat-box';
 import { ChatHistory } from './chat-history';
 
-export function ChatSection() {
+type ChatSectionProps = {
+  sessionId: string;
+};
+
+export function ChatSection({ sessionId }: ChatSectionProps) {
+  const chatHistoryController = useRef<AbortController | null>(null);
   const {
     chatHistory,
     addUserPrompt,
@@ -88,11 +93,47 @@ export function ChatSection() {
     }
   };
 
+  const fetchChatHistory = async (sessionId: string) => {
+    try {
+      if (chatHistoryController.current) {
+        chatHistoryController.current?.abort();
+      }
+
+      chatHistoryController.current = new AbortController();
+      const response = await apiClient.getUserChatHistory(
+        sessionId,
+        chatHistoryController.current.signal
+      );
+
+      // TODO:
+      // 1. Handle response
+      // 2. Set loading to false
+    } catch (error) {
+      console.error('Error fetching use chat history: ', error);
+    }
+  };
+
   useEffect(() => {
     if (chatHistory.length > 0) {
       scrollToBottom();
     }
   }, [chatHistory]);
+
+  useEffect(() => {
+    // TODO:
+    // 1. Clear previous chat history
+    // 2. Add loading state when loading chat history
+
+    if (sessionId) {
+      void fetchChatHistory(sessionId);
+    }
+  }, [sessionId]);
+
+  useEffect(() => {
+    return () => {
+      chatHistoryController.current?.abort();
+    };
+  });
 
   return (
     <div

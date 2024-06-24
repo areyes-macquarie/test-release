@@ -7,5 +7,5 @@ type CustomerInsightsMacChatPageProps = {
 export default function CustomerInsightsMacChatPage({
   slug,
 }: CustomerInsightsMacChatPageProps) {
-  return <ChatSection />;
+  return <ChatSection sessionId={slug?.[0]} />;
 }
