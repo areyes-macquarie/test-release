@@ -55,7 +55,6 @@ export function groupByDate<T>(array: Array<T>, key: string) {
     }
 
     const oneMonthAgo = sub(today, { months: 1 });
-    console.log(oneMonthAgo);
     if (
       isWithinInterval(date, {
         start: today,
@@ -73,4 +72,23 @@ export function groupByDate<T>(array: Array<T>, key: string) {
       return storeDate(group, month, item);
     }
   }, {});
+}
+
+type Data<T> = Record<string, T>;
+
+export function soryObjectByOrder<T extends object>(
+  data: Data<T>,
+  order: Array<string>
+): Data<T> {
+  const dataArray = Object.entries(data);
+
+  dataArray.sort((a, b) => {
+    let indexA = order.indexOf(a[0]);
+    let indexB = order.indexOf(b[0]);
+    if (indexA === -1) indexA = order.length;
+    if (indexB === -1) indexB = order.length;
+    return indexA - indexB;
+  });
+
+  return Object.fromEntries(dataArray);
 }
