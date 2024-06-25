@@ -132,11 +132,11 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
       // TODO:
       // 1. Handle response
       objects.map((conversation: any) => {
-        //   if (conversation.sender === 'bot') {
-        //     addBotReply(conversation.message, true);
-        //   } else {
-        addUserPrompt(conversation.message);
-        //   }
+        if (conversation.sender === 'bot') {
+          addBotReply(conversation.message, false);
+        } else {
+          addUserPrompt(conversation.message);
+        }
       });
 
       // 2. Set loading to false
