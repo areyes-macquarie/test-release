@@ -107,3 +107,11 @@ export type Session = {
   user_id: string;
   user_name: string;
 };
+
+export type ChatHistory = {
+  created: string;
+  message: string;
+  message_id: string;
+  sender: string;
+  session: string;
+};

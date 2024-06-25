@@ -1,23 +1,27 @@
 'use client';
-import { Button } from '@/components/ui/button';
+import { Button, ButtonProps } from '@/components/ui/button';
 import UserContext from '@/contexts/user/user-context';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { ReactNode, useContext } from 'react';
 
-type SessionButtonProps = {
+type SessionButtonProps = ButtonProps & {
   children: ReactNode;
   id: string | number;
 };
-function SessionButton({ id, children }: SessionButtonProps) {
+function SessionButton({ id, children, ...rest }: SessionButtonProps) {
   const userContext = useContext(UserContext);
+  const pathname = usePathname();
   const router = useRouter();
-  const basePath = `${userContext?.getBasePath()}/customer-insights/mac-chat/${id}`;
-
+  const toPath = id ? `/${id}` : '';
+  const basePath = `${userContext?.getBasePath()}/customer-insights/mac-chat${toPath}`;
   return (
     <Button
-      onClick={() => router.push(basePath, { scroll: false })}
-      variant='ghost'
+      onClick={() => {
+        router.push(basePath, { scroll: false });
+      }}
+      variant={pathname === basePath ? 'secondary' : 'ghost'}
       className='text-left'
+      {...rest}
     >
       {children}
     </Button>

@@ -76,7 +76,7 @@ export function groupByDate<T>(array: Array<T>, key: string) {
 
 type Data<T> = Record<string, T>;
 
-export function soryObjectByOrder<T extends object>(
+export function sortObjectByOrder<T extends object>(
   data: Data<T>,
   order: Array<string>
 ): Data<T> {

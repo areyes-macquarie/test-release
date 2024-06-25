@@ -6,6 +6,7 @@ type Props = {
 };
 
 export function ChatHistory({ ...props }: Props) {
+  console.log('PROPS: ', props.history);
   return (
     <div className='w-full h-auto justify-end'>
       {props.history.length > 0 ? (

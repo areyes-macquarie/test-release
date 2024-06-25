@@ -3,6 +3,8 @@
 import UserContext from '@/contexts/user/user-context';
 import useChatHistory from '@/hooks/use-chat-history';
 import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
+import useSessions from '@/hooks/use-sessions';
+import { Session } from '@/lib/customer-insights/types';
 import { cn } from '@/lib/utils';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { ChatBox } from './chat-box';
@@ -14,6 +16,7 @@ type ChatSectionProps = {
 
 export function ChatSection({ sessionId }: ChatSectionProps) {
   const chatHistoryController = useRef<AbortController | null>(null);
+  const { setSessions } = useSessions();
   const {
     chatHistory,
     addUserPrompt,
@@ -26,6 +29,8 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
       scrollToBottom();
     },
   });
+
+  console.log('chatHistory:', chatHistory);
   const { apiClient } = useCustomerInsightsApiClient();
   const [, setTick] = useState(0);
   const decoder = new TextDecoder('utf-8');
@@ -44,8 +49,24 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
     }
   };
 
+  const generateChatSession = async (message: string) => {
+    try {
+      const response: Session = await apiClient.createChatSession(message);
+
+      return response;
+    } catch (error) {
+      console.error('Failed to create chat session');
+    }
+  };
+
   const sendPrompt = async (prompt: string) => {
     if (!prompt) return;
+    let _sessionId = sessionId;
+    if (!_sessionId) {
+      const newSession = (await generateChatSession(prompt)) as Session;
+      _sessionId = newSession.session_id;
+      setSessions(newSession);
+    }
 
     // If there is an ongoing request, cancel it
     if (abortController) {
@@ -60,8 +81,9 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
 
     // Send prompt to API and process response
     try {
-      const reader = await apiClient.sendChatMessage(
+      const reader = await apiClient.sendChatMessageV2(
         prompt,
+        _sessionId,
         newAbortController.signal
       );
 
@@ -96,17 +118,27 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
   const fetchChatHistory = async (sessionId: string) => {
     try {
       if (chatHistoryController.current) {
-        chatHistoryController.current?.abort();
+        chatHistoryController.current?.abort(
+          'Abort: The previous API call was aborted due to a new API call.'
+        );
       }
 
       chatHistoryController.current = new AbortController();
-      const response = await apiClient.getUserChatHistory(
+      const { objects } = await apiClient.getUserChatHistory(
         sessionId,
         chatHistoryController.current.signal
       );
 
       // TODO:
       // 1. Handle response
+      objects.map((conversation: any) => {
+        //   if (conversation.sender === 'bot') {
+        //     addBotReply(conversation.message, true);
+        //   } else {
+        addUserPrompt(conversation.message);
+        //   }
+      });
+
       // 2. Set loading to false
     } catch (error) {
       console.error('Error fetching use chat history: ', error);
@@ -129,9 +161,13 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
     }
   }, [sessionId]);
 
+  console.log('History: ', chatHistory);
+
   useEffect(() => {
     return () => {
-      chatHistoryController.current?.abort();
+      chatHistoryController.current?.abort(
+        'Abort: Component unmounted due to the component being removed from the DOM.'
+      );
     };
   });
 
