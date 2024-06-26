@@ -17,13 +17,14 @@ type ChatSectionProps = {
 export function ChatSection({ sessionId }: ChatSectionProps) {
   const { apiReady } = useCustomerInsightsApiClient();
   const chatHistoryController = useRef<AbortController | null>(null);
-  const { setSessions } = useSessions();
+  const { setSession, activeSessionId } = useSessions();
   const {
     chatHistory,
     addUserPrompt,
     addBotReply,
     addSystemMessage,
     addErrorMessage,
+    resetHistory,
   } = useChatHistory({
     historyModified: () => {
       forceRerender();
@@ -31,7 +32,6 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
     },
   });
 
-  console.log('chatHistory:', chatHistory);
   const { apiClient } = useCustomerInsightsApiClient();
   const [, setTick] = useState(0);
   const decoder = new TextDecoder('utf-8');
@@ -66,7 +66,7 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
     if (!_sessionId) {
       const newSession = (await generateChatSession(prompt)) as Session;
       _sessionId = newSession.session_id;
-      setSessions(newSession);
+      setSession(newSession);
     }
 
     // If there is an ongoing request, cancel it
@@ -165,12 +165,18 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
       return;
     }
 
-    if (sessionId) {
-      void fetchChatHistory(sessionId);
+    if (!activeSessionId) {
+      resetHistory();
+      return;
     }
-  }, [apiReady, sessionId]);
 
-  console.log('History: ', chatHistory);
+    const id = sessionId || activeSessionId;
+    console.log('ID', id);
+    if (id) {
+      resetHistory();
+      void fetchChatHistory(id);
+    }
+  }, [apiReady, sessionId, activeSessionId]);
 
   useEffect(() => {
     return () => {
@@ -179,6 +185,8 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
       );
     };
   }, []);
+
+  console.log(chatHistory);
 
   return (
     <div

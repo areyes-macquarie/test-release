@@ -3,13 +3,13 @@ import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import SessionButton from './session-button';
 
 type GroupSession = {
-  session: Session[];
+  sessions: Session[];
   title: string;
 };
 
-function GroupSessionList({ session, title }: GroupSession) {
+function GroupSessionList({ sessions, title }: GroupSession) {
   // Sort the sessions by the created date (which is a string)
-  const sortedSessions = session.sort((a, b) => {
+  const sortedSessions = sessions.sort((a, b) => {
     const dateA = new Date(a.created).getTime();
     const dateB = new Date(b.created).getTime();
     return dateB - dateA;

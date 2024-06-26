@@ -79,7 +79,7 @@ type Data<T> = Record<string, T>;
 export function sortObjectByOrder<T extends object>(
   data: Data<T>,
   order: Array<string>
-): Data<T> {
+): Record<string, T> {
   const dataArray = Object.entries(data);
 
   dataArray.sort((a, b) => {
