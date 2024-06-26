@@ -119,9 +119,7 @@ function useHistory({ historyModified }: Params) {
 
   const storeHistory = (chatHistory: SessionHistory[]) => {
     resetHistory();
-    console.log(chatHistory);
     chatHistory.map((conversation) => {
-      console.log(conversation);
       //   if (conversation.sender === 'bot') {
       //     addBotReply(conversation.message, true);
       //   } else {
@@ -138,6 +136,7 @@ function useHistory({ historyModified }: Params) {
     addErrorMessage,
     addSystemMessage,
     storeHistory,
+    resetHistory,
   };
 }
 

@@ -11,7 +11,7 @@ type SessionButtonProps = ButtonProps & {
 };
 function SessionButton({ id, children, ...rest }: SessionButtonProps) {
   const userContext = useContext(UserContext);
-  const { activeSessionId, setActiveSessionId } = useSessions();
+  const { setActiveSessionId } = useSessions();
   const macChatBasePath = `${userContext?.getBasePath()}/customer-insights/mac-chat`;
   const pathname = usePathname();
   const router = useRouter();
@@ -19,13 +19,11 @@ function SessionButton({ id, children, ...rest }: SessionButtonProps) {
   const basePath = `${macChatBasePath}${toPath}`;
 
   const routeId = pathname.replace(macChatBasePath, '');
-  console.log(activeSessionId, id);
-  const isActive =
-    routeId === '' ? activeSessionId === id : pathname === basePath;
+  console.log(routeId);
+  const isActive = routeId === toPath;
 
   const handleOnClick = () => {
-    console.log(id);
-    setActiveSessionId(id === '' ? null : id);
+    setActiveSessionId(id === '' ? '' : id);
     router.push(basePath, { scroll: false });
   };
   return (

@@ -1,7 +1,6 @@
-'use client';
 import LoadingPage from '@/app/loading';
 import CustomerInsightsMacChatPage from '@/components/page/customer-insights/mac-chat';
-import { Suspense, useEffect } from 'react';
+import { Suspense } from 'react';
 
 export default function CustomerInsightsMacChatTab({
   params,
@@ -10,14 +9,6 @@ export default function CustomerInsightsMacChatTab({
     slug: string[];
   };
 }) {
-  useEffect(() => {
-    console.log('will mount chat page');
-
-    return () => {
-      console.log('will unount');
-    };
-  }, []);
-
   return (
     <Suspense fallback={<LoadingPage />}>
       <CustomerInsightsMacChatPage {...params} />

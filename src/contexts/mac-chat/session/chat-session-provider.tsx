@@ -39,6 +39,8 @@ function ChatSessionProvider({ children }: ChatSessionProviderProps) {
 
   const setSession = (session: Session) => {
     setNewSessions((prevSession) => [...prevSession, session]);
+    const newPath = `${macChatBasePath}/${session.session_id}`;
+    router.push(newPath, { scroll: true });
   };
 
   const initialSessions = (sessions: Session[]) => {
@@ -55,7 +57,9 @@ function ChatSessionProvider({ children }: ChatSessionProviderProps) {
   };
 
   const sessions = useMemo(
-    () => sortObjectByOrder(groupByDate(rawSessions, 'created'), SessionOrder),
+    () =>
+      sortObjectByOrder(groupByDate(rawSessions, 'created'), SessionOrder) ||
+      null,
     [rawSessions]
   );
 

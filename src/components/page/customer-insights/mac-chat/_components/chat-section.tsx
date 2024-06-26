@@ -15,9 +15,10 @@ type ChatSectionProps = {
 };
 
 export function ChatSection({ sessionId }: ChatSectionProps) {
+  const [chatSession, setChatSession] = useState(sessionId);
   const { apiReady } = useCustomerInsightsApiClient();
   const chatHistoryController = useRef<AbortController | null>(null);
-  const { setSession, activeSessionId } = useSessions();
+  const { setSession } = useSessions();
   const {
     chatHistory,
     addUserPrompt,
@@ -62,11 +63,17 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
 
   const sendPrompt = async (prompt: string) => {
     if (!prompt) return;
-    let _sessionId = sessionId;
+    let newSession;
+    let _sessionId = chatSession;
     if (!_sessionId) {
-      const newSession = (await generateChatSession(prompt)) as Session;
-      _sessionId = newSession.session_id;
-      setSession(newSession);
+      try {
+        newSession = (await generateChatSession(prompt)) as Session;
+        _sessionId = newSession.session_id;
+        setChatSession(newSession.session_id);
+      } catch (err) {
+        console.error(err);
+        return;
+      }
     }
 
     // If there is an ongoing request, cancel it
@@ -105,6 +112,9 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
           addBotReply(response, isUpdate);
           isUpdate = true;
         }
+      }
+      if (newSession) {
+        setSession(newSession);
       }
     } catch (error) {
       addErrorMessage(
@@ -165,28 +175,23 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
       return;
     }
 
-    if (!activeSessionId) {
+    if (!chatSession) {
       resetHistory();
       return;
     }
 
-    const id = sessionId || activeSessionId;
-    console.log('ID', id);
-    if (id) {
-      resetHistory();
-      void fetchChatHistory(id);
-    }
-  }, [apiReady, sessionId, activeSessionId]);
+    resetHistory();
+    void fetchChatHistory(chatSession);
+  }, [apiReady, chatSession]);
 
   useEffect(() => {
     return () => {
+      console.log('Will unmont');
       chatHistoryController.current?.abort(
         'Abort: Component unmounted due to the component being removed from the DOM.'
       );
     };
   }, []);
-
-  console.log(chatHistory);
 
   return (
     <div

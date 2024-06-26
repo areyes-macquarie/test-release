@@ -67,7 +67,6 @@ export function AccountTableSection() {
     apiClient
       .getFollowedAccounts(`${pageParams.toString()}`)
       .then((res) => {
-        console.log(res);
         toast.dismiss();
         if (!res) {
           setResponse({

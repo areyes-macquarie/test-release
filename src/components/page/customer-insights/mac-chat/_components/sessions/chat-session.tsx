@@ -4,6 +4,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 
 import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
 import useSessions from '@/hooks/use-sessions';
+import isEmpty from '@/services/shared/helpers/is-empty';
 import { Fragment, useEffect, useState } from 'react';
 import GroupSessionList from './chat-group-session-list';
 import NewChatButton from './new-chat-button';
@@ -17,7 +18,6 @@ function ChatSession() {
   const fetchSessions = async () => {
     try {
       const response = await apiClient.getUserChatSession();
-
       initialSessions(response.objects);
     } catch (error) {
       console.log('Error while fetching user chat session: ', error);
@@ -25,10 +25,11 @@ function ChatSession() {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     if (!apiReady) return;
-    void fetchSessions();
+    if (isEmpty(sessions)) {
+      void fetchSessions();
+    }
   }, [apiReady]);
 
   // TODO: once api is working
@@ -47,11 +48,7 @@ function ChatSession() {
           ) : (
             Object.entries(sessions).map(([date, session]) => (
               <Fragment key={date}>
-                <GroupSessionList
-                  sessions={session}
-                  title={date}
-                  activeSessionId={activeSessionId}
-                />
+                <GroupSessionList sessions={session} title={date} />
               </Fragment>
             ))
           )}
