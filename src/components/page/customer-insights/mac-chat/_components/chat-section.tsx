@@ -4,7 +4,7 @@ import UserContext from '@/contexts/user/user-context';
 import useChatHistory from '@/hooks/use-chat-history';
 import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
 import useSessions from '@/hooks/use-sessions';
-import { Session } from '@/lib/customer-insights/types';
+import { Session, SessionHistory } from '@/lib/customer-insights/types';
 import { cn } from '@/lib/utils';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { ChatBox } from './chat-box';
@@ -15,7 +15,7 @@ type ChatSectionProps = {
 };
 
 export function ChatSection({ sessionId }: ChatSectionProps) {
-  const [newSessionId, setNewSessionId] = useState<string>();
+  const { apiReady } = useCustomerInsightsApiClient();
   const chatHistoryController = useRef<AbortController | null>(null);
   const { setSessions } = useSessions();
   const {
@@ -66,7 +66,6 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
     if (!_sessionId) {
       const newSession = (await generateChatSession(prompt)) as Session;
       _sessionId = newSession.session_id;
-      setNewSessionId(newSession.session_id);
       setSessions(newSession);
     }
 
@@ -126,20 +125,19 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
       }
 
       chatHistoryController.current = new AbortController();
-      const { objects } = await apiClient.getUserChatHistory(
+      const response = await apiClient.getUserChatHistory(
         sessionId,
         chatHistoryController.current.signal
       );
 
-      // TODO:
-      // 1. Handle response
-      const sortedHistory = objects.sort((a, b) => {
+      const history = response.objects as SessionHistory[];
+      const sortedHistory = history.sort((a, b) => {
         const dateA = new Date(a.created).getTime();
         const dateB = new Date(b.created).getTime();
         return dateA - dateB;
       });
 
-      sortedHistory.map((conversation: any) => {
+      sortedHistory.map((conversation) => {
         if (conversation.sender === 'bot') {
           addBotReply(conversation.message, false);
         } else {
@@ -163,14 +161,14 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
     // TODO:
     // 1. Clear previous chat history
     // 2. Add loading state when loading chat history
-
-    if (sessionId === newSessionId) {
+    if (!apiReady) {
       return;
     }
+
     if (sessionId) {
       void fetchChatHistory(sessionId);
     }
-  }, [sessionId]);
+  }, [apiReady, sessionId]);
 
   console.log('History: ', chatHistory);
 
@@ -180,7 +178,7 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
         'Abort: Component unmounted due to the component being removed from the DOM.'
       );
     };
-  });
+  }, []);
 
   return (
     <div

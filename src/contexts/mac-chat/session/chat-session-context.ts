@@ -1,9 +1,9 @@
 import { Session } from '@/lib/customer-insights/types';
-import { createContext } from 'react';
+import { createContext, Dispatch, SetStateAction } from 'react';
 
 export type ChatSessionType = {
   sessions: Session[];
-  setSessions: (session: Session) => void;
+  setSessions: Dispatch<SetStateAction<Session[]>>;
   initialSessions: (sessions: Session[]) => void;
 };
 

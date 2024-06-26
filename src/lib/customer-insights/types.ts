@@ -108,7 +108,7 @@ export type Session = {
   user_name: string;
 };
 
-export type ChatHistory = {
+export type SessionHistory = {
   created: string;
   message: string;
   message_id: string;

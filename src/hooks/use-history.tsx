@@ -1,6 +1,6 @@
 import CopyButton from '@/components/shared/copy-button';
 import ChatHistoryContext from '@/contexts/mac-chat/history/history-context';
-import { ChatHistory } from '@/lib/customer-insights/types';
+import { SessionHistory } from '@/lib/customer-insights/types';
 import Image from 'next/image';
 import { ReactNode, useContext, useId } from 'react';
 
@@ -117,7 +117,7 @@ function useHistory({ historyModified }: Params) {
     context.setChatHistory([]);
   };
 
-  const storeHistory = (chatHistory: ChatHistory[]) => {
+  const storeHistory = (chatHistory: SessionHistory[]) => {
     resetHistory();
     console.log(chatHistory);
     chatHistory.map((conversation) => {

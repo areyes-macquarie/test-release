@@ -29,7 +29,7 @@ const SessionOrder = [
 ];
 
 function ChatSession() {
-  const { apiClient } = useCustomerInsightsApiClient();
+  const { apiClient, apiReady } = useCustomerInsightsApiClient();
   const { sessions, initialSessions } = useSessions();
 
   const fetchSessions = async () => {
@@ -43,8 +43,9 @@ function ChatSession() {
   };
 
   useEffect(() => {
+    if (!apiReady) return;
     void fetchSessions();
-  }, []);
+  }, [apiReady]);
 
   // TODO: once api is working
   // 1. Store the result list
