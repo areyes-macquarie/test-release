@@ -2,7 +2,7 @@ import ChatSession from '@/components/page/customer-insights/mac-chat/_component
 import ChatHistoryProvider from '@/contexts/mac-chat/history/history-provider';
 import ChatSessionProvider from '@/contexts/mac-chat/session/chat-session-provider';
 
-function MacChatWebsiteLayout({
+function MacChatTabLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -17,4 +17,4 @@ function MacChatWebsiteLayout({
   );
 }
 
-export default MacChatWebsiteLayout;
+export default MacChatTabLayout;

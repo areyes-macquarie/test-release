@@ -20,7 +20,7 @@ function ChatSessionProvider({ children }: ChatSessionProviderProps) {
     const basePath = `${userContext?.getBasePath()}/customer-insights/mac-chat/${
       session.session_id
     }`;
-    router.push(basePath, { scroll: false });
+    // router.push(basePath, { scroll: false });
   };
 
   const initialSessions = (sessions: Session[]) => {

@@ -6,7 +6,7 @@ function useSessions() {
 
   if (!context) {
     throw new Error(
-      'useChatSession() mush be called within ChatSessionProvider'
+      'useChatSession() must be called within ChatSessionProvider'
     );
   }
 

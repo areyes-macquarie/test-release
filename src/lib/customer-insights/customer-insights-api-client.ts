@@ -1,6 +1,7 @@
 import isEmpty from '@/services/shared/helpers/is-empty';
 import {
   ApiCollectionResponse,
+  ChatHistory,
   ContactCallLog,
   ContactEvent,
   CrispAccount,
@@ -427,7 +428,7 @@ export class CustomerInsightsApiClient {
     ).then(async (res) => {
       if (res.ok) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        return (await res.json()) as ApiCollectionResponse<any>;
+        return (await res.json()) as ApiCollectionResponse<ChatHistory[]>;
       } else {
         throw new Error('Failed retrieving global metric.');
       }

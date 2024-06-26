@@ -57,7 +57,7 @@ function ChatSession() {
   );
 
   return (
-    <div className='h-full w-[300px] border-r border:bg-muted'>
+    <div className='min-h-dvh h-full w-[300px] border-r border:bg-muted'>
       <div className='h-[50px] w-full flex justify-end items-center px-3 py-5'>
         <NewChatButton />
       </div>
