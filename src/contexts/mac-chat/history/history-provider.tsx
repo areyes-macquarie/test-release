@@ -9,13 +9,16 @@ type ChatHistoryProviderProps = {
 
 function ChatHistoryProvider({ children }: ChatHistoryProviderProps) {
   const [chatHistory, setChatHistory] = useState<ReactNode[]>([]);
+  const [chatSession, setChatSession] = useState('');
 
   const contextValue = useMemo(
     () => ({
       chatHistory,
       setChatHistory,
+      chatSession,
+      setChatSession,
     }),
-    [chatHistory]
+    [chatHistory, chatSession]
   );
   return (
     <ChatHistoryContext.Provider value={contextValue}>

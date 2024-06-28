@@ -1,6 +1,6 @@
 import { Session } from '@/lib/customer-insights/types';
-import { DotsHorizontalIcon } from '@radix-ui/react-icons';
-import SessionButton from './session-button';
+import OptionsButton from './buttons/options-button';
+import SessionButton from './buttons/session-button';
 
 type GroupSession = {
   sessions: Session[];
@@ -18,12 +18,16 @@ function GroupSessionList({ sessions, title }: GroupSession) {
   return (
     <div className='w-full flex flex-col gap-1'>
       <p className='px-4 text-sm text-muted-foreground w-full'> {title}</p>
-      {sortedSessions.map(({ session_id, session_name }) => (
-        <SessionButton key={session_id} id={session_id} className='space-x-2'>
+      {sortedSessions.map((session, index) => (
+        <SessionButton
+          key={`${session.session_id}-${index}`}
+          path={`/${session.session_id}`}
+          className='space-x-2 group'
+        >
           <span className='text-left whitespace-nowrap w-full overflow-hidden text-ellipsis'>
-            {session_name}
+            {session.session_name}
           </span>
-          <DotsHorizontalIcon className='size-4' />
+          <OptionsButton session={session} />
         </SessionButton>
       ))}
     </div>

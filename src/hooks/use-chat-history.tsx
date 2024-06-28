@@ -2,14 +2,14 @@
 
 import CopyButton from '@/components/shared/copy-button';
 import Image from 'next/image';
-import { ReactNode, useId, useState } from 'react';
+import { ReactNode, useState } from 'react';
 
 type Params = {
   historyModified?: () => void;
 };
 
 function useChatHistory({ historyModified }: Params) {
-  const id = useId();
+  const id = Date.now();
   const [chatHistory, setChatHistory] = useState<ReactNode[]>([]);
 
   const addUserPrompt = (prompt: string) => {

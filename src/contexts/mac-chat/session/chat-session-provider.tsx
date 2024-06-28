@@ -56,6 +56,15 @@ function ChatSessionProvider({ children }: ChatSessionProviderProps) {
     }
   };
 
+  const removeSession = (sessionId: string) => {
+    setNewSessions((prevSession) => [
+      ...prevSession.filter(({ session_id }) => sessionId !== session_id),
+    ]);
+    //TODO:
+    // 1. If equal to activeSessionId set active session to null
+    // 2. clear history and redirect to new
+  };
+
   const sessions = useMemo(
     () =>
       sortObjectByOrder(groupByDate(rawSessions, 'created'), SessionOrder) ||
@@ -70,6 +79,7 @@ function ChatSessionProvider({ children }: ChatSessionProviderProps) {
       initialSessions,
       activeSessionId,
       setActiveSessionId,
+      removeSession,
     }),
     [sessions]
   );

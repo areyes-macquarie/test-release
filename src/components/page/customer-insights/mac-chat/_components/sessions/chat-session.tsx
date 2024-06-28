@@ -6,13 +6,13 @@ import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-clie
 import useSessions from '@/hooks/use-sessions';
 import isEmpty from '@/services/shared/helpers/is-empty';
 import { Fragment, useEffect, useState } from 'react';
+import NewChatButton from './buttons/new-chat-button';
 import GroupSessionList from './chat-group-session-list';
-import NewChatButton from './new-chat-button';
 import SessionLoading from './sessions-loading';
 
 function ChatSession() {
   const { apiClient, apiReady } = useCustomerInsightsApiClient();
-  const { sessions, initialSessions, activeSessionId } = useSessions();
+  const { sessions, initialSessions } = useSessions();
   const [loading, setLoading] = useState(true);
 
   const fetchSessions = async () => {

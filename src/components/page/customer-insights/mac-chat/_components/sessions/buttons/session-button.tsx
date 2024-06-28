@@ -1,29 +1,24 @@
 'use client';
 import { Button, ButtonProps } from '@/components/ui/button';
 import UserContext from '@/contexts/user/user-context';
-import useSessions from '@/hooks/use-sessions';
 import { usePathname, useRouter } from 'next/navigation';
 import { ReactNode, useContext } from 'react';
 
 type SessionButtonProps = ButtonProps & {
   children: ReactNode;
-  id: string | number;
+  path: string;
 };
-function SessionButton({ id, children, ...rest }: SessionButtonProps) {
+function SessionButton({ path, children, ...rest }: SessionButtonProps) {
   const userContext = useContext(UserContext);
-  const { setActiveSessionId } = useSessions();
-  const macChatBasePath = `${userContext?.getBasePath()}/customer-insights/mac-chat`;
+  const macChatPath = `${userContext?.getBasePath()}/customer-insights/mac-chat`;
   const pathname = usePathname();
   const router = useRouter();
-  const toPath = id ? `/${id}` : '';
-  const basePath = `${macChatBasePath}${toPath}`;
 
-  const routeId = pathname.replace(macChatBasePath, '');
-  console.log(routeId);
-  const isActive = routeId === toPath;
+  const basePath = `${macChatPath}${path}`;
+  const routeId = pathname.replace(macChatPath, '');
+  const isActive = routeId === path;
 
   const handleOnClick = () => {
-    setActiveSessionId(id === '' ? '' : id);
     router.push(basePath, { scroll: false });
   };
   return (

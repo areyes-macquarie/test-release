@@ -1,7 +1,6 @@
 import isEmpty from '@/services/shared/helpers/is-empty';
 import {
   ApiCollectionResponse,
-  ChatHistory,
   ContactCallLog,
   ContactEvent,
   CrispAccount,
@@ -12,6 +11,7 @@ import {
   MetricDataItem,
   QueryResultAccount,
   Session,
+  SessionHistory,
 } from './types';
 
 const CUSTOMER_INSIGHT_API_HOST =
@@ -400,6 +400,22 @@ export class CustomerInsightsApiClient {
     });
   }
 
+  async deleteChatSession(sessionId: string) {
+    return await fetch(
+      `${CUSTOMER_INSIGHT_API_HOST}/app/sessions/${sessionId}/delete`,
+      {
+        method: 'DELETE',
+        headers: this.getHeaders(),
+      }
+    ).then((res) => {
+      if (res.ok) {
+        return true;
+      } else {
+        // throw new Error('Failed to delete chat.');
+      }
+    });
+  }
+
   async getUserChatSession(signal?: AbortSignal) {
     return await fetch(`${CUSTOMER_INSIGHT_API_HOST}/app/sessions`, {
       method: 'GET',
@@ -428,7 +444,7 @@ export class CustomerInsightsApiClient {
     ).then(async (res) => {
       if (res.ok) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        return (await res.json()) as ApiCollectionResponse<ChatHistory[]>;
+        return (await res.json()) as ApiCollectionResponse<SessionHistory[]>;
       } else {
         throw new Error('Failed retrieving global metric.');
       }

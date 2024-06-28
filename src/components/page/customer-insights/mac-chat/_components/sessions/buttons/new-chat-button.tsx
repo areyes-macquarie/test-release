@@ -13,7 +13,7 @@ function NewChat() {
       <Tooltip>
         <TooltipTrigger asChild>
           <div>
-            <SessionButton id={''} variant='ghost' size='icon'>
+            <SessionButton path={''} variant='ghost' size='icon'>
               <SquarePenIcon className='size-5' />
             </SessionButton>
           </div>
