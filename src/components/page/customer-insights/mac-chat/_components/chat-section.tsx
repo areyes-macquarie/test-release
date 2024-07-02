@@ -86,6 +86,7 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
 
     // Add the prompt to history
     addUserPrompt(prompt);
+    addBotReply('...', false);
     const newAbortController = new AbortController();
     setAbortController(newAbortController);
 
@@ -101,7 +102,6 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
 
       let done = false;
       let response = '';
-      let isUpdate = false;
 
       // Read the stream
       while (!done) {
@@ -111,8 +111,7 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
           const chunk = decoder.decode(value, { stream: true });
           response += chunk.replaceAll('data: ', '');
 
-          addBotReply(response, isUpdate);
-          isUpdate = true;
+          addBotReply(response, true);
         }
       }
       if (newSession) {
@@ -202,7 +201,7 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
       className={cn(
         'space-y-4 flex flex-col w-full',
         userContext?.getBasePath() === ''
-          ? 'h-full max-h-[91vh]'
+          ? 'h-[calc(100vh-65px)]'
           : 'h-dvh max-h-dvh'
       )}
     >

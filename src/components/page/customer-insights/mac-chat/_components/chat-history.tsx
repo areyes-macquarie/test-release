@@ -16,7 +16,7 @@ export function ChatHistory({ ...props }: Props) {
         </div>
       )}
 
-      {isEmpty(props.sessionId) && (
+      {isEmpty(props.history) && isEmpty(props.sessionId) && (
         <div className='h-full m-auto flex flex-col py-24 gap-2'>
           <BotMessageSquareIcon className='text-blue-600 size-48 mx-auto my-auto' />
           <span className='text-muted-foreground font-extrabold text-xl font-mono mx-auto'>

@@ -1,9 +1,12 @@
 import React, { ReactNode } from 'react';
 import UserContext, { UserInfo } from './user-context';
 
+export type AppViewType = 'web-app' | 'teams-app';
+
 type State = {
   userContext?: UserInfo | undefined | null;
   basePath?: string;
+  appType?: AppViewType;
 };
 
 type Props = State & {
@@ -22,6 +25,7 @@ export default class UserContextProvider extends React.Component<Props, State> {
     this.state = {
       userContext: props.user,
       basePath: props.basePath,
+      appType: props.appType,
     };
   }
 
@@ -38,6 +42,7 @@ export default class UserContextProvider extends React.Component<Props, State> {
   setBasePath = (_path?: string) => {
     this.setState({
       basePath: _path,
+      appType: (_path ?? '') === '' ? 'web-app' : 'teams-app',
     });
   };
 
@@ -50,6 +55,10 @@ export default class UserContextProvider extends React.Component<Props, State> {
       this.state.userContext?.token !== undefined &&
       this.state.userContext?.token?.length > 0
     );
+  };
+
+  getAppType = () => {
+    return this.state.appType ?? 'web-app';
   };
 
   render() {
@@ -65,6 +74,7 @@ export default class UserContextProvider extends React.Component<Props, State> {
           setUserContext: this.setUserContext,
           getUserContext: this.getUserContext,
           isLoggedIn: this.isLoggedIn,
+          getAppType: this.getAppType,
         }}
       >
         {this.props.children}

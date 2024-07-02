@@ -2,10 +2,12 @@
 
 import { ScrollArea } from '@/components/ui/scroll-area';
 
+import UserContext from '@/contexts/user/user-context';
 import useConversation from '@/hooks/use-conversation';
 import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
+import { cn } from '@/lib/utils';
 import isEmpty from '@/services/shared/helpers/is-empty';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useContext, useEffect, useState } from 'react';
 import NewChatButton from './buttons/new-chat-button';
 import GroupSessionList from './chat-group-session-list';
 import SessionLoading from './sessions-loading';
@@ -13,6 +15,7 @@ import SessionLoading from './sessions-loading';
 function ChatSession() {
   const { apiClient, apiReady } = useCustomerInsightsApiClient();
   const { sessions, initialSessions } = useConversation();
+  const userContext = useContext(UserContext);
   const [loading, setLoading] = useState(true);
 
   const fetchSessions = async () => {
@@ -37,11 +40,17 @@ function ChatSession() {
   // 2. Add loading skeleton while fetching session list
   // 3. Update fetch function to be reuse with infinite fetching
   return (
-    <div className='min-h-dvh h-full w-[300px] border-r border:bg-muted'>
+    <div className='h-full w-[300px] border-r border:bg-muted'>
       <div className='h-[50px] w-full flex justify-end items-center px-3 py-5'>
         <NewChatButton />
       </div>
-      <ScrollArea className='h-[calc(100vh-120px)]'>
+      <ScrollArea
+        className={cn(
+          userContext?.getBasePath() === ''
+            ? 'h-[calc(100vh-120px)]'
+            : 'h-[calc(100vh-50px)]'
+        )}
+      >
         <div className='flex flex-col gap-7 p-3 w-[300px]'>
           {loading ? (
             <SessionLoading />
