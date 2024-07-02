@@ -1,18 +1,22 @@
+import isEmpty from '@/services/shared/helpers/is-empty';
 import { BotMessageSquareIcon } from 'lucide-react';
 import { ReactNode } from 'react';
 
 type Props = {
   history: ReactNode[];
+  sessionId: string | null;
 };
 
 export function ChatHistory({ ...props }: Props) {
   return (
     <div className='w-full h-auto justify-end'>
-      {props.history.length > 0 ? (
+      {props.history.length > 0 && (
         <div className='space-y-4 text-sm'>
           {props.history.map((value) => value)}
         </div>
-      ) : (
+      )}
+
+      {isEmpty(props.sessionId) && (
         <div className='h-full m-auto flex flex-col py-24 gap-2'>
           <BotMessageSquareIcon className='text-blue-600 size-48 mx-auto my-auto' />
           <span className='text-muted-foreground font-extrabold text-xl font-mono mx-auto'>

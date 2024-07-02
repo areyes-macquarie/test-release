@@ -211,7 +211,7 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
         className={cn('flex-grow flex-col overflow-y-scroll')}
       >
         <div className='flex-grow px-4 pt-4 h-full'>
-          <ChatHistory history={chatHistory} />
+          <ChatHistory history={chatHistory} sessionId={sessionId} />
         </div>
       </section>
       <section className='pb-4'>
