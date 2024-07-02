@@ -1,9 +1,9 @@
 'use client';
 
 import UserContext from '@/contexts/user/user-context';
+import useConversation from '@/hooks/use-conversation';
 import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
 import useHistory from '@/hooks/use-history';
-import useSessions from '@/hooks/use-sessions';
 import { Session } from '@/lib/customer-insights/types';
 import { cn } from '@/lib/utils';
 import { useContext, useEffect, useRef, useState } from 'react';
@@ -17,7 +17,7 @@ type ChatSectionProps = {
 export function ChatSection({ sessionId }: ChatSectionProps) {
   const { apiReady } = useCustomerInsightsApiClient();
   const chatHistoryController = useRef<AbortController | null>(null);
-  const { setSession } = useSessions();
+  const { setSession } = useConversation();
   const {
     chatHistory,
     chatSession,

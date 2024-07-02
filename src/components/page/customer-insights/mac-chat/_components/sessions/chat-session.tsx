@@ -2,8 +2,8 @@
 
 import { ScrollArea } from '@/components/ui/scroll-area';
 
+import useConversation from '@/hooks/use-conversation';
 import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
-import useSessions from '@/hooks/use-sessions';
 import isEmpty from '@/services/shared/helpers/is-empty';
 import { Fragment, useEffect, useState } from 'react';
 import NewChatButton from './buttons/new-chat-button';
@@ -12,7 +12,7 @@ import SessionLoading from './sessions-loading';
 
 function ChatSession() {
   const { apiClient, apiReady } = useCustomerInsightsApiClient();
-  const { sessions, initialSessions } = useSessions();
+  const { sessions, initialSessions } = useConversation();
   const [loading, setLoading] = useState(true);
 
   const fetchSessions = async () => {

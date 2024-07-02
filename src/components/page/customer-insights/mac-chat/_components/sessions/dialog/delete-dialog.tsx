@@ -10,8 +10,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import useConversation from '@/hooks/use-conversation';
 import useCustomerInsightsApiClient from '@/hooks/use-customer-insights-api-client';
-import useSessions from '@/hooks/use-sessions';
 import { Session } from '@/lib/customer-insights/types';
 import { DialogProps } from '@radix-ui/react-dialog';
 import { Trash2Icon } from 'lucide-react';
@@ -23,7 +23,7 @@ type DeleteDialogProps = DialogProps & {
 
 export function DeleteDialog({ onOpenChange, session }: DeleteDialogProps) {
   const { apiClient } = useCustomerInsightsApiClient();
-  const { removeSession } = useSessions();
+  const { removeSession } = useConversation();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 

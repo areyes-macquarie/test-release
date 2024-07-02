@@ -1,6 +1,6 @@
 import ChatSession from '@/components/page/customer-insights/mac-chat/_components/sessions/chat-session';
+import ConversationProvider from '@/contexts/mac-chat/conversation/conversation-provider';
 import ChatHistoryProvider from '@/contexts/mac-chat/history/history-provider';
-import ChatSessionProvider from '@/contexts/mac-chat/session/chat-session-provider';
 
 function MacChatWebsiteLayout({
   children,
@@ -9,10 +9,10 @@ function MacChatWebsiteLayout({
 }>) {
   return (
     <div className='flex'>
-      <ChatSessionProvider>
+      <ConversationProvider>
         <ChatSession />
         <ChatHistoryProvider>{children}</ChatHistoryProvider>
-      </ChatSessionProvider>
+      </ConversationProvider>
     </div>
   );
 }
