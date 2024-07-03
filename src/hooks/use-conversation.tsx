@@ -37,6 +37,10 @@ function useConversation() {
     }
   };
 
+  const updateSessions = (sessions: Session[]) => {
+    setNewSessions((prevSession) => [...prevSession, ...sessions]);
+  };
+
   const removeSession = (sessionId: string) => {
     setNewSessions((prevSession) => [
       ...prevSession.filter(({ session_id }) => sessionId !== session_id),
@@ -51,6 +55,7 @@ function useConversation() {
     setSession,
     initialSessions,
     removeSession,
+    updateSessions,
   };
 }
 

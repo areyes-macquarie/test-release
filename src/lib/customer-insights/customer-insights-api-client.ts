@@ -416,13 +416,15 @@ export class CustomerInsightsApiClient {
     });
   }
 
-  async getUserChatSession(signal?: AbortSignal) {
-    return await fetch(`${CUSTOMER_INSIGHT_API_HOST}/app/sessions`, {
-      method: 'GET',
-      cache: 'no-store',
-      headers: this.getHeaders(),
-      signal,
-    }).then(async (res) => {
+  async getUserChatSession(page: number) {
+    return await fetch(
+      `${CUSTOMER_INSIGHT_API_HOST}/app/sessions?page=${page}`,
+      {
+        method: 'GET',
+        cache: 'no-store',
+        headers: this.getHeaders(),
+      }
+    ).then(async (res) => {
       if (res.ok) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return (await res.json()) as ApiCollectionResponse<Session[]>;
@@ -432,9 +434,12 @@ export class CustomerInsightsApiClient {
     });
   }
 
-  async getUserChatHistory(sessionId: string, signal?: AbortSignal) {
+  async getUserChatHistory(
+    sessionId: string,
+    signal?: AbortSignal
+  ) {
     return await fetch(
-      `${CUSTOMER_INSIGHT_API_HOST}/app/sessions/${sessionId}/messages`,
+      `${CUSTOMER_INSIGHT_API_HOST}/app/sessions/${sessionId}/messages?count=100`,
       {
         method: 'GET',
         cache: 'no-store',
