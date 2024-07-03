@@ -2,7 +2,7 @@
 
 import CopyButton from '@/components/shared/copy-button';
 import Image from 'next/image';
-import { ReactNode, useState } from 'react';
+import { Fragment, ReactNode, useState } from 'react';
 
 type Params = {
   historyModified?: () => void;
@@ -19,7 +19,12 @@ function useChatHistory({ historyModified }: Params) {
         className='bg-stone-200 dark:bg-stone-700 max-w-[90%] lg:max-w-[70%] px-4 py-2 w-fit rounded-2xl ml-auto'
         key={prevHistory.length}
       >
-        {prompt}
+        {prompt.split('\n').map((line, index) => (
+          <Fragment key={index}>
+            {line}
+            <br />
+          </Fragment>
+        ))}
       </div>,
     ]);
   };
@@ -63,7 +68,12 @@ function useChatHistory({ historyModified }: Params) {
             />
           </div>
           <div className='bg-blue-600 text-white max-w-[90%] lg:max-w-[70%] px-4 py-2 w-fit rounded-2xl mr-auto'>
-            {reply}
+            {reply.split('\n').map((line, index) => (
+              <Fragment key={index}>
+                {line}
+                <br />
+              </Fragment>
+            ))}
           </div>
         </div>,
       ]);
