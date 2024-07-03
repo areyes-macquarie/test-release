@@ -65,6 +65,10 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
 
   const sendPrompt = async (prompt: string) => {
     if (!prompt) return;
+    // Add the prompt to history
+    addUserPrompt(prompt);
+    addBotReply('...', false);
+
     let newSession;
     let _sessionId = chatSession;
     if (!_sessionId) {
@@ -84,9 +88,6 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
       addSystemMessage('Last prompt was aborted.');
     }
 
-    // Add the prompt to history
-    addUserPrompt(prompt);
-    addBotReply('...', false);
     const newAbortController = new AbortController();
     setAbortController(newAbortController);
 
@@ -210,7 +211,9 @@ export function ChatSection({ sessionId }: ChatSectionProps) {
         className={cn('flex-grow flex-col overflow-y-scroll')}
       >
         <div className='flex-grow px-4 pt-4 h-full'>
-          <ChatHistory history={chatHistory} sessionId={sessionId} />
+          {chatHistory && (
+            <ChatHistory history={chatHistory} sessionId={sessionId} />
+          )}
         </div>
       </section>
       <section className='pb-4'>
