@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+import { AppViewType } from './user-provider';
 
 export type UserInfo = {
   id: string;
@@ -13,6 +14,7 @@ export type UserContextCore = UserInfo & {
   getBasePath: () => string;
   setBasePath: (_path: string) => void;
   isLoggedIn: () => boolean;
+  getAppType: () => AppViewType;
 };
 
 const UserContext = createContext<UserContextCore | null>(null);

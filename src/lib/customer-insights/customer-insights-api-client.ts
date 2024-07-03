@@ -10,6 +10,8 @@ import {
   FollowedContact,
   MetricDataItem,
   QueryResultAccount,
+  Session,
+  SessionHistory,
 } from './types';
 
 const CUSTOMER_INSIGHT_API_HOST =
@@ -347,6 +349,110 @@ export class CustomerInsightsApiClient {
 
       const reader = res.body?.getReader();
       return reader;
+    });
+  }
+
+  async sendChatMessageV2(
+    message: string,
+    sessionId: string,
+    signal?: AbortSignal
+  ) {
+    const payload = {
+      message,
+    };
+
+    return await fetch(
+      `${CUSTOMER_INSIGHT_API_HOST}/app/sessions/${sessionId}/messages`,
+      {
+        method: 'POST',
+        cache: 'no-store',
+        headers: this.getHeaders(),
+        body: JSON.stringify(payload),
+        signal,
+      }
+    ).then((res) => {
+      if (!res.ok) {
+        throw new Error('Failed to send chat prompt.');
+      }
+
+      const reader = res.body?.getReader();
+      return reader;
+    });
+  }
+
+  async createChatSession(sessionName: string) {
+    const payload = {
+      session_name: sessionName,
+    };
+
+    return await fetch(`${CUSTOMER_INSIGHT_API_HOST}/app/sessions`, {
+      method: 'POST',
+      cache: 'no-store',
+      headers: this.getHeaders(),
+      body: JSON.stringify(payload),
+    }).then(async (res) => {
+      if (!res.ok) {
+        throw new Error('Failed to send chat prompt.');
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return (await res.json()) as Session;
+    });
+  }
+
+  async deleteChatSession(sessionId: string) {
+    return await fetch(
+      `${CUSTOMER_INSIGHT_API_HOST}/app/sessions/${sessionId}/delete`,
+      {
+        method: 'DELETE',
+        headers: this.getHeaders(),
+      }
+    ).then((res) => {
+      if (res.ok) {
+        return true;
+      } else {
+        // throw new Error('Failed to delete chat.');
+      }
+    });
+  }
+
+  async getUserChatSession(page: number) {
+    return await fetch(
+      `${CUSTOMER_INSIGHT_API_HOST}/app/sessions?page=${page}`,
+      {
+        method: 'GET',
+        cache: 'no-store',
+        headers: this.getHeaders(),
+      }
+    ).then(async (res) => {
+      if (res.ok) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return (await res.json()) as ApiCollectionResponse<Session[]>;
+      } else {
+        throw new Error('Failed retrieving global metric.');
+      }
+    });
+  }
+
+  async getUserChatHistory(
+    sessionId: string,
+    signal?: AbortSignal
+  ) {
+    return await fetch(
+      `${CUSTOMER_INSIGHT_API_HOST}/app/sessions/${sessionId}/messages?count=100`,
+      {
+        method: 'GET',
+        cache: 'no-store',
+        headers: this.getHeaders(),
+        signal,
+      }
+    ).then(async (res) => {
+      if (res.ok) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return (await res.json()) as ApiCollectionResponse<SessionHistory[]>;
+      } else {
+        throw new Error('Failed retrieving global metric.');
+      }
     });
   }
 

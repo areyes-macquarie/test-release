@@ -1,30 +1,29 @@
-'use client';
-
 import CopyButton from '@/components/shared/copy-button';
+import ChatHistoryContext from '@/contexts/mac-chat/history/history-context';
+import { SessionHistory } from '@/lib/customer-insights/types';
 import Image from 'next/image';
-import { Fragment, ReactNode, useState } from 'react';
+import { ReactNode, useContext, useId } from 'react';
 
 type Params = {
   historyModified?: () => void;
 };
 
-function useChatHistory({ historyModified }: Params) {
-  const id = Date.now();
-  const [chatHistory, setChatHistory] = useState<ReactNode[]>([]);
+function useHistory({ historyModified }: Params) {
+  const id = useId();
+  const context = useContext(ChatHistoryContext);
+
+  if (!context) {
+    throw new Error('useHistory() mush be called within ChatHistoryProvider');
+  }
 
   const addUserPrompt = (prompt: string) => {
-    setChatHistory((prevHistory) => [
+    context.setChatHistory((prevHistory) => [
       ...prevHistory,
       <div
         className='bg-stone-200 dark:bg-stone-700 max-w-[90%] lg:max-w-[70%] px-4 py-2 w-fit rounded-2xl ml-auto'
-        key={prevHistory.length}
+        key={prevHistory?.length}
       >
-        {prompt.split('\n').map((line, index) => (
-          <Fragment key={index}>
-            {line}
-            <br />
-          </Fragment>
-        ))}
+        {prompt}
       </div>,
     ]);
   };
@@ -56,7 +55,7 @@ function useChatHistory({ historyModified }: Params) {
         historyModified?.();
       }, 5);
     } else {
-      setChatHistory((prevHistory) => [
+      context.setChatHistory((prevHistory) => [
         ...prevHistory,
         <div key={id} className='flex gap-2'>
           <div className='rounded-full size-8 aspect-square overflow-hidden'>
@@ -68,12 +67,7 @@ function useChatHistory({ historyModified }: Params) {
             />
           </div>
           <div className='bg-blue-600 text-white max-w-[90%] lg:max-w-[70%] px-4 py-2 w-fit rounded-2xl mr-auto'>
-            {reply.split('\n').map((line, index) => (
-              <Fragment key={index}>
-                {line}
-                <br />
-              </Fragment>
-            ))}
+            {reply}
           </div>
         </div>,
       ]);
@@ -81,7 +75,7 @@ function useChatHistory({ historyModified }: Params) {
   };
 
   const updateRecentHistoryItem = (value: ReactNode) => {
-    setChatHistory((prevHistory) => {
+    context.setChatHistory((prevHistory) => {
       const newHistory = prevHistory;
       newHistory[prevHistory.length - 1] = value;
       return newHistory;
@@ -89,7 +83,7 @@ function useChatHistory({ historyModified }: Params) {
   };
 
   const addSystemMessage = (message: string) => {
-    setChatHistory((prevHistory) => [
+    context.setChatHistory((prevHistory) => [
       ...prevHistory,
       <div
         className='text-xs text-muted-foreground rounded-2xl ml-auto w-fit'
@@ -101,7 +95,7 @@ function useChatHistory({ historyModified }: Params) {
   };
 
   const addErrorMessage = (message: string) => {
-    setChatHistory((prevHistory) => [
+    context.setChatHistory((prevHistory) => [
       ...prevHistory,
       <div key={id} className='flex gap-2'>
         <div className='rounded-full size-8 aspect-square overflow-hidden'>
@@ -120,17 +114,30 @@ function useChatHistory({ historyModified }: Params) {
   };
 
   const resetHistory = () => {
-    setChatHistory([]);
+    context.setChatHistory([]);
+  };
+
+  const storeHistory = (chatHistory: SessionHistory[]) => {
+    resetHistory();
+    chatHistory.map((conversation) => {
+      //   if (conversation.sender === 'bot') {
+      //     addBotReply(conversation.message, true);
+      //   } else {
+      addUserPrompt(conversation.message);
+      historyModified?.();
+      //   }
+    });
   };
 
   return {
-    chatHistory,
+    ...context,
     addUserPrompt,
     addBotReply,
-    addSystemMessage,
     addErrorMessage,
+    addSystemMessage,
+    storeHistory,
     resetHistory,
   };
 }
 
-export default useChatHistory;
+export default useHistory;

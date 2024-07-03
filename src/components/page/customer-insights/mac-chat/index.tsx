@@ -1,9 +1,11 @@
 import { ChatSection } from './_components/chat-section';
 
-export default function CustomerInsightsMacChatPage() {
-  return (
-    <>
-      <ChatSection />
-    </>
-  );
+type CustomerInsightsMacChatPageProps = {
+  slug: string[];
+};
+
+export default function CustomerInsightsMacChatPage({
+  slug,
+}: CustomerInsightsMacChatPageProps) {
+  return <ChatSection sessionId={slug?.[0]} />;
 }
