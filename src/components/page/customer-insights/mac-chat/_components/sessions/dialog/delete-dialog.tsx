@@ -28,7 +28,6 @@ export function DeleteDialog({ onOpenChange, session }: DeleteDialogProps) {
   const [loading, setLoading] = useState(false);
 
   const handleOnOpenChange = (value: boolean) => {
-    console.log(value);
     setOpen(!open);
     onOpenChange && onOpenChange(value);
   };
