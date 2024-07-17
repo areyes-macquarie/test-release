@@ -29,6 +29,8 @@ jobs:
 
       - name: Commit markdown file
         run: |
-          git add release-info.md
-          git commit -m "Add release info markdown file"
+          TAG_VERSION=${{ github.ref }}
+          FILE_NAME="public/release-notes/${TAG_VERSION##*/}.md"
+          git add $FILE_NAME
+          git commit -m "Generate Release markdown for $TAG_VERSION"
           git push origin HEAD:main
