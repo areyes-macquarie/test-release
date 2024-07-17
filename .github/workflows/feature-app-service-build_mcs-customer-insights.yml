@@ -19,8 +19,8 @@ jobs:
           TAG_VERSION=${{ github.event.release.tag_name }}
           FILE_NAME="public/release-notes/${TAG_VERSION##*/}.md"
           echo "# Release Information" > $FILE_NAME
-          echo "## Name: ${{ github.event.release.name }}" >> release-info.md
-          echo "## Description: ${{ github.event.release.body }}" >> release-info.md
+          echo "## Name: ${{ github.event.release.name }}" >> $FILE_NAME
+          echo "## Description: ${{ github.event.release.body }}" >> $FILE_NAME
 
       - name: Configure git
         run: |
