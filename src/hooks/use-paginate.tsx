@@ -9,6 +9,7 @@ function usePaginate() {
   const [count, setCount] = useState(0);
 
   const updateState = (meta: ApiResponseMeta, more: boolean = true) => {
+    console.log(!isEmpty(meta.next) && more);
     setHasMore(!isEmpty(meta.next) && more);
     setPage(meta.page + 1);
     setCount(meta.count);
