@@ -27,4 +27,4 @@ jobs:
         run: |
           git add release-info.md
           git commit -m "Add release info markdown file"
-          git push
+          git push origin HEAD:main
