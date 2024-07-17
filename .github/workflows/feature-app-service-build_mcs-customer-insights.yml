@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Test Release
 
 on:
@@ -8,8 +5,9 @@ on:
     types: [published]
 
 jobs:
-  build:
-    runs-on: 'ubuntu-latest'
-
+  after-release:
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Echo release info
+        run: |
+          echo "Name: ${{ github.event.release.name }} Description: ${{ github.event.release.body }}"
