@@ -1,13 +1,30 @@
-name: Test Release
+name: Create Markdown File
 
 on:
   release:
     types: [published]
 
 jobs:
-  after-release:
+  create-md-file:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Echo release info
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Create markdown file
         run: |
-          echo "Name: ${{ github.event.release.name }} Description: ${{ github.event.release.body }}"
+          echo "# Release Information" > release-info.md
+          echo "## Name: ${{ github.event.release.name }}" >> release-info.md
+          echo "## Description: ${{ github.event.release.body }}" >> release-info.md
+
+      - name: Configure git
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+      - name: Commit markdown file
+        run: |
+          git add release-info.md
+          git commit -m "Add release info markdown file"
+          git push
